@@ -1,0 +1,9 @@
+--keeping
+require('globals')
+
+require('plugins')
+require('autocmd')
+
+require('keybindings').general()
+
+-- require('obsidian_alters')
