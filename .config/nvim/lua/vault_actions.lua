@@ -61,6 +61,11 @@ local function new_source()
     local sourceNote = Note.new(id, { longName }, current_note.tags, new_note_dir)
 
     local note = client:write_note(sourceNote, { template = "source" })
+
+    -- local current_line = vim.api.nvim_get_current_line()
+    local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+    local new_line = client:format_link(note)
+    vim.api.nvim_buf_set_lines(0, cur_row, cur_row, false, { new_line })
     note.metadata = {
         type = "source",
         ["source-parents"] = sourceparents,
