@@ -1,11 +1,11 @@
 -- Key Bindings
-local opts = { silent = true }
 local vault_actions = require'vault_actions'
 local telescope = require('telescope.builtin')
 local telescope_ext = require'telescope'.extensions
 local globs = require('globals').getglobs()
 
 local function general()
+    local opts = { silent = true }
     vim.api.nvim_create_user_command('TagIndex', vault_actions.create_tag_index, {})
     vim.api.nvim_create_user_command('NewAuthor', vault_actions.new_author, {})
     vim.api.nvim_create_user_command('NewSource', vault_actions.new_source, {})
@@ -36,34 +36,64 @@ local function general()
 end
 
 local function lsp()
+    local opts = { silent = true }
     vim.keymap.set('n', '<C-CR>', ':Lspsaga goto_definition<CR>', opts)
     vim.keymap.set('n', '<leader>o', ':Lspsaga outline<CR>', opts)
 end
 
+local function sanitize_loc(row, col)
+    local sanrow
+    local sancol
+    if col == 0 then
+        sancol = 0
+    elseif col == 999 then
+        sancol = -1
+    else
+        sancol = col - 1
+    end
+    sanrow = row - 1
+    return { col = sancol, row = sanrow }
+end
+
+local function surround_visual(surround)
+    -- This sucks for multiline, and probs should just recreate get_visual_selection at this point
+    local util = require "obsidian.util"
+    local viz = util.get_visual_selection()
+    if not viz then
+        return
+    end
+    local startloc = {}
+    local endloc = {}
+
+    if viz.csrow > viz.cerow then
+        startloc = sanitize_loc(viz.cerow, viz.cecol)
+        endloc = sanitize_loc(viz.csrow, viz.cscol)
+    elseif viz.csrow < viz.cerow then
+        startloc = sanitize_loc(viz.csrow, viz.cscol)
+        endloc = sanitize_loc(viz.cerow, viz.cecol)
+    elseif viz.cscol > viz.cecol then
+        startloc = sanitize_loc(viz.cerow, viz.cecol)
+        endloc = sanitize_loc(viz.csrow, viz.cscol)
+    else
+        startloc = sanitize_loc(viz.csrow, viz.cscol)
+        endloc = sanitize_loc(viz.cerow, viz.cecol)
+    end
+
+    vim.api.nvim_buf_set_text(0, endloc.row, endloc.col + 1, endloc.row, endloc.col + 1, { surround })
+    vim.api.nvim_buf_set_text(0, startloc.row, startloc.col, startloc.row, startloc.col, { surround })
+end
+
 local function markdown()
+    vim.api.nvim_create_user_command('MdVisualSurround',
+        function(opts)
+            surround_visual(opts.fargs[1])
+        end,
+        { nargs = 1 })
 
     vim.keymap.set('i', '--', '—', { buffer = true })
-    -- vim.keymap.set('n', '', ':Lspsaga goto_definition<CR>', {buffer = true})
-
-
-    -- vim.keymap.set('n', '<Enter>', ':Lspsaga goto_definition<CR>', {buffer = true})
-    -- vim.keymap.set('n', '<BS>', ':bd<CR>', {buffer = true})
-    -- vim.keymap.set('n', '<TAB>', '/<Bslash>[.*](.*)<CR>', {buffer = true})
-    -- vim.keymap.set('n', '<S-TAB>', '?<Bslash>[.*](.*)<CR>', {buffer = true})
-    -- vim.keymap.set('i', ',n', '---<Enter><Enter>', {buffer = true})
-    -- vim.keymap.set('i', ',b', '****<++><Esc>F*hi', {buffer = true})
-    -- vim.keymap.set('i', ',s', '~~~~<++><Esc>F~hi', {buffer = true})
-    -- vim.keymap.set('i', ',e', '**<++><Esc>F*i', {buffer = true})
-    -- vim.keymap.set('i', ',h', '====<Space><++><Esc>F=hi', {buffer = true})
-    -- vim.keymap.set('i', ',i', '![]()<++><Esc>F(a', {buffer = true})
-    -- vim.keymap.set('i', ',a', '[]()<++><Esc>F(a', {buffer = true})
-    -- vim.keymap.set('i', ',1', '#<Space><Enter><++><Esc>kA', {buffer = true})
-    -- vim.keymap.set('i', ',2', '##<Space><Enter><++><Esc>kA', {buffer = true})
-    -- vim.keymap.set('i', ',3', '###<Space><Enter><++><Esc>kA', {buffer = true})
-    -- vim.keymap.set('i', ',li', '--------<Enter>', {buffer = true})
-    -- vim.keymap.set('i', '--', '—', {buffer = true})
-    -- vim.keymap.set('i', '<Space><Tab>', '<Esc>/<++><Enter>"_c4l', {buffer = true})
-    -- vim.keymap.set('v', '<Space><Tab>', '<Esc>/<++><Enter>"_c4l', {buffer = true})
+    vim.keymap.set('v', '<leader>h', '<cmd>MdVisualSurround ==<CR>', { buffer = true })
+    vim.keymap.set('v', '<leader>b', '<cmd>MdVisualSurround **<CR>', { buffer = true })
+    vim.keymap.set('v', '<leader>i', '<cmd>MdVisualSurround *<CR>', { buffer = true })
 end
 
 return { general=general, markdown=markdown, lsp=lsp }
