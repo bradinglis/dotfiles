@@ -282,17 +282,52 @@ local function cursor_on_tag()
     return nil
 end
 
+local function finalize_result(note)
+  local line, block_match, anchor_match
+  if block_link ~= nil then
+    block_match = note:resolve_block(block_link)
+    if block_match then
+      line = block_match.line
+    end
+  elseif anchor_link ~= nil then
+    anchor_match = note:resolve_anchor_link(anchor_link)
+    if anchor_match then
+      line = anchor_match.line
+    end
+  end
+
+  return vim.tbl_extend(
+    "force",
+    res,
+    { path = note.path, note = note, line = line, block = block_match, anchor = anchor_match }
+  )
+end
+
 
 local function enter_command()
     local tag = cursor_on_tag()
     local link = cursor_on_link()
+    -- local location, name, link_type = util.parse_cursor_link { include_naked_urls = true, include_file_urls = true }
+    --
+    -- -- print(location)
+    -- if location ~= nil then
+    --     local block_link
+    --     location, block_link = util.strip_block_links(location)
+    --
+    --     local anchor_link
+    --     location, anchor_link = util.strip_anchor_links(location)
+    --
+    -- end
 
     if tag then
         return "<cmd>ObsidianTags " .. tag:sub(2, -1) .. "<CR>"
     elseif link then
-        return "<cmd>ObsidianQuickSwitch " .. link.. "<CR>"
+        return "<cmd>ObsidianQuickSwitch " .. link .. "<CR>"
     else
         return "<cmd>ObsidianFollowLink<CR>"
+        -- location = util.parse_cursor_link { include_naked_urls = true, include_file_urls = true }
+        -- print("Type: " .. link_type)
+        -- return "<cmd>ObsidianFollowLink<CR>"
     end
 end
 

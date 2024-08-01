@@ -124,6 +124,7 @@ require('lazy').setup({
                     path = globs.notesdir,
                 },
             },
+            log_level = vim.log.levels.INFO,
             completion = {
                 -- Set to false to disable completion.
                 nvim_cmp = true, -- re-jigged manually after

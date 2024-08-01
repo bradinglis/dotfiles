@@ -11,7 +11,7 @@ local function general()
     vim.api.nvim_create_user_command('NewSource', vault_actions.new_source, {})
     vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
 
-    vim.keymap.set('n', '<leader>ww', ':e ' .. globs.notesdir .. '/index.md<CR>:cd ' .. globs.notesdir .. '/<CR>', opts)
+    vim.keymap.set('n', '<leader>ww', ':cd ' .. globs.notesdir .. '<CR>' .. ':e index.md<CR>', opts)
     vim.keymap.set('n', '<leader>fg', telescope.live_grep, opts)
     vim.keymap.set('v', '<leader>fg', telescope.grep_string, opts)
     vim.keymap.set('n', '<leader>z', ':Goyo<CR>', opts)
