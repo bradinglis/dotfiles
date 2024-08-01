@@ -191,6 +191,11 @@ local function new_author()
     local authorNote = Note.new(id, { longName }, {}, dir)
 
     local note = client:write_note(authorNote, { template = "author" })
+
+    local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+    local new_line = client:format_link(note)
+    vim.api.nvim_buf_set_lines(0, cur_row, cur_row, false, { new_line })
+
     note.metadata = { type = "author" }
 
     client:open_note(note, {
