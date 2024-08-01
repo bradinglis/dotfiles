@@ -55,7 +55,7 @@ return {
                 yellow="#dbbc7f",
                 bgyellow="#4d4c43",
                 red="#e67e80",
-                orange="#e69857",
+                orange="#e69875",
                 purple="#d699b7",
             }
         }

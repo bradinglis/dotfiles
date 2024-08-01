@@ -3,8 +3,6 @@ local completion = require "obsidian.completion.refs"
 local obsidian = require "obsidian"
 local util = require "obsidian.util"
 local LinkStyle = require("obsidian.config").LinkStyle
-
----@class cmp_obsidian_new.Source : obsidian.ABC
 local source = abc.new_class()
 
 source.new = function()
@@ -54,21 +52,16 @@ source.complete = function(_, request, callback)
     return
   end
 
-  -- Create a mock block.
-  ---@type obsidian.note.Block|?
   local block
   if block_link then
     block = { block = "", id = util.standardize_block(block_link), line = 1 }
   end
 
-  -- Create a mock anchor.
-  ---@type obsidian.note.HeaderAnchor|?
   local anchor
   if anchor_link then
     anchor = { anchor = anchor_link, header = string.sub(anchor_link, 2), level = 1, line = 1 }
   end
 
-  ---@type { label: string, note: obsidian.Note, template: string|?, type: string|? }[]
   local new_notes_opts = {}
 
   local note = client:create_note { title = search, no_write = true }
@@ -99,7 +92,6 @@ source.complete = function(_, request, callback)
 
     assert(new_note.path)
 
-    ---@type obsidian.config.LinkStyle, string
     local link_style, label
     if ref_type == completion.RefType.Wiki then
       link_style = LinkStyle.wiki
