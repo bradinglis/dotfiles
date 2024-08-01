@@ -124,12 +124,9 @@ require('lazy').setup({
                     path = globs.notesdir,
                 },
             },
-            log_level = vim.log.levels.INFO,
             completion = {
-                -- Set to false to disable completion.
-                nvim_cmp = true, -- re-jigged manually after
-                -- Trigger completion at 2 chars.
-                min_chars = 0,
+                nvim_cmp = true,
+                min_chars = 1,
             },
             templates = {
                 folder = "templates",
@@ -177,7 +174,6 @@ require('lazy').setup({
                 ["<leader>fb"] = {
                   action = function()
                       return "<cmd>FindBacklinks<CR>"
-                      -- return require("backlinks").backlink_search()
                   end,
                   opts = { buffer = true, expr = true },
                 },
@@ -205,24 +201,6 @@ require('lazy').setup({
                   end,
                   opts = { buffer = true, expr = true, remap = true },
                 },
-                -- ["<leader>ns"] = {
-                --   action = function()
-                --       return "<cmd>NewSource<CR>"
-                --   end,
-                --   opts = { buffer = true, expr = true },
-                -- },
-                -- ["<leader>nn"] = {
-                --   action = function()
-                --       return "<cmd>NewNote<CR>"
-                --   end,
-                --   opts = { buffer = true, expr = true },
-                -- },
-                -- ["<leader>na"] = {
-                --   action = function()
-                --       return "<cmd>NewAuthor<CR>"
-                --   end,
-                --   opts = { buffer = true, expr = true },
-                -- },
             },
             callbacks = {
                 enter_note = function(_, note)
