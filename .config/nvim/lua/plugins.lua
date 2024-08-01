@@ -147,6 +147,24 @@ require('lazy').setup({
                 return id
             end,
 
+            wiki_link_func = function(opts)
+              local anchor = ""
+              local header = ""
+              if opts.anchor then
+                anchor = opts.anchor.anchor
+                header = string.format(" ❯ %s", opts.anchor.header)
+              elseif opts.block then
+                anchor = "#" .. opts.block.id
+              end
+
+              if opts.id == nil then
+                return string.format("[[%s%s]]", opts.label, anchor)
+              elseif opts.label ~= opts.id then
+                return string.format("[[%s%s|%s%s]]", opts.id, anchor, opts.label, header)
+              else
+                return string.format("[[%s%s]]", opts.id, anchor)
+              end
+            end,
             mappings = {
                 -- Smart action depending on context, either follow link or toggle checkbox.
                 ["<cr>"] = {
@@ -157,7 +175,8 @@ require('lazy').setup({
                 },
                 ["<leader>fb"] = {
                   action = function()
-                      return "<cmd>ObsidianBacklinks<CR>"
+                      return "<cmd>FindBacklinks<CR>"
+                      -- return require("backlinks").backlink_search()
                   end,
                   opts = { buffer = true, expr = true },
                 },
@@ -185,24 +204,24 @@ require('lazy').setup({
                   end,
                   opts = { buffer = true, expr = true, remap = true },
                 },
-                ["<leader>ns"] = {
-                  action = function()
-                      return "<cmd>NewSource<CR>"
-                  end,
-                  opts = { buffer = true, expr = true },
-                },
-                ["<leader>nn"] = {
-                  action = function()
-                      return "<cmd>NewNote<CR>"
-                  end,
-                  opts = { buffer = true, expr = true },
-                },
-                ["<leader>na"] = {
-                  action = function()
-                      return "<cmd>NewAuthor<CR>"
-                  end,
-                  opts = { buffer = true, expr = true },
-                },
+                -- ["<leader>ns"] = {
+                --   action = function()
+                --       return "<cmd>NewSource<CR>"
+                --   end,
+                --   opts = { buffer = true, expr = true },
+                -- },
+                -- ["<leader>nn"] = {
+                --   action = function()
+                --       return "<cmd>NewNote<CR>"
+                --   end,
+                --   opts = { buffer = true, expr = true },
+                -- },
+                -- ["<leader>na"] = {
+                --   action = function()
+                --       return "<cmd>NewAuthor<CR>"
+                --   end,
+                --   opts = { buffer = true, expr = true },
+                -- },
             },
             callbacks = {
                 enter_note = function(_, note)
@@ -264,7 +283,7 @@ require('lazy').setup({
                     ObsidianRefText = { underline = true, fg = colours.blue },
                     ObsidianExtLinkIcon = { fg = colours.blue },
                     ObsidianTag = { italic = true, fg = colours.green },
-                    ObsidianBlockID = { italic = true, fg = colours.blue },
+                    ObsidianBlockID = { italic = true, fg = colours.orange },
                     ObsidianHighlightText = { bg = colours.bggreen },
                 },
             },

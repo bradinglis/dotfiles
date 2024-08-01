@@ -4,14 +4,21 @@ local iter = require("obsidian.itertools").iter
 local util = require "obsidian.util"
 local Note = require "obsidian.note"
 
-local function pseudo_assert(s)
-    if s == nil then
-        s = {}
-    end
-    return s
+-- TODO:
+-- - Backlinks include `references` metadata -- in backlinks.lua
+
+local function backlinks()
+
+end
+local function print_test()
+    local client = require("obsidian").get_client()
+    local current_note = client:current_note()
+    -- print(vim.inspect(current_note))
+    print(vim.inspect(current_note:resolve_block('block')))
 end
 
 local function new_source()
+    -- New Source Extract OK
     local client = require("obsidian").get_client()
     local current_note = client:current_note()
     local dir = ""
@@ -62,10 +69,24 @@ local function new_source()
 
     local note = client:write_note(sourceNote, { template = "source" })
 
-    -- local current_line = vim.api.nvim_get_current_line()
-    local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-    local new_line = client:format_link(note)
-    vim.api.nvim_buf_set_lines(0, cur_row, cur_row, false, { new_line })
+
+    local viz
+    if vim.endswith(vim.fn.mode():lower(), "v") then
+        viz = util.get_visual_selection()
+    end
+
+    local link = client:format_link(note)
+    local content = {}
+
+    if viz then
+        content = vim.split(viz.selection, "\n", { plain = true })
+        vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
+    else
+        local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+        vim.api.nvim_buf_set_lines(0, cur_row, cur_row, false, { link })
+    end
+    client:update_ui(0)
+
     note.metadata = {
         type = "source",
         ["source-parents"] = sourceparents,
@@ -76,12 +97,17 @@ local function new_source()
         callback = function(bufnr)
             client:write_note_to_buffer(note, { bufnr = bufnr })
         end,
+        sync = true
     })
+
+    vim.api.nvim_buf_set_lines(0, -1, -1, false, content)
 
 end
 
 local function new_note()
     local client = require("obsidian").get_client()
+    local current_note = client:current_note()
+
     local longName = util.input "Enter note name: "
 
     if not longName then
@@ -96,16 +122,55 @@ local function new_note()
     local id = longName:lower():gsub(" ", "-"):gsub("[()]", "")
     local dir = client.dir.filename .. "/notes/" .. id .. ".md"
 
-    local newNote = Note.new(id, { longName }, {}, dir)
 
+    local newNote = Note.new(id, { longName }, {}, dir)
     local note = client:write_note(newNote, { template = "note" })
+
+
+    local viz
+    if vim.endswith(vim.fn.mode():lower(), "v") then
+        viz = util.get_visual_selection()
+    end
+
+    local link = client:format_link(note)
+    local content = {}
+
     note.metadata = { type = "note" }
+
+    if viz then
+        local linktonew = client:format_link(note)
+        -- local linkback = client:format_link(current_note)
+
+        content = vim.split(viz.selection, "\n", { plain = true })
+
+        if current_note.metadata.type == "source" then
+            vim.api.nvim_buf_set_text(0, viz.cerow - 1, viz.cecol, viz.cerow - 1, viz.cecol, { " — " .. link })
+            vim.api.nvim_buf_set_text(0, viz.csrow - 1, -1, viz.csrow - 1, -1, { " ^" .. id })
+
+            local block_line = vim.api.nvim_buf_get_lines(0, viz.csrow -1, viz.csrow, true)
+            local block = { id = id, line = viz.cerow - 1, block = block_line[1] }
+            local linkback = client:format_link(current_note, { label = string.format("%s ❯ %s", current_note.title, longName), block = block })
+            content[1] = linkback .. " — " .. content[1]
+            note.metadata.references = current_note.id
+
+        elseif current_note.metadata.type == "note" then
+            vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
+            local linkback = client:format_link(current_note)
+            table.insert(content, 1, linkback)
+            table.insert(content, 2, "")
+        end
+    end
+    client:update_ui(0)
 
     client:open_note(note, {
         callback = function(bufnr)
             client:write_note_to_buffer(note, { bufnr = bufnr })
         end,
+        sync = true
     })
+
+    vim.api.nvim_buf_set_lines(0, -1, -1, false, content)
+
 end
 
 local function new_author()
@@ -296,62 +361,6 @@ local function enter_command()
     end
 end
 
-local function create_tag_index()
-    local client = require("obsidian").get_client()
-    local taglist = {}
-    local tags = client.list_tags(client)
-    local vaultdir = client.dir
-
-    for _, tag in ipairs(tags) do
-        local instances = client.find_tags(client, tag)
-        local taginstances = {}
-        for _, instance in ipairs(instances) do
-            if instance.tag == tag then
-                if instance.note.metadata == nil then
-                    taginstances['nil'] = pseudo_assert(taginstances['nil'])
-                    if taginstances['nil'][instance.note.id] == nil then
-                        taginstances['nil'][instance.note.id] = { id = instance.note.id, metadata = instance.note.metadata }
-                    end
-                else
-                    if instance.note.metadata.type == nil then
-                        taginstances['nil'] = pseudo_assert(taginstances['nil'])
-                        if taginstances['nil'][instance.note.id] == nil then
-                            taginstances['nil'][instance.note.id] = { id = instance.note.id, metadata = instance.note.metadata }
-                        end
-                    else
-                        taginstances[instance.note.metadata.type] = pseudo_assert(taginstances[instance.note.metadata.type])
-                        if taginstances[instance.note.metadata.type][instance.note.id] == nil then
-                            taginstances[instance.note.metadata.type][instance.note.id] = { id = instance.note.id, metadata = instance.note.metadata }
-                        end
-                    end
-                end
-            end
-        end
-        taglist[tag] = { tag = tag, instances = taginstances }
-    end
-
-    -- REAL documents
-    for tagname, tagobject in pairs(taglist) do
-        local file = assert(io.open(vaultdir.filename .. "/tag_index/!" .. tagname .. ".md", "w"))
-
-        file:write("---\nid: !" .. tagname .. "\ntags: []\naliases: []\ntype: tag_index\n---\n\n")
-
-        file:write("# " .. tagname:gsub("(%l)(%w*)", function(a,b) return string.upper(a)..b end), "\n")
-        file:write("\n")
-        file:write("## References", "\n")
-        file:write("\n")
-        for type, instancetype in pairs(tagobject.instances) do
-            file:write("### " .. type:gsub("(%l)(%w*)", function(a,b) return string.upper(a)..b end) .. "s", "\n")
-            for _, instance in pairs(instancetype) do
-                file:write("- [[" .. instance.id .. "]]", "\n")
-            end
-            file:write("\n")
-        end
-        file:write("\n")
-        file:close()
-    end
-end
-
 return {
     create_tag_index = create_tag_index,
     enter_command = enter_command,
@@ -359,4 +368,5 @@ return {
     new_author = new_author,
     new_source = new_source,
     new_note = new_note,
+    print_test = print_test,
 }
