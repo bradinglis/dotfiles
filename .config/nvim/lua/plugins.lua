@@ -272,7 +272,7 @@ require('lazy').setup({
 
 require("mason").setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { "gopls", "markdown_oxide", "clangd" },
+    ensure_installed = { "gopls", "markdown_oxide", "clangd", "elixirls" },
 }
 require("everforest").load()
 require("gitsigns").setup()

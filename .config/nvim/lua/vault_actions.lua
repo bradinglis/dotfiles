@@ -359,7 +359,6 @@ local function enter_command()
 end
 
 return {
-    create_tag_index = create_tag_index,
     enter_command = enter_command,
     frontmatter_hightlighting = frontmatter_hightlighting,
     new_author = new_author,
