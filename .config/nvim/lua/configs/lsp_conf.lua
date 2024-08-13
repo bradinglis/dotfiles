@@ -25,6 +25,11 @@ lspconfig.gopls.setup({
     on_attach = on_attach_code   -- configure your on attach config
 })
 
+lspconfig.elixirls.setup({
+    capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+    on_attach = on_attach_code   -- configure your on attach config
+})
+
 lspconfig.lua_ls.setup {
     capabilities = capabilities,
     on_attach = on_attach_code,
