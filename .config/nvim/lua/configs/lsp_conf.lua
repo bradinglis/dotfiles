@@ -15,10 +15,10 @@ end
 
 local lspconfig = require("lspconfig")
 
--- lspconfig.markdown_oxide.setup({
---     capabilities = capabilities, -- again, ensure that capabilities.workspace.didchangewatchedfiles.dynamicregistration = true
---     on_attach = on_attach -- configure your on attach config
--- })
+lspconfig.elixirls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach_code
+})
 
 lspconfig.gopls.setup({
     capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true

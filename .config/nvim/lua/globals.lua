@@ -28,8 +28,36 @@ vim.opt.conceallevel = 2
 
 vim.g["pencil#wrapModeDefault"] = "soft"
 vim.g["pencil#conceallevel"] = 2
+local colours = {
+    blue="#7fbbb3",
+    green="#a7c080",
+    bggreen="#425047",
+    yellow="#dbbc7f",
+    bgyellow="#4d4c43",
+    red="#e67e80",
+    orange="#e69875",
+    purple="#d699b7",
+    aqua="#83c092",
+}
+
+local function set_hl()
+    vim.api.nvim_set_hl(0, "ObsidianTodo",  { bold = true, fg = colours.yellow })
+    vim.api.nvim_set_hl(0, "ObsidianDone",  { bold = true, fg = colours.blue })
+    vim.api.nvim_set_hl(0, "ObsidianRightArrow",  { bold = true, fg = colours.orange })
+    vim.api.nvim_set_hl(0, "ObsidianTilde",  { bold = true, fg = colours.purple })
+    vim.api.nvim_set_hl(0, "ObsidianImportant",  { bold = true, fg = colours.red })
+    vim.api.nvim_set_hl(0, "ObsidianBullet",  { bold = true, fg = colours.blue })
+    vim.api.nvim_set_hl(0, "ObsidianRefText",  { underline = true, fg = colours.blue })
+    vim.api.nvim_set_hl(0, "ObsidianExtLinkIcon",  { fg = colours.blue })
+    vim.api.nvim_set_hl(0, "ObsidianTag",  { italic = true, fg = colours.aqua })
+    vim.api.nvim_set_hl(0, "ObsidianBlockID",  { italic = true, fg = colours.orange })
+    vim.api.nvim_set_hl(0, "ObsidianHighlightText",  { bg = colours.bggreen })
+    vim.api.nvim_set_hl(0, "markdownItalic",  { italic = true, fg = colours.yellow })
+    vim.api.nvim_set_hl(0, "markdownBold",  { bold = true, fg = colours.green })
+end
 
 return {
+    set_hl = set_hl,
     getglobs = function()
         local hostname = vim.fn.hostname()
         local notesdir = ''
@@ -48,16 +76,7 @@ return {
 
         return {
             notesdir = notesdir,
-            colours = {
-                blue="#7fbbb3",
-                green="#a7c080",
-                bggreen="#425047",
-                yellow="#dbbc7f",
-                bgyellow="#4d4c43",
-                red="#e67e80",
-                orange="#e69875",
-                purple="#d699b7",
-            }
+            colours = colours,
         }
     end
 }

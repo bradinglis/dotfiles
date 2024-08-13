@@ -1,7 +1,9 @@
 local globs = require('globals').getglobs()
 local colours = globs.colours
 
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({ "git",
         "--filter=blob:none",
@@ -203,7 +205,9 @@ require('lazy').setup({
                 },
             },
             callbacks = {
+                post_setup = require("globals").set_hl(),
                 enter_note = function(_, note)
+                    require("globals").set_hl()
                     if note.has_frontmatter then
                         require("vault_actions").frontmatter_hightlighting(note)
                     end
@@ -261,21 +265,51 @@ require('lazy').setup({
                     ObsidianBullet = { bold = true, fg = colours.blue },
                     ObsidianRefText = { underline = true, fg = colours.blue },
                     ObsidianExtLinkIcon = { fg = colours.blue },
-                    ObsidianTag = { italic = true, fg = colours.green },
+                    ObsidianTag = { italic = true, fg = colours.aqua },
                     ObsidianBlockID = { italic = true, fg = colours.orange },
                     ObsidianHighlightText = { bg = colours.bggreen },
                 },
             },
         },
-    }
+    },
+
+    -- {
+    --   "michaelb/sniprun",
+    --   branch = "master",
+    --
+    --   build = "sh install.sh",
+    --   -- do 'sh install.sh 1' if you want to force compile locally
+    --   -- (instead of fetching a binary from the github release). Requires Rust >= 1.65
+    --
+    --   config = function()
+    --     require("sniprun").setup({
+    --         display = {
+    --             "VirtualTextOk",
+    --             "VirtualTextErr",
+    --         },
+    --     })
+    --   end,
+    -- },
+
 })
 
+require("telescope").setup({
+    defaults = {
+        layout_config = { width = 0.9 },
+    },
+})
 require("mason").setup()
 require("mason-lspconfig").setup {
     ensure_installed = { "gopls", "markdown_oxide", "clangd" },
 }
 require("everforest").load()
 require("gitsigns").setup()
+-- require("sniprun").setup({
+--     display = {
+--         "VirtualTextOk",
+--         "VirtualTextErr",
+--     },
+-- })
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     pattern = "*.md",

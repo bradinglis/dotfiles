@@ -1,35 +1,42 @@
 -- Key Bindings
-local vault_actions = require'vault_actions'
-local backlinks = require'backlinks'
-local telescope = require('telescope.builtin')
-local telescope_ext = require'telescope'.extensions
-local globs = require('globals').getglobs()
-
 local function general()
+    local globs = require('globals').getglobs()
     local opts = { silent = true }
+    local telescope = require('telescope.builtin')
+    local telescope_ext = require'telescope'.extensions
 
-
+    -- Common Locations
+    vim.keymap.set('n', '<leader>ei', ':e $MYVIMRC<CR>', opts)
     vim.keymap.set('n', '<leader>ww', ':cd ' .. globs.notesdir .. '<CR>' .. ':e index.md<CR>', opts)
+
+    -- Telescope
+    vim.keymap.set('n', '<leader>pp', telescope_ext.projects.projects, opts)
     vim.keymap.set('n', '<leader>fg', telescope.live_grep, opts)
     vim.keymap.set('v', '<leader>fg', telescope.grep_string, opts)
-    vim.keymap.set('n', '<leader>z', ':Goyo<CR>', opts)
-    vim.keymap.set('n', '<leader>pp', telescope_ext.projects.projects, opts)
+    vim.keymap.set('n', '<leader>ff', telescope.find_files, opts)
 
+    -- Functional
     vim.keymap.set('n', '<leader>v', "<cmd>NvimTreeToggle<CR>", opts)
+    vim.keymap.set('n', '<leader>z', ':Goyo<CR>', opts)
 
-    vim.keymap.set('n', '<leader>ei', ':e $MYVIMRC<CR>', opts)
+    -- Split Navigation
     vim.keymap.set('n', '<leader>h', ':wincmd h<CR>', opts)
     vim.keymap.set('n', '<leader>j', ':wincmd j<CR>', opts)
     vim.keymap.set('n', '<leader>k', ':wincmd k<CR>', opts)
     vim.keymap.set('n', '<leader>l', ':wincmd l<CR>', opts)
-    vim.keymap.set('n', '<silent> <leader>+', ':vertical resize +5<CR>', opts)
-    vim.keymap.set('n', '<silent> <leader>-', ':vertical resize -5<CR>', opts)
+    vim.keymap.set('n', '<leader>+', ':vertical resize +5<CR>', opts)
+    vim.keymap.set('n', '<leader>-', ':vertical resize -5<CR>', opts)
+
+    -- Buffer Tab Navigation
     vim.keymap.set('n', '<A-h>', '<Cmd>BufferPrevious<CR>', opts)
     vim.keymap.set('n', '<A-l>', '<Cmd>BufferNext<CR>', opts)
     vim.keymap.set('n', '<A-H>', '<Cmd>BufferMovePrevious<CR>', opts)
     vim.keymap.set('n', '<A-L>', '<Cmd>BufferMoveNext<CR>', opts)
     vim.keymap.set('n', '<A-p>', '<Cmd>BufferPin<CR>', opts)
     vim.keymap.set('n', '<A-q>', '<Cmd>BufferClose<CR>', opts)
+
+
+    -- Buffer Tab Navigation
     vim.keymap.set('n', '[q', ':cprev<CR>', opts)
     vim.keymap.set('n', ']q', ':cnext<CR>', opts)
     vim.keymap.set('n', '<Leader>co', ':copen<CR>', opts)
@@ -66,6 +73,8 @@ local function quickfix_list()
 end
 
 local function markdown()
+    local vault_actions = require'vault_actions'
+    local backlinks = require'backlinks'
     vim.api.nvim_create_user_command('MdVisualSurround',
         function(opts)
             surround_visual(opts.fargs[1])
