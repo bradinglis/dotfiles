@@ -163,45 +163,6 @@ require('lazy').setup({
                 return string.format("[[%s%s]]", opts.id, anchor)
               end
             end,
-            mappings = {
-                -- Smart action depending on context, either follow link or toggle checkbox.
-                ["<cr>"] = {
-                  action = function()
-                    return require("vault_actions").enter_command()
-                  end,
-                  opts = { buffer = true, expr = true },
-                },
-                ["<leader>fb"] = {
-                  action = function()
-                      return "<cmd>FindBacklinks<CR>"
-                  end,
-                  opts = { buffer = true, expr = true },
-                },
-                ["<leader>ft"] = {
-                  action = function()
-                      return "<cmd>ObsidianTags<CR>"
-                  end,
-                  opts = { buffer = true, expr = true },
-                },
-                ["<leader>fn"] = {
-                  action = function()
-                      return "<cmd>ObsidianQuickSwitch<CR>"
-                  end,
-                  opts = { buffer = true, expr = true },
-                },
-                ["<leader>fa"] = {
-                  action = function()
-                      return "<cmd>ObsidianQuickSwitch %<CR>"
-                  end,
-                  opts = { buffer = true, expr = true, remap = true },
-                },
-                ["<leader>fs"] = {
-                  action = function()
-                      return "<cmd>ObsidianQuickSwitch ~<CR>"
-                  end,
-                  opts = { buffer = true, expr = true, remap = true },
-                },
-            },
             callbacks = {
                 enter_note = function(_, note)
                     if note.has_frontmatter then
@@ -267,7 +228,35 @@ require('lazy').setup({
                 },
             },
         },
+    },
+    {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" }
+    },
+    {
+        'nvim-lualine/lualine.nvim',
+        dependencies = { 'nvim-tree/nvim-web-devicons' }
+    },
+    {
+        "folke/zen-mode.nvim",
+        opts = {
+            backdrop = 0.50,
+            width = 120,
+            height = 1,
+            window = {
+                options = {
+                  signcolumn = "no", -- disable signcolumn
+                  number = false, -- disable number column
+                  relativenumber = false, -- disable relative numbers
+                  cursorline = false, -- disable cursorline
+                  cursorcolumn = false, -- disable cursor column
+                  foldcolumn = "0", -- disable fold column
+                },
+            }
+        }
     }
+
 })
 
 require("mason").setup()
@@ -276,6 +265,7 @@ require("mason-lspconfig").setup {
 }
 require("everforest").load()
 require("gitsigns").setup()
+require("lualine").setup()
 
 vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     pattern = "*.md",
@@ -293,4 +283,5 @@ require 'nvim-treesitter.configs'.setup {
 }
 
 require('configs/cmp_conf')
+require('configs/harpoon_conf')
 require('configs/lsp_conf')

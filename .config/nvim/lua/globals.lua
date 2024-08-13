@@ -25,6 +25,7 @@ vim.opt.incsearch = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.conceallevel = 2
+vim.opt.inccommand = "split"
 
 vim.g["pencil#wrapModeDefault"] = "soft"
 vim.g["pencil#conceallevel"] = 2
@@ -36,8 +37,15 @@ return {
 
         if hostname == 'AL6WZQHR3' then
             notesdir = '~/notes'
+            vim.opt.shell = "powershell"
+            vim.opt.shellcmdflag = "-nologo -noprofile -ExecutionPolicy RemoteSigned -command"
+            vim.opt.shellxquote = ''
         elseif hostname == 'DESKTOP-6K7U30E' then
             notesdir = '~/OneDrive/Apps/remotely-save/Notes'
+            vim.opt.shell = "pwsh"
+            vim.opt.shellcmdflag = "-nologo -noprofile -ExecutionPolicy RemoteSigned -command"
+            vim.opt.shellxquote = ''
+        elseif hostname == 'DESKTOP-6K7U30E' then
         elseif hostname == 'Brads-MacBook-Pro.local' then
             notesdir = '~/OneDrive/Apps/remotely-save/Notes'
         elseif hostname == 'bradpc' then

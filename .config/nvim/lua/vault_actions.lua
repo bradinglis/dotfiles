@@ -97,6 +97,52 @@ local function new_source()
 
 end
 
+local function append_to_note()
+    local viz
+    if vim.endswith(vim.fn.mode():lower(), "v") then
+        viz = util.get_visual_selection()
+    end
+    if not viz then
+        return
+    end
+
+    local client = require("obsidian").get_client()
+    local current_note = client:current_note()
+    local content = vim.split(viz.selection, "\n", { plain = true })
+
+    -- Open picker
+    client:resolve_note_async_with_picker_fallback("", function(dest_note)
+        local link = client:format_link(dest_note)
+
+        if current_note.metadata.type ~= "source" then
+            return
+        end
+
+        vim.api.nvim_buf_set_text(0, viz.cerow - 1, viz.cecol, viz.cerow - 1, viz.cecol, { " — " .. link })
+        vim.api.nvim_buf_set_text(0, viz.csrow - 1, -1, viz.csrow - 1, -1, { " ^" .. dest_note.id })
+
+        local block_line = vim.api.nvim_buf_get_lines(0, viz.csrow -1, viz.csrow, true)
+        local block = { id = dest_note.id, line = viz.cerow - 1, block = block_line[1] }
+        local linkback = client:format_link(current_note, { label = string.format("%s ❯ %s", current_note.title, dest_note.title), block = block })
+        content[1] = linkback .. " — " .. content[1]
+        dest_note.metadata.references[#dest_note.metadata.references + 1] = current_note.id
+
+        client:update_ui(0)
+
+        client:open_note(dest_note, {
+            callback = function(bufnr)
+                client:write_note_to_buffer(dest_note, { bufnr = bufnr })
+            end,
+            sync = true
+        })
+        if vim.api.nvim_buf_get_lines(0, -2, -1, false)[1] ~= "" then
+            vim.api.nvim_buf_set_lines(0, -1, -1, false, {""})
+        end
+
+        vim.api.nvim_buf_set_lines(0, -1, -1, false, content)
+    end)
+
+end
 local function new_note()
     local client = require("obsidian").get_client()
     local current_note = client:current_note()
@@ -365,4 +411,5 @@ return {
     new_source = new_source,
     new_note = new_note,
     print_test = print_test,
+    append_to_note = append_to_note,
 }
