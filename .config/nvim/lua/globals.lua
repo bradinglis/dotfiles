@@ -53,8 +53,8 @@ local function set_hl()
     vim.api.nvim_set_hl(0, "ObsidianTag",  { italic = true, fg = colours.aqua })
     vim.api.nvim_set_hl(0, "ObsidianBlockID",  { italic = true, fg = colours.orange })
     vim.api.nvim_set_hl(0, "ObsidianHighlightText",  { bg = colours.bggreen })
-    vim.api.nvim_set_hl(0, "markdownItalic",  { italic = true, fg = colours.yellow })
-    vim.api.nvim_set_hl(0, "markdownBold",  { bold = true, fg = colours.green })
+    vim.api.nvim_set_hl(0, "markdownItalic",  { italic = true, fg = colours.green })
+    vim.api.nvim_set_hl(0, "markdownBold",  { bold = true, fg = colours.yellow })
 end
 
 return {

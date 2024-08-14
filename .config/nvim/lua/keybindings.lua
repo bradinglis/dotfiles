@@ -2,8 +2,7 @@
 local function general()
     local globs = require('globals').getglobs()
     local opts = { silent = true }
-    local telescope = require('telescope.builtin')
-    local telescope_ext = require'telescope'.extensions
+    local telescope = require('telescope.builtin') local telescope_ext = require'telescope'.extensions
 
     -- Common Locations
     vim.keymap.set('n', '<leader>ww', '<cmd>cd ' .. globs.notesdir .. '<CR>' .. ':e index.md<CR>', opts)
@@ -34,9 +33,7 @@ local function general()
     vim.keymap.set('n', '<A-L>', vim.cmd.BufferMoveNext, opts)
     vim.keymap.set('n', '<A-p>', vim.cmd.BufferPin, opts)
     vim.keymap.set('n', '<A-q>', vim.cmd.BufferClose, opts)
-
-    -- QuickFix Navigation
-    vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
+-- QuickFix Navigation vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
     vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
     vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
     vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
@@ -49,8 +46,8 @@ local function general()
 
     vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
-    vim.keymap.set("v", "J", "<cmd>m '>+1<CR>gv=gv")
-    vim.keymap.set("v", "K", "<cmd>m '<-2<CR>gv=gv")
+    vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
+    vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
     vim.keymap.set("v", "L", ">gv")
     vim.keymap.set("v", "H", "<gv")
 
@@ -117,7 +114,7 @@ local function markdown()
     vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
     vim.api.nvim_create_user_command('FindBacklinks', backlinks.backlink_search, {})
 
-    vim.keymap.set('n', '<CR>', vault_actions.enter_command, { buffer = true })
+    vim.keymap.set('n', '<CR>', function () return vault_actions.enter_command() end, { buffer = true, expr = true })
 
     vim.keymap.set('n', '<leader>fb', vim.cmd.FindBacklinks, { buffer = true })
     vim.keymap.set('n', '<leader>ft', vim.cmd.ObsidianTags, { buffer = true })

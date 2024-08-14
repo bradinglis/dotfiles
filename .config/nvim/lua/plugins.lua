@@ -174,6 +174,7 @@ require('lazy').setup({
                     end
                 end,
             },
+            mappings = {},
             note_frontmatter_func = function(note)
                 local out = { id = note.id }
                 if not vim.tbl_isempty(note.aliases) then
