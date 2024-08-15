@@ -17,6 +17,7 @@ vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
     "tpope/vim-surround",
+    "tpope/vim-fugitive",
     "williamboman/mason.nvim",
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
