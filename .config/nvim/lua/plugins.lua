@@ -294,7 +294,9 @@ require("mason-lspconfig").setup {
 }
 require("everforest").load()
 require("gitsigns").setup()
-require("lualine").setup()
+require("lualine").setup({
+    extensions = {'quickfix', 'fugitive', 'nvim-tree'}
+})
 -- require("sniprun").setup({
 --     display = {
 --         "VirtualTextOk",

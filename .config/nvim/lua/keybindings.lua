@@ -132,10 +132,10 @@ local function markdown()
     vim.keymap.set('v', '<leader>e', function () surround_visual('*') end, { buffer = true })
     vim.keymap.set('v', '<leader>c', function () surround_visual('`') end, { buffer = true })
 
-    vim.keymap.set('n', '<leader>h', function () delete_surround('==') end, { buffer = true })
-    vim.keymap.set('n', '<leader>b', function () delete_surround('**') end, { buffer = true })
-    vim.keymap.set('n', '<leader>e', function () delete_surround('*') end, { buffer = true })
-    vim.keymap.set('n', '<leader>c', function () delete_surround('`') end, { buffer = true })
+    vim.keymap.set('n', '<leader>dh', function () delete_surround('==') end, { buffer = true })
+    vim.keymap.set('n', '<leader>db', function () delete_surround('**') end, { buffer = true })
+    vim.keymap.set('n', '<leader>de', function () delete_surround('*') end, { buffer = true })
+    vim.keymap.set('n', '<leader>dc', function () delete_surround('`') end, { buffer = true })
 
     vim.keymap.set('i', '--', '—', { buffer = true })
 
