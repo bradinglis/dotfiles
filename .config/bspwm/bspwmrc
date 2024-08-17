@@ -29,27 +29,19 @@ bspc config remove_disabled_monitors true
 bspc config merge_overlapping_monitors true
 
 #BSPWM coloring
-bspc config normal_border_color		"#4c566a"
-bspc config active_border_color		"#1e1e1e"
-bspc config focused_border_color	"#FFCC99"
-bspc config presel_feedback_color	"#FFCC99"
-#bspc config urgent_border_color 	"#dd2727"
+bspc config normal_border_color		"#343F44"
+bspc config active_border_color		"#D3C6AA"
+bspc config focused_border_color	"#A7C080"
+bspc config presel_feedback_color	"#E69875"
+bspc config urgent_border_color 	"#E67E80"
 
 #Single monitor
-bspc monitor -d 1 2 3 4 5 6 7 8 9 10
+bspc monitor -d 1 2 3 4 
 
 #Dual monitor
 #find out names with arandr or xrandr
 # bspc monitor HDMI-3 -d 1 2 3 4 5
 # bspc monitor DP-1 -d 6 7 8 9
-
-#bspc monitor DP-2 -d 1 2 3 4 5 6 7 8 9
-#bspc monitor LVDS1 -d 1 2 3 4
-#bspc monitor DP3 -d  5 6 7 8 9
-#bspc monitor HDMI-0 -d 1 2 3 4 5 6 7 8 9 10
-#bspc monitor HDMI-1 -d 1 2 3 4 5 6 7 8 9 10
-#bspc monitor HDMI1 -d 1 2 3 4 5
-#bspc monitor HDMI2 -d 6 7 8 9 10
 
 #rullscreen applications
 # bspc rule -a Xfce4-terminal state=floating
@@ -66,8 +58,7 @@ bspc monitor -d 1 2 3 4 5 6 7 8 9 10
 #polybar hidden when fullscreen for vlc, youtube, mpv ...
 #find out the name of your monitor with xrandr
 xdo below -t $(xdo id -n root) $(xdo id -a polybar-main_DP-3)
-#xdo below -t $(xdo id -n root) $(xdo id -a polybar-main_HDMI1)
-#xdo below -t $(xdo id -n root) $(xdo id -a polybar-main_HDMI2)
+hsetroot -solid "#21272b"
 
 ###External rules
 ##Pseudo automatic mode: always splits focused window when opening new window
