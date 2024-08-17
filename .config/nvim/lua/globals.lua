@@ -55,6 +55,11 @@ local function set_hl()
     vim.api.nvim_set_hl(0, "ObsidianHighlightText",  { bg = colours.bggreen })
     vim.api.nvim_set_hl(0, "markdownItalic",  { italic = true, fg = colours.green })
     vim.api.nvim_set_hl(0, "markdownBold",  { bold = true, fg = colours.yellow })
+    vim.api.nvim_set_hl(0, "HydraTeal",  { fg = colours.aqua })
+    vim.api.nvim_set_hl(0, "HydraBlue",  { fg = colours.blue })
+    vim.api.nvim_set_hl(0, "HydraPink",  { fg = colours.purple })
+    vim.api.nvim_set_hl(0, "HydraRed",  { fg = colours.red })
+    vim.api.nvim_set_hl(0, "HydraAmaranth",  { fg = colours.green })
 end
 
 return {
