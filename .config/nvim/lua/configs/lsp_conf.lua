@@ -24,16 +24,36 @@ local on_attach_code = function(_, bufnr)
     }, bufnr)
 end
 
+local on_attach_elixir = function(_, bufnr)
+    vim.opt.signcolumn = "yes"
+    require('keybindings').lsp()
+    vim.keymap.set('n', '<leader>lp',
+        function()
+            local params = vim.lsp.util.make_position_params()
+            vim.lsp.buf.execute_command({
+              command = "manipulatePipes:serverid",
+              arguments = { "toPipe", params.textDocument.uri, params.position.line, params.position.character },
+            })
+        end, {})
+    vim.keymap.set('n', '<leader>lP',
+        function()
+            local params = vim.lsp.util.make_position_params()
+            vim.lsp.buf.execute_command({
+              command = "manipulatePipes:serverid",
+              arguments = { "fromPipe", params.textDocument.uri, params.position.line, params.position.character },
+            })
+        end, {})
+end
+
 local lspconfig = require("lspconfig")
+
+lspconfig.elixirls.setup({
+    capabilities = capabilities,
+    on_attach = on_attach_elixir
+})
 
 lspconfig.gopls.setup({
     capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
-    on_attach = on_attach_code   -- configure your on attach config
-})
-
-lspconfig.elixirls.setup({
-    capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
-    cmd = { "C:\\Users\\inglisb\\AppData\\Local\\elixir_ls\\language_server.bat" },
     on_attach = on_attach_code   -- configure your on attach config
 })
 

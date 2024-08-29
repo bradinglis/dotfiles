@@ -123,8 +123,6 @@ local function append_to_note()
 
         local block_line = vim.api.nvim_buf_get_lines(0, viz.csrow -1, viz.csrow, true)
         local block = { id = dest_note.id, line = viz.cerow - 1, block = block_line[1] }
-        local linkback = client:format_link(current_note, { label = string.format("%s ❯ %s", current_note.title, dest_note.title), block = block })
-        content[1] = linkback .. " — " .. content[1]
         dest_note.metadata.references[#dest_note.metadata.references + 1] = current_note.id
 
         client:update_ui(0)
@@ -188,8 +186,6 @@ local function new_note()
 
             local block_line = vim.api.nvim_buf_get_lines(0, viz.csrow -1, viz.csrow, true)
             local block = { id = id, line = viz.cerow - 1, block = block_line[1] }
-            local linkback = client:format_link(current_note, { label = string.format("%s ❯ %s", current_note.title, longName), block = block })
-            content[1] = linkback .. " — " .. content[1]
             note.metadata.references = current_note.id
 
         elseif current_note.metadata.type == "note" then

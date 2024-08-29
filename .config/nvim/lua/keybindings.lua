@@ -73,7 +73,7 @@ local function quickfix_list()
     vim.keymap.set('n', '<C-j>', '<cmd>cnext<CR>zz<C-w>w', opts)
     vim.keymap.set('n', '<leader>u', '<cmd>set modifiable<CR>', opts)
     vim.keymap.set('n', '<leader>w', '<cmd>cgetbuffer<CR>:cclose<CR>:copen<CR>', opts)
-    vim.keymap.set('n', '<leader>r', '<cmd>cdo s/// | update<C-Left><C-Left><Left><Left><Left>', opts)
+    vim.keymap.set('n', '<leader>r', ':cdo s/// | update<C-Left><C-Left><Left><Left><Left>', opts)
 end
 
 local function surround_visual(surround)
@@ -141,6 +141,7 @@ local function markdown()
     vim.keymap.set('i', '>>', '»', { buffer = true })
     vim.keymap.set('i', '-!', '↓', { buffer = true })
     vim.keymap.set('i', '-^', '↑', { buffer = true })
+
 
 end
 

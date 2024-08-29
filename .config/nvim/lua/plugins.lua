@@ -28,6 +28,9 @@ require('lazy').setup({
         version = false,
         lazy = false,
         priority = 1000,
+        config = function ()
+            require("everforest").load()
+        end
     },
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-buffer',
@@ -212,10 +215,10 @@ require('lazy').setup({
     {
         "folke/zen-mode.nvim",
         opts = {
-            backdrop = 0.50,
-            width = 120,
-            height = 1,
             window = {
+                backdrop = 0.95,
+                width = 0.90,
+                height = 1,
                 options = {
                   signcolumn = "no", -- disable signcolumn
                   number = false, -- disable number column
@@ -268,7 +271,6 @@ require("mason-lspconfig").setup {
     ensure_installed = { "gopls", "markdown_oxide", "clangd" },
 }
 require("everforest").load()
-
 require("gitsigns").setup()
 require("lualine").setup({
     extensions = {'quickfix', 'fugitive', 'nvim-tree'}
