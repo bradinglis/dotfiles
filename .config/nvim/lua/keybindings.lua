@@ -33,11 +33,8 @@ local function general()
     vim.keymap.set('n', '<A-q>', vim.cmd.BufferClose, opts)
 
     -- QuickFix Navigation 
-    vim.keymap.set("n", "<C-k>", "<cmd>cnext<CR>zz")
-    vim.keymap.set("n", "<C-j>", "<cmd>cprev<CR>zz")
-    vim.keymap.set("n", "<leader>k", "<cmd>lnext<CR>zz")
-    vim.keymap.set("n", "<leader>j", "<cmd>lprev<CR>zz")
-
+    vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
+    vim.keymap.set("n", "<C-j>", "<cmd>cnext<CR>zz")
     vim.keymap.set('n', '<leader>co', vim.cmd.copen, opts)
     vim.keymap.set('n', '<leader>cc', vim.cmd.cclose, opts)
 
@@ -67,8 +64,7 @@ end
 
 local function lsp()
     local opts = { silent = true }
-    vim.keymap.set('n', '<C-CR>', '<cmd>Lspsaga goto_definition<CR>', opts)
-    vim.keymap.set('n', '<leader>o', '<cmd>Lspsaga outline<CR>', opts)
+    vim.keymap.set('n', '<C-CR>', vim.lsp.buf.definition, opts)
 end
 
 local function quickfix_list()
@@ -114,7 +110,9 @@ local function markdown()
     vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
     vim.api.nvim_create_user_command('FindBacklinks', backlinks.backlink_search, {})
 
+
     vim.keymap.set('n', '<CR>', function () return vault_actions.enter_command() end, { buffer = true, expr = true })
+    vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
 
     local finder_hydra = require('hydras.obs_find').hydra
     vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, { buffer = true })
@@ -132,12 +130,17 @@ local function markdown()
 
     local md_delete_hydra = require('hydras.md_delete').hydra
     vim.keymap.set('n', '<leader>d', function() md_delete_hydra:activate() end, { buffer = true })
-    -- vim.keymap.set('n', '<leader>dh', function () delete_surround('==') end, { buffer = true })
-    -- vim.keymap.set('n', '<leader>db', function () delete_surround('**') end, { buffer = true })
-    -- vim.keymap.set('n', '<leader>de', function () delete_surround('*') end, { buffer = true })
-    -- vim.keymap.set('n', '<leader>dc', function () delete_surround('`') end, { buffer = true })
+
+    vim.keymap.set('n', '<leader>r', [[:%s/\v(\a\.) (\u)/\1\r\2/g|norm!``<CR>]], { buffer = true })
+    vim.keymap.set('n', '<leader>R', [[:%s/\v(\a\.)\n(\u)/\1 \2/g|norm!``<CR>]], { buffer = true })
 
     vim.keymap.set('i', '--', '—', { buffer = true })
+    vim.keymap.set('i', '->', '→', { buffer = true })
+    vim.keymap.set('i', '<-', '←', { buffer = true })
+    vim.keymap.set('i', '<<', '«', { buffer = true })
+    vim.keymap.set('i', '>>', '»', { buffer = true })
+    vim.keymap.set('i', '-!', '↓', { buffer = true })
+    vim.keymap.set('i', '-^', '↑', { buffer = true })
 
 end
 

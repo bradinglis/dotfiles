@@ -1,6 +1,4 @@
-local globs = require('globals').getglobs()
-local colours = globs.colours
-
+local globs = require('globals').getglobs() local colours = globs.colours
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
@@ -18,26 +16,13 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
     "tpope/vim-surround",
     "tpope/vim-fugitive",
+    "stevearc/oil.nvim",
     "nvimtools/hydra.nvim",
     "williamboman/mason.nvim",
-    "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
-    {
-        'nvimdev/lspsaga.nvim',
-        config = function()
-            require('lspsaga').setup({})
-        end,
-        dependencies = {
-            'nvim-treesitter/nvim-treesitter', -- optional
-            'nvim-tree/nvim-web-devicons',     -- optional
-        }
-    },
-    {
-        'neovim/nvim-lspconfig',
-        dependencies = {
-            'nvimdev/lspsaga.nvim',
-        }
-    },
+    'nvim-treesitter/nvim-treesitter',
+    'nvim-treesitter/nvim-treesitter-context',
+    'neovim/nvim-lspconfig',
     {
         "neanias/everforest-nvim",
         version = false,
@@ -49,8 +34,8 @@ require('lazy').setup({
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
-    'hrsh7th/cmp-vsnip',
-    'hrsh7th/vim-vsnip',
+    'L3MON4D3/LuaSnip',
+    'saadparwaiz1/cmp_luasnip',
     {
         'nvim-telescope/telescope.nvim',
         tag = '0.1.6',
@@ -96,23 +81,7 @@ require('lazy').setup({
             require("nvim-tree.view").View.winopts.signcolumn = 'no'
         end,
     },
-    {
-        "ahmedkhalf/project.nvim",
-        config = function()
-            require("project_nvim").setup {
-                patterns = { ".git", ".clangd" },
-            }
-            require('telescope').load_extension('projects')
-        end
-    },
     "lewis6991/gitsigns.nvim",
-    "junegunn/goyo.vim",
-    {
-        'simrat39/symbols-outline.nvim',
-        opts = {
-            auto_preview = true,
-        },
-    },
     {
         "bradinglis/obsidian.nvim",
         version = "*",
@@ -168,7 +137,7 @@ require('lazy').setup({
               end
             end,
             callbacks = {
-                post_setup = require("globals").set_hl(),
+                post_setup = function () require("alts.alter") end,
                 enter_note = function(_, note)
                     require("globals").set_hl()
                     if note.has_frontmatter then
@@ -237,11 +206,6 @@ require('lazy').setup({
         },
     },
     {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-        dependencies = { "nvim-lua/plenary.nvim" }
-    },
-    {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' }
     },
@@ -264,6 +228,12 @@ require('lazy').setup({
         }
     },
 
+    {
+      "ray-x/lsp_signature.nvim",
+      event = "VeryLazy",
+      opts = {},
+      config = function(_, opts) require'lsp_signature'.setup(opts) end
+    }
     -- {
     --   "michaelb/sniprun",
     --   branch = "master",
@@ -284,6 +254,10 @@ require('lazy').setup({
 
 })
 
+require("oil").setup({
+    default_file_explorer = false,
+})
+
 require("telescope").setup({
     defaults = {
         layout_config = { width = 0.9 },
@@ -291,9 +265,10 @@ require("telescope").setup({
 })
 require("mason").setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { "gopls", "markdown_oxide", "clangd", "elixirls" },
+    ensure_installed = { "gopls", "markdown_oxide", "clangd" },
 }
 require("everforest").load()
+
 require("gitsigns").setup()
 require("lualine").setup({
     extensions = {'quickfix', 'fugitive', 'nvim-tree'}
@@ -312,14 +287,42 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
     end
 })
 
+require'treesitter-context'.setup{
+  enable = true, -- Enable this plugin (Can be enabled/disabled later via commands)
+  max_lines = 0, -- How many lines the window should span. Values <= 0 mean no limit.
+  min_window_height = 0, -- Minimum editor window height to enable context. Values <= 0 mean no limit.
+  line_numbers = true,
+  multiline_threshold = 10, -- Maximum number of lines to show for a single context
+  trim_scope = 'outer', -- Which context lines to discard if `max_lines` is exceeded. Choices: 'inner', 'outer'
+  mode = 'cursor',  -- Line used to calculate context. Choices: 'cursor', 'topline'
+  -- Separator between context and content. Should be a single character string, like '-'.
+  -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
+  separator = nil,
+  zindex = 20, -- The Z-index of the context window
+  on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+}
+
 require 'nvim-treesitter.configs'.setup {
     ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "graphql", "go" },
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = true,
     },
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "gnn", -- set to `false` to disable one of the mappings
+        node_incremental = "grn",
+        scope_incremental = "grc",
+        node_decremental = "grm",
+      },
+    },
+    indent = {
+        enable = true,
+    }
 }
 
+require 'nvim-treesitter.install'.prefer_git = true
+
 require('configs/cmp_conf')
-require('configs/harpoon_conf')
 require('configs/lsp_conf')

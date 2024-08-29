@@ -11,14 +11,20 @@ capabilities.workspace = {
 local on_attach_code = function(_, bufnr)
     vim.opt.signcolumn = "yes"
     require('keybindings').lsp()
+    require "lsp_signature".on_attach({
+        bind = true,
+        hint_prefix = {
+            above = "↙ ",  -- when the hint is on the line above the current line
+            current = "← ",  -- when the hint is on the same line
+            below = "↖ "  -- when the hint is on the line below the current line
+        },
+        handler_opts = {
+            border = "none"
+        }
+    }, bufnr)
 end
 
 local lspconfig = require("lspconfig")
-
-lspconfig.elixirls.setup({
-    capabilities = capabilities,
-    on_attach = on_attach_code
-})
 
 lspconfig.gopls.setup({
     capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
@@ -27,6 +33,7 @@ lspconfig.gopls.setup({
 
 lspconfig.elixirls.setup({
     capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
+    cmd = { "C:\\Users\\inglisb\\AppData\\Local\\elixir_ls\\language_server.bat" },
     on_attach = on_attach_code   -- configure your on attach config
 })
 
@@ -60,7 +67,7 @@ lspconfig.lua_ls.setup {
                 enable = true,
                 defaultConfig = {
                     indent_style = "space",
-                    indent_size = "4",
+                    indent_size = "2",
                 }
             },
         },

@@ -1,6 +1,6 @@
 require("globals").set_hl()
 
-local cmp = require"cmp"
+local cmp = require "cmp"
 
 cmp.unregister_source("obsidian_new", require("alts.my_cmp_obsidian_new").new())
 cmp.register_source("my_obsidian_new", require("alts.my_cmp_obsidian_new").new())
