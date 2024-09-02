@@ -60,11 +60,16 @@ local function general()
     vim.keymap.set("n", "<leader>Y", [["+Y]])
 
     vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
+
+    vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
 end
 
 local function lsp()
     local opts = { silent = true }
     vim.keymap.set('n', '<C-CR>', vim.lsp.buf.definition, opts)
+    -- Telescope
+    local finder_hydra = require('hydras.lsp_find').hydra
+    vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, opts)
 end
 
 local function quickfix_list()
@@ -141,7 +146,6 @@ local function markdown()
     vim.keymap.set('i', '>>', '»', { buffer = true })
     vim.keymap.set('i', '-!', '↓', { buffer = true })
     vim.keymap.set('i', '-^', '↑', { buffer = true })
-
 
 end
 

@@ -13,6 +13,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+
 require('lazy').setup({
     "tpope/vim-surround",
     "tpope/vim-fugitive",
@@ -22,6 +23,7 @@ require('lazy').setup({
     "williamboman/mason-lspconfig.nvim",
     'nvim-treesitter/nvim-treesitter',
     'nvim-treesitter/nvim-treesitter-context',
+    "nvim-treesitter/nvim-treesitter-textobjects",
     'neovim/nvim-lspconfig',
     {
         "neanias/everforest-nvim",
@@ -38,10 +40,12 @@ require('lazy').setup({
     'hrsh7th/cmp-cmdline',
     'hrsh7th/nvim-cmp',
     'L3MON4D3/LuaSnip',
+    'nvim-telescope/telescope.nvim',
+    'nvim-telescope/telescope-ui-select.nvim',
     'saadparwaiz1/cmp_luasnip',
     {
         'nvim-telescope/telescope.nvim',
-        tag = '0.1.6',
+        tag = '0.1.8',
         dependencies = { 'nvim-lua/plenary.nvim' }
     },
     {
@@ -64,12 +68,13 @@ require('lazy').setup({
                 NvimTree = true,
             }
         },
-        version = '^1.0.0',
+        -- version = '^1.0.0',
     },
     {
         "nvim-tree/nvim-tree.lua",
         version = "*",
         lazy = false,
+        priority = 1001,
         dependencies = {
             "nvim-tree/nvim-web-devicons",
         },
@@ -257,6 +262,7 @@ require('lazy').setup({
 
 })
 
+vim.cmd.colorscheme("everforest")
 require("oil").setup({
     default_file_explorer = false,
 })
@@ -265,12 +271,24 @@ require("telescope").setup({
     defaults = {
         layout_config = { width = 0.9 },
     },
+    pickers = {
+        diagnostics = {
+            theme = "dropdown",
+            layout_config = { width = 0.9 },
+        }
+    },
+    extensions = {
+        ["ui-select"] = {
+            require("telescope.themes").get_cursor { }
+        }
+    },
 })
+require("telescope").load_extension("ui-select")
+
 require("mason").setup()
 require("mason-lspconfig").setup {
     ensure_installed = { "gopls", "markdown_oxide", "clangd" },
 }
-require("everforest").load()
 require("gitsigns").setup()
 require("lualine").setup({
     extensions = {'quickfix', 'fugitive', 'nvim-tree'}
@@ -321,10 +339,60 @@ require 'nvim-treesitter.configs'.setup {
     },
     indent = {
         enable = true,
-    }
+    },
+    textobjects = {
+      select = {
+          enable = true,
+
+          -- Automatically jump forward to textobj, similar to targets.vim
+          lookahead = true,
+
+          keymaps = {
+              -- You can use the capture groups defined in textobjects.scm
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+              ["ac"] = "@class.outer",
+              ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+              ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+          },
+          -- You can choose the select mode (default is charwise 'v')
+          --
+          -- Can also be a function which gets passed a table with the keys
+          -- * query_string: eg '@function.inner'
+          -- * method: eg 'v' or 'o'
+          -- and should return the mode ('v', 'V', or '<c-v>') or a table
+          -- mapping query_strings to modes.
+          selection_modes = {
+              ['@parameter.outer'] = 'v', -- charwise
+              ['@function.outer'] = 'V', -- linewise
+              ['@class.outer'] = '<c-v>', -- blockwise
+          },
+      },
+      move = {
+        enable = true,
+        set_jumps = true, -- whether to set jumps in the jumplist
+        goto_next_start = {
+          ["]]"] = "@function.outer",
+          ["]m"] = { query = "@class.outer", desc = "Next class start" },
+        },
+        goto_next_end = {
+          ["]["] = "@function.outer",
+          ["]M"] = "@class.outer",
+        },
+        goto_previous_start = {
+          ["[["] = "@function.outer",
+          ["[m"] = "@class.outer",
+        },
+        goto_previous_end = {
+          ["[]"] = "@function.outer",
+          ["[M"] = "@class.outer",
+        },
+      },
+  }
 }
 
 require 'nvim-treesitter.install'.prefer_git = true
+require("globals").set_hl()
 
 require('configs/cmp_conf')
 require('configs/lsp_conf')
