@@ -13,20 +13,37 @@ local on_attach_code = function(_, bufnr)
     require('keybindings').lsp()
     require "lsp_signature".on_attach({
         bind = true,
-        hint_prefix = {
-            above = "↙ ",  -- when the hint is on the line above the current line
-            current = "← ",  -- when the hint is on the same line
-            below = "↖ "  -- when the hint is on the line below the current line
-        },
         handler_opts = {
             border = "none"
         }
     }, bufnr)
 end
 
+local on_attach_clangd = function(_, bufnr)
+    vim.opt.signcolumn = "yes"
+    require('keybindings').lsp()
+    require "lsp_signature".on_attach({
+        bind = true,
+        handler_opts = {
+            border = "none"
+        }
+    }, bufnr)
+
+    require("clangd_extensions.inlay_hints").setup_autocmd()
+    require("clangd_extensions.inlay_hints").set_inlay_hints()
+
+end
+
+
 local on_attach_elixir = function(_, bufnr)
     vim.opt.signcolumn = "yes"
     require('keybindings').lsp()
+    require "lsp_signature".on_attach({
+        bind = true,
+        handler_opts = {
+            border = "none"
+        }
+    }, bufnr)
     vim.keymap.set('n', '<leader>lp',
         function()
             local params = vim.lsp.util.make_position_params()
@@ -98,11 +115,17 @@ lspconfig.clangd.setup({
     single_file_support = false,
     root_dir = lspconfig.util.root_pattern('.clangd', 'compile_flags.txt'),
     capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
-    on_attach = on_attach_code   -- configure your on attach config
+    on_attach = on_attach_clangd,   -- configure your on attach config
 })
 
-lspconfig.csharp_ls.setup({
-    root_dir = lspconfig.util.root_pattern('*.csproj'),
+lspconfig.omnisharp.setup({
+    -- root_dir = lspconfig.util.root_pattern('*.csproj'),
+    handlers = {
+      ["textDocument/definition"] = require('omnisharp_extended').definition_handler,
+      ["textDocument/typeDefinition"] = require('omnisharp_extended').type_definition_handler,
+      ["textDocument/references"] = require('omnisharp_extended').references_handler,
+      ["textDocument/implementation"] = require('omnisharp_extended').implementation_handler,
+    },
     capabilities = capabilities, -- again, ensure that capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = true
     on_attach = on_attach_code   -- configure your on attach config
 })

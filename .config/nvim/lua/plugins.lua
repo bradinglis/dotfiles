@@ -21,10 +21,12 @@ require('lazy').setup({
     "nvimtools/hydra.nvim",
     "williamboman/mason.nvim",
     "williamboman/mason-lspconfig.nvim",
+    'neovim/nvim-lspconfig',
+    "Hoffs/omnisharp-extended-lsp.nvim",
+    "p00f/clangd_extensions.nvim",
     'nvim-treesitter/nvim-treesitter',
     'nvim-treesitter/nvim-treesitter-context',
     "nvim-treesitter/nvim-treesitter-textobjects",
-    'neovim/nvim-lspconfig',
     {
         "neanias/everforest-nvim",
         version = false,
@@ -287,7 +289,7 @@ require("telescope").load_extension("ui-select")
 
 require("mason").setup()
 require("mason-lspconfig").setup {
-    ensure_installed = { "gopls", "markdown_oxide", "clangd" },
+    ensure_installed = { "gopls", "markdown_oxide", "clangd", "omnisharp" },
 }
 require("gitsigns").setup()
 require("lualine").setup({
@@ -322,8 +324,10 @@ require'treesitter-context'.setup{
   on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
 }
 
+vim.treesitter.language.register('c_sharp', 'csharp')
+
 require 'nvim-treesitter.configs'.setup {
-    ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "graphql", "go" },
+    ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "graphql", "go", "c_sharp" },
     highlight = {
         enable = true,
         additional_vim_regex_highlighting = true,
