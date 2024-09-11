@@ -4,6 +4,11 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
 })
 
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--     pattern = "*.c",
+--     callback = vim.lsp.buf.format,
+-- })
+
 vim.api.nvim_create_autocmd("User", {
   pattern = "TelescopePreviewerLoaded",
   callback = function(args)

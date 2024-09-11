@@ -15,6 +15,7 @@ local function general()
     -- Functional
     vim.keymap.set('n', '<leader>v', vim.cmd.NvimTreeToggle, opts)
     vim.keymap.set('n', '<leader>z', vim.cmd.ZenMode, opts)
+    vim.keymap.set('n', '<leader>o', vim.diagnostic.open_float, opts)
 
     -- Split Navigation
     vim.keymap.set('n', '<leader>h', '<cmd>wincmd h<CR>', opts)
@@ -62,11 +63,14 @@ local function general()
     vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
     vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
+    vim.keymap.set('n', 'z=', require("telescope.builtin").spell_suggest, opts)
 end
 
 local function lsp()
     local opts = { silent = true }
-    vim.keymap.set('n', '<C-CR>', vim.lsp.buf.definition, opts)
+    vim.keymap.set('n', '<C-CR>', require("telescope.builtin").lsp_definitions, opts)
+    vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
+    -- vim.keymap.set('n', '<C-CR>', vim.lsp.buf.definition, opts)
     -- Telescope
     local finder_hydra = require('hydras.lsp_find').hydra
     vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, opts)
@@ -114,7 +118,6 @@ local function markdown()
     vim.api.nvim_create_user_command('NewSource', vault_actions.new_source, {})
     vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
     vim.api.nvim_create_user_command('FindBacklinks', backlinks.backlink_search, {})
-
 
     vim.keymap.set('n', '<CR>', function () return vault_actions.enter_command() end, { buffer = true, expr = true })
     vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })

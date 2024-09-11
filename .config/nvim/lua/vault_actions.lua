@@ -11,6 +11,19 @@ local function print_test()
     print(vim.inspect(current_note:resolve_block('block')))
 end
 
+local function note_id_gen(name)
+    return name:lower():gsub("[()'\"*]", "")
+        :gsub(" %l+ ", " ")
+        :gsub(" ", "-")
+end
+
+local function source_id_gen(name)
+    return "~" .. name:lower():gsub("[()'\"*]", "")
+        :gsub(" %l+ ", " ")
+        :gsub(" ", "_")
+end
+
+
 local function new_source()
     local client = require("obsidian").get_client()
     local current_note = client:current_note()
@@ -38,24 +51,17 @@ local function new_source()
         print("Invalid current note type")
     end
 
-    local shortName = util.input "Enter source short name: ~"
-    if not shortName then
-      print("Aborted")
-      return
-    elseif shortName == "" then
-      print("Aborted")
-      return
-    end
-
-    local id = "~" .. shortName
-
-    local longName = util.input "Enter source long name: "
+    local longName = util.input "Enter source name: "
     if not longName then
       print("Aborted")
       return
     elseif longName == "" then
-      longName = shortName
+      print("Aborted")
+      longName = nil
+      return
     end
+
+    local id = source_id_gen(longName)
 
     local new_note_dir = dir .. id .. ".md"
     local sourceNote = Note.new(id, { longName }, current_note.tags, new_note_dir)
@@ -139,8 +145,9 @@ local function append_to_note()
 
         vim.api.nvim_buf_set_lines(0, -1, -1, false, content)
     end)
-
 end
+
+
 local function new_note()
     local client = require("obsidian").get_client()
     local current_note = client:current_note()
@@ -156,7 +163,9 @@ local function new_note()
       return
     end
 
-    local id = longName:lower():gsub(" ", "-"):gsub("[()]", "")
+    -- local id = longName:lower():gsub(" ", "-"):gsub("[()]", "")
+    local id = note_id_gen(longName)
+
     local dir = client.dir.filename .. "/notes/" .. id .. ".md"
 
 
