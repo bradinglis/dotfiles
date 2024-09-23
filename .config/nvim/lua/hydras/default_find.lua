@@ -4,6 +4,7 @@ local cmd = require('hydra.keymap-util').cmd
 local hint = [[
               󰭎 Find
   _f_: files            _g_: live grep  
+  _b_: buffers
   _<Enter>_: Telescope  _<Esc>_         
 ]]
 
@@ -26,6 +27,7 @@ return {
        heads = {
           { 'f', cmd 'Telescope find_files' },
           { 'g', cmd 'Telescope live_grep' },
+          { 'b', cmd 'Telescope buffers' },
           { '<Enter>', cmd 'Telescope', { exit = true, desc = 'list all pickers' } },
           { '<Esc>', nil, { exit = true, nowait = true } },
        }

@@ -8,6 +8,7 @@ local hint = [[
   _w_: wrkspace symbols   _s_: doc symbols  
 
   _f_: files              _g_: live grep  
+  _b_: buffers
   _<Enter>_: Telescope    _<Esc>_         
 ]]
 
@@ -29,6 +30,7 @@ return {
        mode = 'n',
        heads = {
           { 'f', cmd 'Telescope find_files' },
+          { 'b', cmd 'Telescope buffers' },
           { 'g', cmd 'Telescope live_grep' },
           { 'i', cmd 'Telescope lsp_incoming_calls' },
           { 'o', cmd 'Telescope lsp_outgoing_calls' },
