@@ -12,15 +12,15 @@ local function print_test()
 end
 
 local function note_id_gen(name)
-    return name:lower():gsub("[()'\"*]", "")
+    return name:gsub("[()'\"*]", "")
         :gsub(" %l+ ", " ")
-        :gsub(" ", "-")
+        :gsub(" ", "-"):lower()
 end
 
 local function source_id_gen(name)
-    return "~" .. name:lower():gsub("[()'\"*]", "")
+    return "~" .. name:gsub("[()'\"*]", "")
         :gsub(" %l+ ", " ")
-        :gsub(" ", "_")
+        :gsub(" ", "_"):lower()
 end
 
 

@@ -7,8 +7,19 @@ size = 18
 [window]
 option_as_alt = "Both"
 
-# Colors (Everforest Dark)
+[keyboard]
+[[keyboard.bindings]]
+key = "Enter" 
+mods = "Control"      
+chars = "\u001b[13;5u"
 
+[[keyboard.bindings]]
+key = "6" 
+mods = "Control"      
+chars = "\u001b[54;5u"
+
+
+# Colors (Everforest Dark)
 # Default colors
 [colors.primary]
 background = '#2d353b'
@@ -35,3 +46,5 @@ blue    = '#7fbbb3'
 magenta = '#d699b6'
 cyan    = '#83c092'
 white   = '#d3c6aa'
+
+

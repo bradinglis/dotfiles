@@ -2,13 +2,15 @@ vim.g.c_syntax_for_h = 1
 vim.opt.signcolumn = "no"
 vim.opt.autoread = true
 
+vim.opt.scrolloff = 8
+
 vim.opt.exrc = true
 vim.opt.secure = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.vsnip_snippet_dir = vim.fn.stdpath('config') .. "/snippets"
 vim.opt.relativenumber = true
-vim.opt.termguicolors = true
+-- vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.errorbells = false
 vim.opt.hlsearch = false

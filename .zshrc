@@ -16,6 +16,7 @@ alias sv="sudo nvim"
 alias g="git"
 alias mkd="mkdir -pv"
 alias vrc="nvim ~/.config/nvim/init.vim"
+export TERM=alacritty
 
 setopt GLOB_DOTS
 

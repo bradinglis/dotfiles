@@ -217,6 +217,9 @@ require('lazy').setup({
     {
         "folke/zen-mode.nvim",
         opts = {
+            plugins = {
+                tmux = { enabled = true },
+            },
             window = {
                 backdrop = 0.95,
                 width = 0.90,

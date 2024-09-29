@@ -118,6 +118,11 @@ lspconfig.clangd.setup({
     on_attach = on_attach_clangd,   -- configure your on attach config
 })
 
+lspconfig.gleam.setup{
+    capabilities = capabilities,
+    on_attach = on_attach_code,
+}
+
 lspconfig.omnisharp.setup({
     -- root_dir = lspconfig.util.root_pattern('*.csproj'),
     handlers = {
