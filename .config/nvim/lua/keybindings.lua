@@ -17,21 +17,8 @@ local function general()
     vim.keymap.set('n', '<leader>z', vim.cmd.ZenMode, opts)
     vim.keymap.set('n', '<leader>o', vim.diagnostic.open_float, opts)
 
-    -- Split Navigation
-    vim.keymap.set('n', '<leader>h', '<cmd>wincmd h<CR>', opts)
-    vim.keymap.set('n', '<leader>j', '<cmd>wincmd j<CR>', opts)
-    vim.keymap.set('n', '<leader>k', '<cmd>wincmd k<CR>', opts)
-    vim.keymap.set('n', '<leader>l', '<cmd>wincmd l<CR>', opts)
-    vim.keymap.set('n', '<leader>+', '<cmd>vertical resize +5<CR>', opts)
-    vim.keymap.set('n', '<leader>-', '<cmd>vertical resize -5<CR>', opts)
-
     -- Buffer Tab Navigation
-    vim.keymap.set('n', '<A-h>', vim.cmd.BufferPrevious, opts)
-    vim.keymap.set('n', '<A-l>', vim.cmd.BufferNext, opts)
-    vim.keymap.set('n', '<A-H>', vim.cmd.BufferMovePrevious, opts)
-    vim.keymap.set('n', '<A-L>', vim.cmd.BufferMoveNext, opts)
-    vim.keymap.set('n', '<A-p>', vim.cmd.BufferPin, opts)
-    vim.keymap.set('n', '<A-q>', vim.cmd.BufferClose, opts)
+    vim.keymap.set('n', '<C-q>', vim.cmd.bd, opts)
 
     -- QuickFix Navigation 
     vim.keymap.set("n", "<C-k>", "<cmd>cprev<CR>zz")
@@ -69,8 +56,10 @@ end
 local function lsp()
     local opts = { silent = true }
     vim.keymap.set('n', '<C-CR>', require("telescope.builtin").lsp_definitions, opts)
+    vim.keymap.set('n', 'gd', require("telescope.builtin").lsp_definitions, opts)
+    vim.keymap.set('n', 'gr', require("telescope.builtin").lsp_references, opts)
     vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
-    -- vim.keymap.set('n', '<C-CR>', vim.lsp.buf.definition, opts)
+
     -- Telescope
     local finder_hydra = require('hydras.lsp_find').hydra
     vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, opts)
