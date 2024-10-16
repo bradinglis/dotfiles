@@ -13,14 +13,14 @@ end
 
 local function note_id_gen(name)
     return name:gsub("[()'\"*]", "")
-        :gsub(" %l+ ", " ")
+        :gsub(" %l* ", " ")
         :gsub(" ", "-"):lower()
 end
 
 local function source_id_gen(name)
     return "~" .. name:gsub("[()'\"*]", "")
-        :gsub(" %l+ ", " ")
-        :gsub(" ", "_"):lower()
+        :gsub(" %l* ", " ")
+        :gsub(" ", "_")
 end
 
 

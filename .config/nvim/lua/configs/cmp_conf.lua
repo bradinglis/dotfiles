@@ -4,6 +4,7 @@ vim.opt.shortmess:append "c"
 
 local cmp = require'cmp'
 
+
 cmp.setup({
     snippet = {
         expand = function(args)
@@ -16,7 +17,7 @@ cmp.setup({
         ['<C-e>'] = { i = cmp.mapping.abort() },
         ["<C-j>"] = { i = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }},
         ["<C-k>"] = { i = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }},
-        ["<C-;>"] = { i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true } },
+        ["<C-n>"] = { i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true } },
     },
     sources = {
         { name = 'nvim_lsp' },
@@ -45,7 +46,7 @@ cmp.setup.cmdline({ '/', '?' }, {
         ['<C-e>'] = { i = cmp.mapping.abort() },
         ["<C-j>"] = { i = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }},
         ["<C-k>"] = { i = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }},
-        ["<C-;>"] = { i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true } },
+        ["<C-n>"] = { i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true } },
     },
     sources = {
         { name = 'buffer' }
@@ -55,12 +56,12 @@ cmp.setup.cmdline({ '/', '?' }, {
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(':', {
     mapping = {
-        ['<C-b>'] = { i = cmp.mapping.scroll_docs(-4) },
-        ['<C-f>'] = { i = cmp.mapping.scroll_docs(4) },
-        ['<C-e>'] = { i = cmp.mapping.abort() },
-        ["<C-j>"] = { i = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }},
-        ["<C-k>"] = { i = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }},
-        ["<C-;>"] = { i = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true } },
+        ['<C-b>'] = { c = cmp.mapping.scroll_docs(-4) },
+        ['<C-f>'] = { c = cmp.mapping.scroll_docs(4) },
+        ['<C-e>'] = { c = cmp.mapping.abort() },
+        ["<C-j>"] = { c = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert }},
+        ["<C-k>"] = { c = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert }},
+        ["<C-n>"] = { c = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true } },
     },
     sources = cmp.config.sources({
         { name = 'path' }
@@ -69,3 +70,7 @@ cmp.setup.cmdline(':', {
     }),
     matching = { disallow_symbol_nonprefix_matching = false }
 })
+
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+

@@ -3,6 +3,7 @@ local colours = globs.colours
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
+
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   vim.fn.system({ "git",
     "--filter=blob:none",
@@ -88,6 +89,13 @@ require('lazy').setup({
   'hrsh7th/cmp-path',
   'hrsh7th/cmp-cmdline',
   'hrsh7th/nvim-cmp',
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true
+    -- use opts = {} for passing setup options
+    -- this is equivalent to setup({}) function
+  },
   'L3MON4D3/LuaSnip',
   'nvim-telescope/telescope.nvim',
   'nvim-telescope/telescope-ui-select.nvim',
@@ -240,8 +248,8 @@ require('lazy').setup({
         tmux = { enabled = true },
       },
       window = {
-        backdrop = 0.95,
-        width = 0.90,
+        backdrop = 1,
+        width = 0.95,
         height = 1,
         options = {
           signcolumn = "no",      -- disable signcolumn
@@ -317,21 +325,21 @@ require("lualine").setup({
       {
         'harpoon2',
         indicators = {
-          function (harpoon_entry) return "1 " .. harpoon_entry.value .. " " end,
-          function (harpoon_entry) return "2 " .. harpoon_entry.value .. " " end,
-          function (harpoon_entry) return "3 " .. harpoon_entry.value .. " " end,
-          function (harpoon_entry) return "4 " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "1 " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "2 " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "3 " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "4 " .. harpoon_entry.value .. " " end,
         },
         active_indicators = {
-          function (harpoon_entry) return "[1] " .. harpoon_entry.value .. " " end,
-          function (harpoon_entry) return "[2] " .. harpoon_entry.value .. " " end,
-          function (harpoon_entry) return "[3] " .. harpoon_entry.value .. " " end,
-          function (harpoon_entry) return "[4] " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "[1] " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "[2] " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "[3] " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "[4] " .. harpoon_entry.value .. " " end,
         },
         color_active = { bg = "#475258" },
       },
     },
-    lualine_x = {},
+    lualine_x = { 'filename' },
     lualine_y = { 'diagnostics', 'diff', 'branch' },
   }
 })
@@ -368,7 +376,7 @@ require 'treesitter-context'.setup {
 vim.treesitter.language.register('c_sharp', 'csharp')
 
 require 'nvim-treesitter.configs'.setup {
-  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "graphql", "go", "c_sharp" },
+  ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "graphql", "go", "c_sharp", "gleam" },
   highlight = {
     enable = true,
     additional_vim_regex_highlighting = true,
@@ -452,6 +460,7 @@ vim.keymap.set("n", "<A-4>", function() harpoon:list():select(4) end)
 
 -- Toggle previous & next buffers stored within Harpoon list
 vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
+
 
 require 'nvim-treesitter.install'.prefer_git = true
 require("globals").set_hl()
