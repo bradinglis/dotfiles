@@ -12,6 +12,10 @@ local function general()
     local finder_hydra = require('hydras.default_find').hydra
     vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, opts)
 
+    -- Git
+    local git_hydra = require('hydras.git').hydra
+    vim.keymap.set('n', '<leader>g', function() git_hydra:activate() end, opts)
+
     -- Functional
     vim.keymap.set('n', '<leader>v', vim.cmd.NvimTreeToggle, opts)
     vim.keymap.set('n', '<leader>z', vim.cmd.ZenMode, opts)

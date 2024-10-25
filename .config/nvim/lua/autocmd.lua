@@ -1,7 +1,7 @@
 vim.api.nvim_create_autocmd("BufEnter", {
-    pattern = "*.md",
-    callback = function()
-    end
+  pattern = "*.md",
+  callback = function()
+  end
 })
 
 -- vim.api.nvim_create_autocmd("BufWritePre", {
@@ -12,11 +12,14 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("User", {
   pattern = "TelescopePreviewerLoaded",
   callback = function(args)
-      vim.wo.wrap = true
-      vim.wo.linebreak = true
+    vim.wo.wrap = true
+    vim.wo.linebreak = true
   end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+  callback = function() vim.opt_local.formatoptions:remove("o") end,
+})
 
 vim.api.nvim_create_autocmd("ColorScheme", {
   pattern = "everforest",
