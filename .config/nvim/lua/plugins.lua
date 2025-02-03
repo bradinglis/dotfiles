@@ -249,7 +249,7 @@ require('lazy').setup({
       },
       window = {
         backdrop = 1,
-        width = 0.95,
+        width = 0.7,
         height = 1,
         options = {
           signcolumn = "no",      -- disable signcolumn

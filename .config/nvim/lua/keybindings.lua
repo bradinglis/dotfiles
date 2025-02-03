@@ -63,6 +63,7 @@ local function lsp()
     vim.keymap.set('n', 'gd', require("telescope.builtin").lsp_definitions, opts)
     vim.keymap.set('n', 'gr', require("telescope.builtin").lsp_references, opts)
     vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
+    vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, opts)
 
     -- Telescope
     local finder_hydra = require('hydras.lsp_find').hydra
