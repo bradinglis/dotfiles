@@ -17,10 +17,111 @@ local function note_id_gen(name)
         :gsub(" ", "-"):lower()
 end
 
+-- local function source_id_gen(name)
+--     return name:gsub("[()'\"*]", "")
+--         :gsub(" %l* ", " ")
+--         :gsub(" ", "-"):lower()
+-- end
+
 local function source_id_gen(name)
-    return "~" .. name:gsub("[()'\"*]", "")
+    return name:gsub("~[()'\"*]", "")
         :gsub(" %l* ", " ")
         :gsub(" ", "_")
+end
+
+local function filter(arr, func)
+    local new_arr = {}
+    for old_index, v in ipairs(arr) do
+        if func(v, old_index) then
+            new_arr[#new_arr+1] = v
+        end
+    end
+    return new_arr
+end
+
+local function change_name(note)
+    local client = require("obsidian").get_client()
+    -- local note = client:current_note()
+
+    local author = ""
+    local sourceparents = {}
+    if note.metadata.type == "source" then
+        if note.metadata["source-parents"] ~= nil and not vim.tbl_isempty(note.metadata["source-parents"]) then
+            for _, parent in ipairs(note.metadata["source-parents"]) do
+                sourceparents[#sourceparents+1] = parent
+            end
+        end
+        author = note.metadata.author
+    elseif note.metadata.type == "author" then
+        author = note.id
+    else
+        print("Invalid current note type")
+    end
+
+    local longName = note.title
+
+
+    local id_prefix = "s_"
+    for _, value in ipairs(author) do
+      id_prefix = id_prefix .. value .. "_"
+    end
+    for _, value in ipairs(sourceparents) do
+      id_prefix = id_prefix .. value .. "_"
+    end
+
+    local id = id_prefix .. source_id_gen(longName)
+
+    note.id = id
+
+    id = id:gsub("%%","")
+
+    client:open_note(note, {
+        callback = function(bufnr)
+            client:write_note_to_buffer(note, { bufnr = bufnr })
+            vim.cmd.ObsidianRename(id)
+            -- find and replace ids across notes metadata
+        end,
+        sync = true
+    })
+
+end
+
+local function change_author(author)
+  local client = require("obsidian").get_client()
+
+  local author_note = client:find_notes(author)[1]
+  local id_prefix = "s_"
+  author_note.id = id_prefix .. author_note.id:gsub("%%", "")
+
+
+  client:open_note(author_note, {
+      callback = function(bufnr)
+          client:write_note_to_buffer(author_note, { bufnr = bufnr })
+          vim.cmd.ObsidianRename(author_note.id)
+      end,
+      sync = true
+  })
+
+  local notes = client:find_notes("")
+
+  local source_notes = filter(notes, function (val, _)
+      if val.metadata ~= nil then
+          if val.metadata.author ~= nil and val.metadata.type ~= nil then
+              return val.metadata.type == "source" and val.metadata.author[1] == author
+          end
+      else
+          return false
+      end
+  end)
+
+  for index, note in ipairs(source_notes) do
+    for i = 1, 2, 3 do
+      if #note.metadata["source-parents"] == i then
+        change_name(note)
+      end
+    end
+  end
+
 end
 
 
@@ -61,7 +162,12 @@ local function new_source()
       return
     end
 
-    local id = source_id_gen(longName)
+    local id_prefix = author .. "_"
+    for _, value in ipairs(sourceparents) do
+      id_prefix = id_prefix .. value .. "_"
+    end
+
+    local id = id_prefix .. source_id_gen(longName)
 
     local new_note_dir = dir .. id .. ".md"
     local sourceNote = Note.new(id, { longName }, current_note.tags, new_note_dir)
@@ -417,4 +523,6 @@ return {
     new_note = new_note,
     print_test = print_test,
     append_to_note = append_to_note,
+    change_name = change_name,
+    change_author = change_author,
 }
