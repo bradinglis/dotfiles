@@ -61,9 +61,11 @@ local function change_name(note)
     local longName = note.title
 
 
+    local old_id = note.id
+
     local id_prefix = "s_"
     for _, value in ipairs(author) do
-      id_prefix = id_prefix .. value .. "_"
+      id_prefix = id_prefix .. value:gsub("a_", "") .. "_"
     end
     for _, value in ipairs(sourceparents) do
       id_prefix = id_prefix .. value .. "_"
@@ -79,18 +81,18 @@ local function change_name(note)
         callback = function(bufnr)
             client:write_note_to_buffer(note, { bufnr = bufnr })
             vim.cmd.ObsidianRename(id)
-            -- find and replace ids across notes metadata
+            os.execute("find " .. client.dir.filename .. " -type f -name '*.md' -exec sed -i 's/" .. old_id .. "/" .. id .. "/g'  {} +")
         end,
         sync = true
     })
-
 end
 
-local function change_author(author)
+local function change_author(author_note)
   local client = require("obsidian").get_client()
 
-  local author_note = client:find_notes(author)[1]
-  local id_prefix = "s_"
+  -- local author_note = client:find_notes(author)[1]
+  local id_prefix = "a_"
+  local old_id = author_note.id
   author_note.id = id_prefix .. author_note.id:gsub("%%", "")
 
 
@@ -98,6 +100,7 @@ local function change_author(author)
       callback = function(bufnr)
           client:write_note_to_buffer(author_note, { bufnr = bufnr })
           vim.cmd.ObsidianRename(author_note.id)
+          os.execute("find " .. client.dir.filename .. " -type f -name '*.md' -exec sed -i 's/" .. old_id .. "/" .. author_note.id .. "/g'  {} +")
       end,
       sync = true
   })
@@ -107,7 +110,7 @@ local function change_author(author)
   local source_notes = filter(notes, function (val, _)
       if val.metadata ~= nil then
           if val.metadata.author ~= nil and val.metadata.type ~= nil then
-              return val.metadata.type == "source" and val.metadata.author[1] == author
+              return val.metadata.type == "source" and val.metadata.author[1] == author_note.id
           end
       else
           return false
@@ -123,6 +126,28 @@ local function change_author(author)
   end
 
 end
+
+local function change_all()
+  local client = require("obsidian").get_client()
+  local notes = client:find_notes("")
+
+  local author_notes = filter(notes, function (val, _)
+      if val.metadata ~= nil then
+          if val.metadata.type ~= nil then
+              return val.metadata.type == "author"
+          end
+      else
+          return false
+      end
+  end)
+
+  for index, value in ipairs(author_notes) do
+    change_author(value.id)
+  end
+
+end
+
+
 
 
 local function new_source()
@@ -162,7 +187,10 @@ local function new_source()
       return
     end
 
-    local id_prefix = author .. "_"
+    local id_prefix = "s_"
+    for _, value in ipairs(author) do
+      id_prefix = id_prefix .. value:gsub("a_", "") .. "_"
+    end
     for _, value in ipairs(sourceparents) do
       id_prefix = id_prefix .. value .. "_"
     end
