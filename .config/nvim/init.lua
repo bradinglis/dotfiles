@@ -9,4 +9,4 @@ require('autocmd')
 require('keybindings').general()
 
 -- require('obsidian_alters')
--- require('vault_actions')
+require('vault_actions')
