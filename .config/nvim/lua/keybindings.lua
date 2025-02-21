@@ -12,6 +12,10 @@ local function general()
     local finder_hydra = require('hydras.default_find').hydra
     vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, opts)
 
+    -- Git
+    local git_hydra = require('hydras.git').hydra
+    vim.keymap.set('n', '<leader>g', function() git_hydra:activate() end, opts)
+
     -- Functional
     vim.keymap.set('n', '<leader>v', vim.cmd.NvimTreeToggle, opts)
     vim.keymap.set('n', '<leader>z', vim.cmd.ZenMode, opts)
@@ -59,6 +63,7 @@ local function lsp()
     vim.keymap.set('n', 'gd', require("telescope.builtin").lsp_definitions, opts)
     vim.keymap.set('n', 'gr', require("telescope.builtin").lsp_references, opts)
     vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
+    vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, opts)
 
     -- Telescope
     local finder_hydra = require('hydras.lsp_find').hydra
@@ -107,6 +112,7 @@ local function markdown()
     vim.api.nvim_create_user_command('NewSource', vault_actions.new_source, {})
     vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
     vim.api.nvim_create_user_command('FindBacklinks', backlinks.backlink_search, {})
+    -- vim.api.nvim_create_user_command('ChangeNames', vault_actions.change_name, {})
     vim.api.nvim_create_user_command('SourceSearch', require'vault.source_search', {})
 
     vim.keymap.set('n', '<CR>', function () return vault_actions.enter_command() end, { buffer = true, expr = true })
