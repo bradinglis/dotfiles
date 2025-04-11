@@ -27,9 +27,12 @@ vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.conceallevel = 2
 vim.opt.inccommand = "split"
+vim.opt.showtabline = 0
 
 vim.g["pencil#wrapModeDefault"] = "soft"
 vim.g["pencil#conceallevel"] = 2
+vim.g.bullets_outline_levels = {'ROM', 'ABC', 'num', 'abc', 'rom', 'std-'}
+
 local colours = {
   blue = "#7fbbb3",
   green = "#a7c080",

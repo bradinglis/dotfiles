@@ -4,7 +4,8 @@ local cmd = require('hydra.keymap-util').cmd
 local hint = [[
               󰊢 Git
   _b_: branches         _s_: status
-  _c_: commits
+  _w_: list worktrees   _c_: commits          
+  _n_: new worktree
   _<Enter>_: Telescope  _<Esc>_         
 ]]
 
@@ -28,6 +29,8 @@ return {
           { 'b', cmd 'Telescope git_branches' },
           { 'c', cmd 'Telescope git_commits' },
           { 's', cmd 'Telescope git_status' },
+          { 'w', require('telescope').extensions.git_worktree.git_worktrees },
+          { 'n', require('telescope').extensions.git_worktree.create_git_worktree },
           { '<Enter>', cmd 'Telescope', { exit = true, desc = 'list all pickers' } },
           { '<Esc>', nil, { exit = true, nowait = true } },
        }
