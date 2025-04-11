@@ -37,14 +37,7 @@ require('lazy').setup({
     opts = {},
   },
   {
-    "NeogitOrg/neogit",
-    dependencies = {
-      "nvim-lua/plenary.nvim",         -- required
-      "sindrets/diffview.nvim",        -- optional - Diff integration
-      -- Only one of these is needed.
-      "nvim-telescope/telescope.nvim", -- optional
-    },
-    config = true
+    'ThePrimeagen/git-worktree.nvim',
   },
   {
     "nvim-tree/nvim-tree.lua",
@@ -114,12 +107,14 @@ require('lazy').setup({
     end,
   },
   "lewis6991/gitsigns.nvim",
+  "bullets-vim/bullets.vim",
   {
     "bradinglis/obsidian.nvim",
     version = "*",
     lazy = true,
     ft = "markdown",
     dependencies = {
+      "nvim-lua/plenary.nvim",
       "nvim-lua/plenary.nvim",
     },
     opts = {
@@ -241,6 +236,9 @@ require('lazy').setup({
     'nvim-lualine/lualine.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' }
   },
+  "tpope/vim-fugitive",
+  "tpope/vim-repeat",
+  "sindrets/diffview.nvim",
   {
     "folke/zen-mode.nvim",
     opts = {
@@ -296,10 +294,11 @@ require("telescope").setup({
   extensions = {
     ["ui-select"] = {
       require("telescope.themes").get_cursor {}
-    }
+    },
   },
 })
 require("telescope").load_extension("ui-select")
+require("telescope").load_extension("git_worktree")
 
 require("mason").setup()
 require("mason-lspconfig").setup {
@@ -317,7 +316,7 @@ require("lualine").setup({
     section_separators = { left = '', right = '' },
     component_separators = { left = '|', right = '|' }
   },
-  extensions = { 'quickfix', 'fugitive', 'nvim-tree' },
+  extensions = { 'quickfix', 'nvim-tree' },
   sections = {
     lualine_a = { 'mode' },
     lualine_b = {},
@@ -325,23 +324,39 @@ require("lualine").setup({
       {
         'harpoon2',
         indicators = {
-          function(harpoon_entry) return "1 " .. harpoon_entry.value .. " " end,
-          function(harpoon_entry) return "2 " .. harpoon_entry.value .. " " end,
-          function(harpoon_entry) return "3 " .. harpoon_entry.value .. " " end,
-          function(harpoon_entry) return "4 " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "1 " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "2 " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "3 " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "4 " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "5 " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "6 " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "7 " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "8 " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
         },
         active_indicators = {
-          function(harpoon_entry) return "[1] " .. harpoon_entry.value .. " " end,
-          function(harpoon_entry) return "[2] " .. harpoon_entry.value .. " " end,
-          function(harpoon_entry) return "[3] " .. harpoon_entry.value .. " " end,
-          function(harpoon_entry) return "[4] " .. harpoon_entry.value .. " " end,
+          function(harpoon_entry) return "[1] " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "[2] " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "[3] " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "[4] " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "[5] " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "[6] " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "[7] " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
+          function(harpoon_entry) return "[8] " .. vim.fn.fnamemodify(harpoon_entry.value,':t') .. " " end,
         },
         color_active = { bg = "#475258" },
       },
     },
-    lualine_x = { 'filename' },
+    lualine_x = { {
+      'filename',
+      path = 1,
+    } },
     lualine_y = { 'diagnostics', 'diff', 'branch' },
   }
+})
+
+require('lualine').hide({
+  place = {'tabline', 'winbar'}, -- The segment this change applies to.
+  unhide = false,  -- whether to re-enable lualine again/
 })
 
 -- require("sniprun").setup({
@@ -457,6 +472,10 @@ vim.keymap.set("n", "<A-1>", function() harpoon:list():select(1) end)
 vim.keymap.set("n", "<A-2>", function() harpoon:list():select(2) end)
 vim.keymap.set("n", "<A-3>", function() harpoon:list():select(3) end)
 vim.keymap.set("n", "<A-4>", function() harpoon:list():select(4) end)
+vim.keymap.set("n", "<A-5>", function() harpoon:list():select(5) end)
+vim.keymap.set("n", "<A-6>", function() harpoon:list():select(6) end)
+vim.keymap.set("n", "<A-7>", function() harpoon:list():select(7) end)
+vim.keymap.set("n", "<A-8>", function() harpoon:list():select(8) end)
 
 -- Toggle previous & next buffers stored within Harpoon list
 vim.keymap.set("n", "<C-S-P>", function() harpoon:list():prev() end)
