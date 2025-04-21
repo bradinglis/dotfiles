@@ -2,7 +2,8 @@
 local function general()
     local globs = require('globals').getglobs()
     local opts = { silent = true }
-    local telescope = require('telescope.builtin') local telescope_ext = require'telescope'.extensions
+    -- local telescope = require('telescope.builtin') 
+    -- local telescope_ext = require'telescope'.extensions
 
     -- Common Locations
     vim.keymap.set('n', '<leader>ww', '<cmd>cd ' .. globs.notesdir .. '<CR>' .. ':e index.md<CR>', opts)

@@ -1,5 +1,4 @@
 local Hydra = require('hydra')
-local vault_actions = require'vault_actions'
 
 local hint = [[
                Delete
