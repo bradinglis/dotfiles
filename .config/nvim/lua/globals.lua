@@ -6,6 +6,9 @@ vim.opt.scrolloff = 8
 vim.opt_global.formatoptions:remove("o")
 vim.opt.exrc = true
 vim.opt.secure = true
+
+vim.opt_global.diffopt:append("iwhiteall")
+
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.opt.relativenumber = true

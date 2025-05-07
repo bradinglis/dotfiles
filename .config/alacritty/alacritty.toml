@@ -2,7 +2,7 @@
 normal = { family = "JetBrainsMono Nerd Font", style = "ExtraLight" }
 italic = { family = "JetBrainsMono Nerd Font", style = "ExtraLight Italic" }
 bold = { family = "JetBrainsMono Nerd Font", style = "Bold" }
-size = 20
+size = 16
 
 [window]
 option_as_alt = "Both"
