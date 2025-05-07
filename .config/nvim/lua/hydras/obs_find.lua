@@ -5,7 +5,7 @@ local hint = [[
               󰭎 Find
   _n_: notes            _s_: sources
   _a_: authors          _l_: backlinks  
-  _t_: tags             
+  _t_: tags             _x_: all        
   _f_: files            _g_: live grep  
   _b_: buffers
   _<Enter>_: Telescope  _<Esc>_         
@@ -29,13 +29,14 @@ return {
        mode = 'n',
        heads = {
           { 'f', cmd 'Telescope find_files' },
-          { 'g', cmd 'Telescope live_grep' },
+          { 'g', vim.cmd.ObsidianSearch },
           { 'l', vim.cmd.FindBacklinks },
           { 'b', cmd 'Telescope buffers' },
           { 't', vim.cmd.ObsidianTags },
-          { 'n', vim.cmd.ObsidianQuickSwitch },
-          { 's', "<cmd>ObsidianQuickSwitch ~<CR>" },
-          { 'a', "<cmd>ObsidianQuickSwitch %<CR>" },
+          { 'n', vim.cmd.NoteSearch },
+          { 's', vim.cmd.SourceSearch },
+          { 'a', vim.cmd.AuthorSearch },
+          { 'x', vim.cmd.AllSearch },
           { '<Enter>', cmd 'Telescope', { exit = true, desc = 'list all pickers' } },
           { '<Esc>', nil, { exit = true, nowait = true } },
        }

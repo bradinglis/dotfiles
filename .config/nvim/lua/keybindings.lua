@@ -7,7 +7,7 @@ local function general()
 
     -- Common Locations
     vim.keymap.set('n', '<leader>ww', '<cmd>cd ' .. globs.notesdir .. '<CR>' .. ':e index.md<CR>', opts)
-    vim.keymap.set('n', '<leader>ei', '<cmd>e $MYVIMRC<CR>', opts)
+    vim.keymap.set('n', '<leader>ei', '<cmd>e $MYVIMRC<CR>:cd %:p:h<CR>', opts)
 
     -- Telescope
     local finder_hydra = require('hydras.default_find').hydra
@@ -102,19 +102,15 @@ end
 local function markdown()
     local vault_actions = require'vault_actions'
     local backlinks = require'backlinks'
-    vim.api.nvim_create_user_command('MdVisualSurround',
-        function(opts)
-            surround_visual(opts.fargs[1])
-        end,
-        { nargs = 1 })
 
-    vim.api.nvim_create_user_command('PrintCurrentNote', vault_actions.print_test, {})
     vim.api.nvim_create_user_command('NewAuthor', vault_actions.new_author, {})
     vim.api.nvim_create_user_command('NewSource', vault_actions.new_source, {})
     vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
     vim.api.nvim_create_user_command('FindBacklinks', backlinks.backlink_search, {})
-    vim.api.nvim_create_user_command('ChangeAll', vault_actions.change_all, {})
     vim.api.nvim_create_user_command('SourceSearch', require'vault.source_search', {})
+    vim.api.nvim_create_user_command('AuthorSearch', require'vault.author_search', {})
+    vim.api.nvim_create_user_command('NoteSearch', require'vault.note_search', {})
+    vim.api.nvim_create_user_command('AllSearch', require'vault.all_search', {})
 
     vim.keymap.set('n', '<CR>', function () return vault_actions.enter_command() end, { buffer = true, expr = true })
     vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
