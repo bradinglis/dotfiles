@@ -265,6 +265,13 @@ require('lazy').setup({
     event = "VeryLazy",
     opts = {},
     config = function(_, opts) require 'lsp_signature'.setup(opts) end
+  },
+  {
+    "iamcco/markdown-preview.nvim",
+    event = "VeryLazy",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    ft = { "markdown" },
+    build = function() vim.fn["mkdp#util#install"]() end,
   }
 })
 

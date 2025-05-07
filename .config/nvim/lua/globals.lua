@@ -32,6 +32,9 @@ vim.opt.showtabline = 0
 vim.g["pencil#wrapModeDefault"] = "soft"
 vim.g["pencil#conceallevel"] = 2
 vim.g.bullets_outline_levels = {'ROM', 'ABC', 'num', 'abc', 'rom', 'std-'}
+vim.g.mkdp_browser = 'Chrome'
+vim.g.mkdp_echo_preview_url = 1
+
 
 local colours = {
   blue = "#7fbbb3",
@@ -79,11 +82,10 @@ return {
       vim.opt.shellcmdflag = "-nologo -noprofile -ExecutionPolicy RemoteSigned -command"
       vim.opt.shellxquote = ''
     elseif hostname == 'DESKTOP-6K7U30E' then
-      notesdir = '~/OneDrive/Apps/remotely-save/Notes'
-      vim.opt.shell = "pwsh"
+      notesdir = '~/zettel'
+      vim.opt.shell = "powershell"
       vim.opt.shellcmdflag = "-nologo -noprofile -ExecutionPolicy RemoteSigned -command"
       vim.opt.shellxquote = ''
-    elseif hostname == 'DESKTOP-6K7U30E' then
     elseif hostname == 'Brads-MBP' then
       notesdir = '~/OneDrive/Apps/remotely-save/Notes'
     elseif hostname == 'Brads-MacBook-Pro' then
@@ -91,9 +93,9 @@ return {
     elseif hostname == 'Brads-MacBook-Pro.local' then
       notesdir = '~/OneDrive/Apps/remotely-save/Notes'
     elseif hostname == 'bradpc' then
-      notesdir = '~/OneDrive/Apps/remotely-save/Notes'
+      notesdir = '~/zettel'
     else
-      notesdir = '~/notes'
+      notesdir = '~/zettel'
     end
 
     return {

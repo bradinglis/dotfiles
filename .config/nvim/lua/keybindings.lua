@@ -113,7 +113,7 @@ local function markdown()
     vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
     vim.api.nvim_create_user_command('FindBacklinks', backlinks.backlink_search, {})
     vim.api.nvim_create_user_command('ChangeAll', vault_actions.change_all, {})
-    vim.api.nvim_create_user_command('SourceSearch', require'vault.source_search', {})
+    -- vim.api.nvim_create_user_command('SourceSearch', require'vault.source_search', {})
 
     vim.keymap.set('n', '<CR>', function () return vault_actions.enter_command() end, { buffer = true, expr = true })
     vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
