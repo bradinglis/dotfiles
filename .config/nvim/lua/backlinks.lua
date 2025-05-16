@@ -3,24 +3,23 @@ local log = require "obsidian.log"
 local RefTypes = require("obsidian.search").RefTypes
 
 local function find_references(client, note)
-    local notes = client:find_notes("")
-    local res = {}
-    for _, resnote in pairs(notes) do
-      if resnote.metadata ~= nil and not vim.tbl_isempty(resnote.metadata) then
-          if resnote.metadata.references ~= nil and not vim.tbl_isempty(resnote.metadata.references) then
-            if vim.tbl_contains(resnote.metadata.references, note.id) then
-                res[#res+1] = {
-                  display = "Reference: " .. resnote.title,
-                  value = { path = resnote.path, line = 1 },
-                  filename = tostring(resnote.path),
-                  lnum = 1,
-                }
-            end
-          end
+  local notes = require("vault.search").get_notes()
+  local res = {}
+  for _, resnote in pairs(notes) do
+    if resnote.metadata ~= nil and not vim.tbl_isempty(resnote.metadata) then
+      if resnote.metadata.references ~= nil and not vim.tbl_isempty(resnote.metadata.references) then
+        if vim.tbl_contains(resnote.metadata.references, note.id) then
+          res[#res + 1] = {
+            display = "Reference: " .. resnote.title,
+            value = { path = resnote.path, line = 1 },
+            filename = tostring(resnote.path),
+            lnum = 1,
+          }
+        end
       end
-
     end
-    return res
+  end
+  return res
 end
 
 local function collect_backlinks(client, picker, note, opts)
@@ -29,13 +28,13 @@ local function collect_backlinks(client, picker, note, opts)
   local references = {}
   local noteissource = false
   if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-      if note.metadata.type ~= nil then
-          noteissource = note.metadata.type == "source"
-      end
+    if note.metadata.type ~= nil then
+      noteissource = note.metadata.type == "source"
+    end
   end
 
   if not (opts.anchor or opts.block) and noteissource then
-      references = find_references(client, note)
+    references = find_references(client, note)
   end
 
   client:find_backlinks_async(note, function(backlinks)
@@ -70,9 +69,9 @@ local function collect_backlinks(client, picker, note, opts)
     elseif noteissource then
       prompt_title = string.format("Backlinks and references to '%s'", note.title)
       if not vim.tbl_isempty(references) then
-          for _, ref in ipairs(references) do
-            entries[#entries + 1] = ref
-          end
+        for _, ref in ipairs(references) do
+          entries[#entries + 1] = ref
+        end
       end
     else
       prompt_title = string.format("Backlinks to '%s'", note.title)
@@ -89,7 +88,7 @@ local function collect_backlinks(client, picker, note, opts)
   end, { search = { sort = true }, anchor = opts.anchor, block = opts.block })
 end
 
-local function main ()
+local function main()
   local client = require("obsidian").get_client()
   local picker = assert(client:picker())
   if not picker then
@@ -100,19 +99,14 @@ local function main ()
   local location, _, ref_type = util.parse_cursor_link { include_block_ids = true }
 
   if
-    location ~= nil
-    and ref_type ~= RefTypes.NakedUrl
-    and ref_type ~= RefTypes.FileUrl
-    and ref_type ~= RefTypes.BlockID
+      location ~= nil
+      and ref_type ~= RefTypes.NakedUrl
+      and ref_type ~= RefTypes.FileUrl
+      and ref_type ~= RefTypes.BlockID
   then
-    -- Remove block links from the end if there are any.
-    -- TODO: handle block links.
-    ---@type string|?
     local block_link
     location, block_link = util.strip_block_links(location)
 
-    -- Remove anchor links from the end if there are any.
-    ---@type string|?
     local anchor_link
     location, anchor_link = util.strip_anchor_links(location)
 
@@ -124,7 +118,6 @@ local function main ()
     local opts = { anchor = anchor_link, block = block_link }
 
     client:resolve_note_async(location, function(...)
-      ---@type obsidian.Note[]
       local notes = { ... }
 
       if #notes == 0 then

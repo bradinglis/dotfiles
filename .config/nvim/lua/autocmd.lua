@@ -4,10 +4,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end
 })
 
--- vim.api.nvim_create_autocmd("BufWritePre", {
---     pattern = "*.c",
---     callback = vim.lsp.buf.format,
--- })
+vim.api.nvim_create_autocmd("BufWritePost", {
+  pattern = "*.md",
+  callback = function()
+    require("plenary.async").run(require('vault.search').refresh_notes)
+  end,
+})
 
 vim.api.nvim_create_autocmd("User", {
   pattern = "TelescopePreviewerLoaded",

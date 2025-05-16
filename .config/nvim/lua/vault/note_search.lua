@@ -6,7 +6,6 @@ local make_entry = require "telescope.make_entry"
 local conf = require("telescope.config").values
 local themes = require("telescope.themes")
 
-local client = require("obsidian").get_client()
 
 local function filter(arr, func)
     local new_arr = {}
@@ -18,19 +17,18 @@ local function filter(arr, func)
     return new_arr
 end
 
-local notes = client:find_notes("")
-
-local note_notes = filter(notes, function (val, _)
-    if val.metadata ~= nil then
-        if val.metadata.type ~= nil then
-            return val.metadata.type == "note"
-        end
-    else
-        return false
-    end
-end)
 
 local pick_note = function()
+  local notes = require("vault.search").get_notes()
+  local note_notes = filter(notes, function (val, _)
+      if val.metadata ~= nil then
+          if val.metadata.type ~= nil then
+              return val.metadata.type == "note"
+          end
+      else
+          return false
+      end
+  end)
   local displayer = entry_display.create {
     separator = " ",
     items = {

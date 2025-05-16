@@ -4,8 +4,6 @@ local entry_display = require "telescope.pickers.entry_display"
 local make_entry = require "telescope.make_entry"
 local conf = require("telescope.config").values
 
-local client = require("obsidian").get_client()
-
 local function filter(arr, func)
   local new_arr = {}
   for old_index, v in ipairs(arr) do
@@ -16,38 +14,36 @@ local function filter(arr, func)
   return new_arr
 end
 
-local notes = client:find_notes("")
-
-local all_notes = filter(notes, function(val, _)
-  if val.metadata ~= nil then
-    if val.metadata.type ~= nil then
-      return val.metadata.type == "source" or val.metadata.type == "note" or val.metadata.type == "author"
-    end
-  else
-    return false
-  end
-end)
-
-local author_notes = filter(notes, function(val, _)
-  if val.metadata ~= nil then
-    if val.metadata.type ~= nil then
-      return val.metadata.type == "author"
-    end
-  else
-    return false
-  end
-end)
-
-local get_author = function(arg_id)
-  for _, v in ipairs(author_notes) do
-    if v.id == arg_id then
-      return v.title
-    end
-  end
-  return arg_id
-end
-
 local pick_all = function()
+  local notes = require("vault.search").get_notes()
+  local all_notes = filter(notes, function(val, _)
+    if val.metadata ~= nil then
+      if val.metadata.type ~= nil then
+        return val.metadata.type == "source" or val.metadata.type == "note" or val.metadata.type == "author"
+      end
+    else
+      return false
+    end
+  end)
+
+  local author_notes = filter(notes, function(val, _)
+    if val.metadata ~= nil then
+      if val.metadata.type ~= nil then
+        return val.metadata.type == "author"
+      end
+    else
+      return false
+    end
+  end)
+
+  local get_author = function(arg_id)
+    for _, v in ipairs(author_notes) do
+      if v.id == arg_id then
+        return v.title
+      end
+    end
+    return arg_id
+  end
   local displayer = entry_display.create {
     separator = " ",
     items = {

@@ -14,6 +14,10 @@ end
 local function note_id_gen(name)
   return name:gsub("n_[()'\"*]", "")
       :gsub(" %l* ", " ")
+      :gsub(" . ", " ")
+      :gsub("The ", "")
+      :gsub(" the ", " ")
+      :gsub("'s ", " ")
       :gsub(" ", "-"):lower()
 end
 
@@ -26,136 +30,6 @@ local function source_id_gen(name)
       :gsub("'s ", " ")
       :gsub(" ", "-")
 end
-
--- local function source_id_gen(name)
---     return name:gsub("~[()'\"*]", "")
---         :gsub(" %l* ", " ")
---         :gsub(" ", "_")
--- end
-
-local function filter(arr, func)
-  local new_arr = {}
-  for old_index, v in ipairs(arr) do
-    if func(v, old_index) then
-      new_arr[#new_arr + 1] = v
-    end
-  end
-  return new_arr
-end
-
-local function change_name(note, i)
-  local client = require("obsidian").get_client()
-
-  local author = ""
-  local sourceparents = {}
-  if note.metadata.type == "source" then
-    if note.metadata["source-parents"] ~= nil and not vim.tbl_isempty(note.metadata["source-parents"]) then
-      for _, parent in ipairs(note.metadata["source-parents"]) do
-        sourceparents[#sourceparents + 1] = parent
-      end
-    end
-    author = note.metadata.author
-  else
-    print("Invalid current note type")
-  end
-
-  local longName = note.title
-
-  local old_id = note.id
-
-
-  local id = ""
-  if i == 0 then
-    for _, value in ipairs(author) do
-      id = "s_" .. value:gsub("a_", "") .. "_" .. source_id_gen(longName)
-    end
-  else
-    table.sort(sourceparents, function (a, b)
-      return string.len(a) > string.len(b)
-    end)
-    id = sourceparents[1] .. "_" .. source_id_gen(longName)
-  end
-
-  note.id = id
-
-  id = id:gsub("%%", "")
-
-  client:open_note(note, {
-    callback = function(bufnr)
-      client:write_note_to_buffer(note, { bufnr = bufnr })
-      vim.cmd.ObsidianRename(id)
-      os.execute("find " ..
-      client.dir.filename .. " -type f -name '*.md' -exec sed -i '' 's/" .. old_id .. "/" .. id .. "/g'  {} +")
-    end,
-    sync = true
-  })
-end
-
-local function change_author(author_note)
-  local client = require("obsidian").get_client()
-
-  -- local author_note = client:find_notes(author)[1]
-  local id_prefix = "a_"
-  local old_id = author_note.id
-  author_note.id = id_prefix .. old_id:gsub("%%", ""):lower()
-
-
-  client:open_note(author_note, {
-    callback = function(bufnr)
-      client:write_note_to_buffer(author_note, { bufnr = bufnr })
-      vim.cmd.ObsidianRename(author_note.id)
-      vim.cmd.bdelete()
-      os.execute("find " ..
-      client.dir.filename ..
-      " -type f -name '*.md' -exec sed -i '' 's/" .. old_id .. "/" .. author_note.id .. "/g'  {} +")
-    end,
-    sync = true
-  })
-
-
-
-  local notes = client:find_notes("")
-  local source_notes = filter(notes, function(val, _)
-    if val.metadata ~= nil then
-      if val.metadata.author ~= nil and val.metadata.type ~= nil then
-        return val.metadata.type == "source" and val.metadata.author[1] == author_note.id
-      end
-    else
-      return false
-    end
-  end)
-
-  for i = 0, 4, 1 do
-    for index, note in ipairs(source_notes) do
-      if #note.metadata["source-parents"] == i then
-        local new_note = client:resolve_note(note.id)
-        change_name(new_note, i)
-      end
-    end
-  end
-end
-
-local function change_all()
-  local client = require("obsidian").get_client()
-  local notes = client:find_notes("")
-
-  local author_notes = filter(notes, function(val, _)
-    if val.metadata ~= nil then
-      if val.metadata.type ~= nil then
-        return val.metadata.type == "author"
-      end
-    else
-      return false
-    end
-  end)
-
-  for index, value in ipairs(author_notes) do
-    change_author(value)
-  end
-end
-
-
-
 
 local function new_source()
   local client = require("obsidian").get_client()
@@ -357,25 +231,33 @@ end
 
 local function new_author()
   local client = require("obsidian").get_client()
-  local shortName = util.input "Enter author short name: "
-  if not shortName then
-    print("Aborted")
-    return
-  elseif shortName == "" then
-    print("Aborted")
-    shortName = nil
-  end
 
-  local id = "a_" .. shortName
-  local dir = client.dir.filename .. "/sources/" .. shortName .. "/" .. id .. ".md"
 
   local longName = util.input "Enter author long name: "
   if not longName then
     print("Aborted")
     return
   elseif longName == "" then
-    longName = nil
+    return
   end
+
+  local temp = {}
+  for s in longName:gmatch("%S+") do
+    table.insert(temp, s)
+  end
+
+  local shortNameP = temp[#temp]
+
+  local shortName = util.input("Enter author short name [" .. shortNameP .. "]: ")
+  if not shortName then
+    print("Aborted")
+    shortName = shortNameP
+  elseif shortName == "" then
+    shortName = shortNameP
+  end
+
+  local id = "a_" .. shortName
+  local dir = client.dir.filename .. "/sources/" .. shortName .. "/" .. id .. ".md"
 
   local authorNote = Note.new(id, { longName }, {}, dir)
 
