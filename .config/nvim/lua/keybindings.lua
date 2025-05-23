@@ -1,3 +1,5 @@
+local wk = require("which-key")
+
 -- Key Bindings
 local function general()
   local globs = require('globals').getglobs()
@@ -10,17 +12,25 @@ local function general()
   vim.keymap.set('n', '<leader>ei', '<cmd>e $MYVIMRC<CR>:cd %:p:h<CR>', opts)
 
   -- Telescope
-  local finder_hydra = require('hydras.default_find').hydra
-  vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, opts)
+  wk.add({ { "<leader>f", group = "find" } })
+  vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { desc = "files" })
+  vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { desc = "grep" })
+  vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<CR>', { desc = "buffers" })
+  vim.keymap.set('n', '<leader>f<Enter>', '<cmd>Telescope<CR>', { desc = 'list all pickers' })
 
   -- Git
-  local git_hydra = require('hydras.git').hydra
-  vim.keymap.set('n', '<leader>g', function() git_hydra:activate() end, opts)
+  vim.keymap.set('v', '<leader>gb', '<cmd>Telescope git_branches<CR>', { desc = 'git branches' })
+  vim.keymap.set('v', '<leader>gc', '<cmd>Telescope git_commits<CR>', { desc = 'git commits' })
+  vim.keymap.set('v', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = 'git status' })
+  vim.keymap.set('v', '<leader>gw', require('telescope').extensions.git_worktree.git_worktrees,
+    { desc = 'git worktrees' })
+  vim.keymap.set('v', '<leader>gn', require('telescope').extensions.git_worktree.create_git_worktree,
+    { desc = 'create git worktree' })
 
   -- Functional
-  vim.keymap.set('n', '<leader>v', vim.cmd.NvimTreeToggle, opts)
-  vim.keymap.set('n', '<leader>z', vim.cmd.ZenMode, opts)
-  vim.keymap.set('n', '<leader>o', vim.diagnostic.open_float, opts)
+  vim.keymap.set('n', '<leader>v', vim.cmd.Oil, { desc = 'file browser' })
+  vim.keymap.set('n', '<leader>z', vim.cmd.ZenMode, { desc = 'zen mode' })
+  vim.keymap.set('n', '<leader>o', vim.diagnostic.open_float, { desc = 'diagnostics' })
 
   -- Buffer Tab Navigation
   vim.keymap.set('n', '<C-q>', vim.cmd.bd, opts)
@@ -61,14 +71,21 @@ end
 local function lsp()
   local opts = { silent = true }
   vim.keymap.set('n', '<C-CR>', require("telescope.builtin").lsp_definitions, opts)
-  vim.keymap.set('n', 'gd', require("telescope.builtin").lsp_definitions, opts)
-  vim.keymap.set('n', 'gr', require("telescope.builtin").lsp_references, opts)
-  vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, opts)
-  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, opts)
+  vim.keymap.set('n', 'gd', require("telescope.builtin").lsp_definitions, { desc = 'lsp definition' })
+  vim.keymap.set('n', 'gr', require("telescope.builtin").lsp_references, { desc = 'lsp goto reference' })
+  vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = 'lsp format' })
+  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, { desc = 'lsp code action' })
 
-  -- Telescope
-  local finder_hydra = require('hydras.lsp_find').hydra
-  vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, opts)
+  vim.keymap.set('n', '<leader>fi', '<cmd>Telescope lsp_incoming_calls<CR>', { buffer = true, desc = 'lsp incoming' })
+  vim.keymap.set('n', '<leader>fo', '<cmd>Telescope lsp_outgoing_calls<CR>', { buffer = true, desc = 'lsp outgoing' })
+  vim.keymap.set('n', '<leader>fd', require("telescope.builtin").diagnostics,
+    { buffer = true, desc = 'lsp diagnostics' })
+  vim.keymap.set('n', '<leader>fw', '<cmd>Telescope lsp_workspace_symbols<CR>',
+    { buffer = true, desc = 'lsp workplace symbols' })
+  vim.keymap.set('n', '<leader>fs', '<cmd>Telescope lsp_document_symbols<CR>',
+    { buffer = true, desc = 'lsp document symbols' })
+  vim.keymap.set('n', '<leader>fr', '<cmd>Telescope lsp_references<CR>',
+    { buffer = true, desc = 'lsp references' })
 end
 
 local function quickfix_list()
@@ -118,22 +135,31 @@ local function markdown()
   vim.keymap.set('n', '<CR>', function() return vault_actions.enter_command() end, { buffer = true, expr = true })
   vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
 
-  local finder_hydra = require('hydras.obs_find').hydra
-  vim.keymap.set('n', '<leader>f', function() finder_hydra:activate() end, { buffer = true })
+  vim.keymap.set('n', '<leader>fg', vim.cmd.ObsidianSearch, { desc = 'find grep', buffer = true })
+  vim.keymap.set('n', '<leader>fl', vim.cmd.FindBacklinks, { desc = 'find backlinks', buffer = true })
+  vim.keymap.set('n', '<leader>ft', vim.cmd.ObsidianTags, { desc = 'find tags', buffer = true })
+  vim.keymap.set('n', '<leader>fn', require 'vault.note_search', { desc = 'find note', buffer = true })
+  vim.keymap.set('n', '<leader>fs', require 'vault.source_search', { desc = 'find source', buffer = true })
+  vim.keymap.set('n', '<leader>fa', require 'vault.author_search', { desc = 'find author', buffer = true })
+  vim.keymap.set('n', '<leader>fx', require 'vault.all_search', { desc = 'find all notes', buffer = true })
 
-  local vis_new_hydra = require('hydras.obs_vis_new').hydra
-  vim.keymap.set('v', '<leader>n', function() vis_new_hydra:activate() end, { buffer = true })
+  wk.add({ { "<leader>n", group = "new", icon = { cat = "filetype", name = "markdown" } } })
+  vim.keymap.set({ "v", "n" }, '<leader>ns', vault_actions.new_source, { desc = 'new source', buffer = true })
+  vim.keymap.set({ "v", "n" }, '<leader>nn', vault_actions.new_note, { desc = 'new note', buffer = true })
+  vim.keymap.set({ "v", "n" }, '<leader>na', vault_actions.new_author, { desc = 'new author', buffer = true })
+  vim.keymap.set('v', '<leader>np', vault_actions.append_to_note, { desc = 'append to note', buffer = true })
 
-  local norm_new_hydra = require('hydras.obs_norm_new').hydra
-  vim.keymap.set('n', '<leader>n', function() norm_new_hydra:activate() end, { buffer = true })
 
   vim.keymap.set('v', '<leader>h', function() surround_visual('==') end, { buffer = true })
   vim.keymap.set('v', '<leader>b', function() surround_visual('**') end, { buffer = true })
   vim.keymap.set('v', '<leader>e', function() surround_visual('*') end, { buffer = true })
   vim.keymap.set('v', '<leader>c', function() surround_visual('`') end, { buffer = true })
 
-  local md_delete_hydra = require('hydras.md_delete').hydra
-  vim.keymap.set('n', '<leader>d', function() md_delete_hydra:activate() end, { buffer = true })
+  wk.add({ { "<leader>d", group = "delete surround", icon = { cat = "filetype", name = "markdown" } } })
+  vim.keymap.set('n', '<leader>dh', function() delete_surround('==') end, { buffer = true, desc = 'delete highlight' })
+  vim.keymap.set('n', '<leader>db', function() delete_surround('**') end, { buffer = true, desc = 'delete bold' })
+  vim.keymap.set('n', '<leader>de', function() delete_surround('*') end, { buffer = true, desc = 'delete italic' })
+  vim.keymap.set('n', '<leader>dc', function() delete_surround('`') end, { buffer = true, desc = 'delete code' })
 
   vim.keymap.set('n', '<leader>r', [[:%s/\v(\a\.) (\u)/\1\r\2/g|norm!``<CR>]], { buffer = true })
   vim.keymap.set('n', '<leader>R', [[:%s/\v(\a\.)\n(\u)/\1 \2/g|norm!``<CR>]], { buffer = true })

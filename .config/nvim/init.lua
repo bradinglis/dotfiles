@@ -3,9 +3,10 @@ vim.loader.enable()
 
 require('globals')
 
-require('plugins')
+require('config.lazy')
+require("globals").set_hl()
+
 require('autocmd')
 
 require('keybindings').general()
 
-require('vault_actions')

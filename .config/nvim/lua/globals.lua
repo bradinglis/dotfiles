@@ -49,6 +49,7 @@ local colours = {
   orange = "#e69875",
   purple = "#d699b7",
   aqua = "#83c092",
+  bgall = "#343F44",
 }
 
 local function set_hl()
@@ -71,6 +72,17 @@ local function set_hl()
   vim.api.nvim_set_hl(0, "HydraPink", { fg = colours.purple })
   vim.api.nvim_set_hl(0, "HydraRed", { fg = colours.red })
   vim.api.nvim_set_hl(0, "HydraAmaranth", { fg = colours.green })
+  vim.api.nvim_set_hl(0, "RenderMarkdownBullet", { fg = colours.blue })
+  vim.api.nvim_set_hl(0, "RenderMarkdownH1Bg", { bg = colours.bgall })
+  vim.api.nvim_set_hl(0, "RenderMarkdownH2Bg", { bg = colours.bgall })
+  vim.api.nvim_set_hl(0, "RenderMarkdownH3Bg", { bg = colours.bgall })
+  vim.api.nvim_set_hl(0, "RenderMarkdownH4Bg", { bg = colours.bgall })
+  vim.api.nvim_set_hl(0, "RenderMarkdownH5Bg", { bg = colours.bgall })
+  vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", { bg = colours.bgall })
+  vim.api.nvim_set_hl(0, "RenderMarkdownLink", { underline = true, fg = colours.blue })
+  vim.api.nvim_set_hl(0, "RenderMarkdownWikiLink", { underline = true, fg = colours.blue })
+  vim.api.nvim_set_hl(0, "@markup.link.label", { underline = true, fg = colours.blue })
+  vim.api.nvim_set_hl(0, "RenderMarkdownInlineHighlight", { bg = colours.bggreen })
 end
 
 return {
