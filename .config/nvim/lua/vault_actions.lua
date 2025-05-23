@@ -7,8 +7,7 @@ local Note = require "obsidian.note"
 local function print_test()
   local client = require("obsidian").get_client()
   local current_note = client:current_note()
-  -- print(vim.inspect(current_note))
-  print(vim.inspect(current_note:resolve_block('block')))
+  print(vim.inspect(current_note))
 end
 
 local function note_id_gen(name)
@@ -97,7 +96,7 @@ local function new_source()
     vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
   else
     local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-    vim.api.nvim_buf_set_lines(0, cur_row, cur_row, false, { link })
+    vim.api.nvim_buf_set_lines(0, cur_row-1, cur_row-1, false, { link })
   end
   client:update_ui(0)
 
@@ -437,7 +436,4 @@ return {
   new_note = new_note,
   print_test = print_test,
   append_to_note = append_to_note,
-  change_name = change_name,
-  change_author = change_author,
-  change_all = change_all,
 }

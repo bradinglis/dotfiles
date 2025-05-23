@@ -52,7 +52,7 @@ local pick_note = function()
           end,
           ordinal = entry.title,
           title = entry.title,
-          path = entry.path.filename
+          path = entry.relative_path.filename
         }, {})
       end
     },

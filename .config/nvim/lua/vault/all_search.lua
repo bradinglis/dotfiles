@@ -120,7 +120,7 @@ local pick_all = function()
           end,
           ordinal = entry.title .. " " .. entry.id,
           title = entry.title,
-          path = entry.path.filename
+          path = entry.relative_path.filename
         }, {})
       end
     },

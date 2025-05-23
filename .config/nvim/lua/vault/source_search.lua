@@ -16,8 +16,6 @@ local function filter(arr, func)
   return new_arr
 end
 
-
-
 local pick_source = function()
   local notes = require("vault.search").get_notes()
 
@@ -76,7 +74,7 @@ local pick_source = function()
           end,
           ordinal = entry.title .. " " .. entry.metadata.author[1] .. " " .. get_author(entry.metadata.author[1]),
           title = entry.title,
-          path = entry.path.filename
+          path = entry.relative_path.filename
         }, {})
       end
     },
