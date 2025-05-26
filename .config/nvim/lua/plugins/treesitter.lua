@@ -6,6 +6,7 @@ return {
     event = { "BufReadPre", "VeryLazy" },
     lazy = vim.fn.argc(-1) == 0,
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+
     opts = {
       ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "graphql", "go", "c_sharp", "gleam" },
       highlight = {

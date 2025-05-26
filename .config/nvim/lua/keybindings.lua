@@ -8,8 +8,16 @@ local function general()
   -- local telescope_ext = require'telescope'.extensions
 
   -- Common Locations
-  vim.keymap.set('n', '<leader>ww', '<cmd>cd ' .. globs.notesdir .. '<CR>' .. ':e index.md<CR>', opts)
-  vim.keymap.set('n', '<leader>ei', '<cmd>e $MYVIMRC<CR>:cd %:p:h<CR>', opts)
+  vim.api.nvim_create_user_command('GotoNotes', function ()
+    vim.api.nvim_set_current_dir(globs.notesdir)
+    vim.cmd('e index.md')
+  end, {})
+  vim.api.nvim_create_user_command('GotoConf', function ()
+    vim.cmd('e $MYVIMRC')
+    vim.cmd('cd %:p:h')
+  end, {})
+  vim.keymap.set('n', '<leader>ww', vim.cmd.GotoNotes, {})
+  vim.keymap.set('n', '<leader>ei', vim.cmd.GotoConf, {})
 
   -- Telescope
   wk.add({ { "<leader>f", group = "find" } })
@@ -19,12 +27,13 @@ local function general()
   vim.keymap.set('n', '<leader>f<Enter>', '<cmd>Telescope<CR>', { desc = 'list all pickers' })
 
   -- Git
-  vim.keymap.set('v', '<leader>gb', '<cmd>Telescope git_branches<CR>', { desc = 'git branches' })
-  vim.keymap.set('v', '<leader>gc', '<cmd>Telescope git_commits<CR>', { desc = 'git commits' })
-  vim.keymap.set('v', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = 'git status' })
-  vim.keymap.set('v', '<leader>gw', require('telescope').extensions.git_worktree.git_worktrees,
+  wk.add({ { "<leader>g", group = "git" } })
+  vim.keymap.set('n', '<leader>gb', '<cmd>Telescope git_branches<CR>', { desc = 'git branches' })
+  vim.keymap.set('n', '<leader>gc', '<cmd>Telescope git_commits<CR>', { desc = 'git commits' })
+  vim.keymap.set('n', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = 'git status' })
+  vim.keymap.set('n', '<leader>gw', require('telescope').extensions.git_worktree.git_worktrees,
     { desc = 'git worktrees' })
-  vim.keymap.set('v', '<leader>gn', require('telescope').extensions.git_worktree.create_git_worktree,
+  vim.keymap.set('n', '<leader>gn', require('telescope').extensions.git_worktree.create_git_worktree,
     { desc = 'create git worktree' })
 
   -- Functional
@@ -147,13 +156,13 @@ local function markdown()
   vim.keymap.set({ "v", "n" }, '<leader>ns', vault_actions.new_source, { desc = 'new source', buffer = true })
   vim.keymap.set({ "v", "n" }, '<leader>nn', vault_actions.new_note, { desc = 'new note', buffer = true })
   vim.keymap.set({ "v", "n" }, '<leader>na', vault_actions.new_author, { desc = 'new author', buffer = true })
-  vim.keymap.set('v', '<leader>np', vault_actions.append_to_note, { desc = 'append to note', buffer = true })
+  vim.keymap.set('x', '<leader>np', vault_actions.append_to_note, { desc = 'append to note', buffer = true })
 
 
-  vim.keymap.set('v', '<leader>h', function() surround_visual('==') end, { buffer = true })
-  vim.keymap.set('v', '<leader>b', function() surround_visual('**') end, { buffer = true })
-  vim.keymap.set('v', '<leader>e', function() surround_visual('*') end, { buffer = true })
-  vim.keymap.set('v', '<leader>c', function() surround_visual('`') end, { buffer = true })
+  vim.keymap.set('x', '<leader>h', function() surround_visual('==') end, { buffer = true })
+  vim.keymap.set('x', '<leader>b', function() surround_visual('**') end, { buffer = true })
+  vim.keymap.set('x', '<leader>e', function() surround_visual('*') end, { buffer = true })
+  vim.keymap.set('x', '<leader>c', function() surround_visual('`') end, { buffer = true })
 
   wk.add({ { "<leader>d", group = "delete surround", icon = { cat = "filetype", name = "markdown" } } })
   vim.keymap.set('n', '<leader>dh', function() delete_surround('==') end, { buffer = true, desc = 'delete highlight' })

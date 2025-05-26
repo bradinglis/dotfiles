@@ -18,6 +18,18 @@ local function find_references(client, note)
         end
       end
     end
+    if resnote.links ~= nil and not vim.tbl_isempty(resnote.links) then
+      for _, value in ipairs(resnote.links) do
+        if value[1] == note.id then
+          res[#res + 1] = {
+            display = "Link: " .. resnote.title,
+            value = { path = resnote.path, line = value[2] },
+            filename = tostring(resnote.path),
+            lnum = value[2],
+          }
+        end
+      end
+    end
   end
   return res
 end
@@ -33,59 +45,39 @@ local function collect_backlinks(client, picker, note, opts)
     end
   end
 
-  if not (opts.anchor or opts.block) and noteissource then
-    references = find_references(client, note)
+  references = find_references(client, note)
+
+  if vim.tbl_isempty(references) then
+    if opts.anchor then
+      log.info("No backlinks found for anchor '%s' in note '%s'", opts.anchor, note.id)
+    elseif opts.block then
+      log.info("No backlinks found for block '%s' in note '%s'", opts.block, note.id)
+    else
+      log.info("No backlinks found for note '%s'", note.id)
+    end
+    return
   end
 
-  client:find_backlinks_async(note, function(backlinks)
-    if vim.tbl_isempty(backlinks) then
-      if opts.anchor then
-        log.info("No backlinks found for anchor '%s' in note '%s'", opts.anchor, note.id)
-      elseif opts.block then
-        log.info("No backlinks found for block '%s' in note '%s'", opts.block, note.id)
-      else
-        log.info("No backlinks found for note '%s'", note.id)
-      end
-      return
-    end
 
-    local entries = {}
-    for _, matches in ipairs(backlinks) do
-      for _, match in ipairs(matches.matches) do
-        entries[#entries + 1] = {
-          display = "Backlink: " .. matches.note.title,
-          value = { path = matches.path, line = match.line },
-          filename = tostring(matches.path),
-          lnum = match.line,
-        }
-      end
-    end
+  local prompt_title
+  if opts.anchor then
+    prompt_title = string.format("Backlinks to '%s ❯ %s'", note.title, opts.anchor)
+  elseif opts.block then
+    prompt_title = string.format("Backlinks to '%s ❯ %s'", note.title, util.standardize_block(opts.block))
+  elseif noteissource then
+    prompt_title = string.format("Backlinks and references to '%s'", note.title)
+  else
+    prompt_title = string.format("Backlinks to '%s'", note.title)
+  end
 
-    local prompt_title
-    if opts.anchor then
-      prompt_title = string.format("Backlinks to '%s ❯ %s'", note.title, opts.anchor)
-    elseif opts.block then
-      prompt_title = string.format("Backlinks to '%s ❯ %s'", note.title, util.standardize_block(opts.block))
-    elseif noteissource then
-      prompt_title = string.format("Backlinks and references to '%s'", note.title)
-      if not vim.tbl_isempty(references) then
-        for _, ref in ipairs(references) do
-          entries[#entries + 1] = ref
-        end
-      end
-    else
-      prompt_title = string.format("Backlinks to '%s'", note.title)
-    end
-
-    vim.schedule(function()
-      picker:pick(entries, {
-        prompt_title = prompt_title,
-        callback = function(value)
-          util.open_buffer(value.path, { line = value.line })
-        end,
-      })
-    end)
-  end, { search = { sort = true }, anchor = opts.anchor, block = opts.block })
+  vim.schedule(function()
+    picker:pick(references, {
+      prompt_title = prompt_title,
+      callback = function(value)
+        util.open_buffer(value.path, { line = value.line })
+      end,
+    })
+  end)
 end
 
 local function main()
@@ -98,12 +90,7 @@ local function main()
 
   local location, _, ref_type = util.parse_cursor_link { include_block_ids = true }
 
-  if
-      location ~= nil
-      and ref_type ~= RefTypes.NakedUrl
-      and ref_type ~= RefTypes.FileUrl
-      and ref_type ~= RefTypes.BlockID
-  then
+  if location ~= nil and ref_type ~= RefTypes.NakedUrl and ref_type ~= RefTypes.FileUrl and ref_type ~= RefTypes.BlockID then
     local block_link
     location, block_link = util.strip_block_links(location)
 

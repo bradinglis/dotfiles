@@ -6,7 +6,7 @@ local Note = require "obsidian.note"
 
 local function print_test()
   local client = require("obsidian").get_client()
-  local current_note = client:current_note()
+  local current_note = client:current_note(0, { load_contents = true })
   print(vim.inspect(current_note))
 end
 
@@ -59,6 +59,7 @@ local function new_source()
   end
 
   local longName = util.input "Enter source name: "
+
   if not longName then
     print("Aborted")
     return
@@ -72,7 +73,7 @@ local function new_source()
   if #sourceparents == 0 then
     id = "s_" .. author:gsub("a_", "") .. "_" .. source_id_gen(longName)
   else
-    table.sort(sourceparents, function (a, b)
+    table.sort(sourceparents, function(a, b)
       return string.len(a) > string.len(b)
     end)
     id = sourceparents[1] .. "_" .. source_id_gen(longName)
@@ -96,7 +97,7 @@ local function new_source()
     vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
   else
     local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-    vim.api.nvim_buf_set_lines(0, cur_row-1, cur_row-1, false, { link })
+    vim.api.nvim_buf_set_lines(0, cur_row - 1, cur_row - 1, false, { link })
   end
   client:update_ui(0)
 
@@ -165,67 +166,59 @@ local function new_note()
   local client = require("obsidian").get_client()
   local current_note = client:current_note()
 
-  local longName = util.input "Enter note name: "
+  local longName
 
-  if not longName then
-    print("Aborted")
-    return
-  elseif longName == "" then
-    print("Aborted")
-    longName = nil
-    return
-  end
-
-  -- local id = longName:lower():gsub(" ", "-"):gsub("[()]", "")
-  local id = note_id_gen(longName)
-
-  local dir = client.dir.filename .. "/notes/" .. id .. ".md"
-
-
-  local newNote = Note.new(id, { longName }, {}, dir)
-  local note = client:write_note(newNote, { template = "note" })
-
-
-  local viz
-  if vim.endswith(vim.fn.mode():lower(), "v") then
-    viz = util.get_visual_selection()
-  end
-
-  local link = client:format_link(note)
-  local content = {}
-
-  note.metadata = { type = "note" }
-
-  if viz then
-    local linktonew = client:format_link(note)
-    -- local linkback = client:format_link(current_note)
-
-    content = vim.split(viz.selection, "\n", { plain = true })
-
-    if current_note.metadata.type == "source" then
-      vim.api.nvim_buf_set_text(0, viz.cerow - 1, viz.cecol, viz.cerow - 1, viz.cecol, { " — " .. link })
-      vim.api.nvim_buf_set_text(0, viz.csrow - 1, -1, viz.csrow - 1, -1, { " ^" .. id })
-
-      local block_line = vim.api.nvim_buf_get_lines(0, viz.csrow - 1, viz.csrow, true)
-      local block = { id = id, line = viz.cerow - 1, block = block_line[1] }
-      note.metadata.references = current_note.id
-    elseif current_note.metadata.type == "note" then
-      vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
-      local linkback = client:format_link(current_note)
-      table.insert(content, 1, linkback)
-      table.insert(content, 2, "")
+  vim.ui.input({ prompt = "Enter note name: " }, function(input)
+    if input == nil or input == "" then
+      print("Aborted")
+      return
     end
-  end
-  client:update_ui(0)
 
-  client:open_note(note, {
-    callback = function(bufnr)
-      client:write_note_to_buffer(note, { bufnr = bufnr })
-    end,
-    sync = true
-  })
+    local id = note_id_gen(input)
 
-  vim.api.nvim_buf_set_lines(0, -1, -1, false, content)
+    local dir = client.dir.filename .. "/notes/" .. id .. ".md"
+
+    local newNote = Note.new(id, { input }, {}, dir)
+    local note = client:write_note(newNote, { template = "note" })
+
+    local viz
+    if vim.endswith(vim.fn.mode():lower(), "v") then
+      viz = util.get_visual_selection()
+    end
+
+    local link = client:format_link(note)
+    local content = {}
+
+    note.metadata = { type = "note" }
+
+    if viz then
+      content = vim.split(viz.selection, "\n", { plain = true })
+
+      if current_note.metadata.type == "source" then
+        vim.api.nvim_buf_set_text(0, viz.cerow - 1, viz.cecol, viz.cerow - 1, viz.cecol, { " — " .. link })
+        vim.api.nvim_buf_set_text(0, viz.csrow - 1, -1, viz.csrow - 1, -1, { " ^" .. id })
+
+        local block_line = vim.api.nvim_buf_get_lines(0, viz.csrow - 1, viz.csrow, true)
+        local block = { id = id, line = viz.cerow - 1, block = block_line[1] }
+        note.metadata.references = current_note.id
+      elseif current_note.metadata.type == "note" then
+        vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
+        local linkback = client:format_link(current_note)
+        table.insert(content, 1, linkback)
+        table.insert(content, 2, "")
+      end
+    end
+    client:update_ui(0)
+
+    client:open_note(note, {
+      callback = function(bufnr)
+        client:write_note_to_buffer(note, { bufnr = bufnr })
+      end,
+      sync = true
+    })
+
+    vim.api.nvim_buf_set_lines(0, -1, -1, false, content)
+  end)
 end
 
 local function new_author()

@@ -9,4 +9,3 @@ require("globals").set_hl()
 require('autocmd')
 
 require('keybindings').general()
-

@@ -1,6 +1,7 @@
 return {
   {
     'nvim-telescope/telescope.nvim',
+    event = "VeryLazy",
     opts = {
       defaults = {
         layout_config = { width = 0.9 },
@@ -34,6 +35,7 @@ return {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
+    event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       settings = {
@@ -79,6 +81,7 @@ return {
   },
   {
     "letieu/harpoon-lualine",
+    event = "VeryLazy",
     dependencies = {
       {
         "ThePrimeagen/harpoon",
