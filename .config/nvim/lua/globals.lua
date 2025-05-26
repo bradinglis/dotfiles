@@ -98,9 +98,6 @@ return {
       vim.opt.shellxquote = ''
     elseif hostname == 'DESKTOP-6K7U30E' then
       notesdir = '~/zettel'
-      vim.opt.shell = "powershell"
-      vim.opt.shellcmdflag = "-nologo -noprofile -ExecutionPolicy RemoteSigned -command"
-      vim.opt.shellxquote = ''
     elseif hostname == 'Brads-MBP' then
       notesdir = '~/OneDrive/Apps/remotely-save/Notes'
     elseif hostname == 'Brads-MacBook-Pro' then
