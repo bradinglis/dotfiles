@@ -1,17 +1,18 @@
 return {
   {
     "mason-org/mason-lspconfig.nvim",
+    event = "VeryLazy",
     opts = {},
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
       "neovim/nvim-lspconfig",
       "Hoffs/omnisharp-extended-lsp.nvim",
       "p00f/clangd_extensions.nvim",
+      {
+        "ray-x/lsp_signature.nvim",
+        event = "VeryLazy",
+        opts = {},
+      },
     },
-  },
-  {
-    "ray-x/lsp_signature.nvim",
-    event = "VeryLazy",
-    opts = {},
   },
 }

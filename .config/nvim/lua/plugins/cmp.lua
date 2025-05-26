@@ -2,6 +2,7 @@
 return {
   {
     'hrsh7th/nvim-cmp',
+    event = "VeryLazy",
     config = function()
       require("config.snippets")
       vim.opt.completeopt = { "menu", "menuone", "noselect" }
@@ -85,11 +86,13 @@ return {
       "cmp-cmdline",
       "cmp-nvim-lsp",
       "cmp-path",
+      'L3MON4D3/LuaSnip',
+      'saadparwaiz1/cmp_luasnip',
     }
   },
   {
     'windwp/nvim-autopairs',
-    event = "InsertEnter",
+    event = "BufReadPre",
     config = true
   },
   {
@@ -97,6 +100,4 @@ return {
     event = "BufReadPre",
     opts = {},
   },
-  'L3MON4D3/LuaSnip',
-  'saadparwaiz1/cmp_luasnip',
 }

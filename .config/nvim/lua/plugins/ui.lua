@@ -1,6 +1,7 @@
 return {
   {
     'nvim-lualine/lualine.nvim',
+    event = "VeryLazy",
     opts = {
       options = {
         theme = 'everforest',
@@ -96,6 +97,13 @@ return {
         view_history = "messages", -- view for :messages
         view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
       },
+      views = {
+        mini = {
+          position = {
+            row = 0
+          }
+        }
+      }
     },
     dependencies = {
       -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries

@@ -18,10 +18,20 @@ local refresh_notes = function ()
   client:find_notes_async("", function (x)
     for _, value in ipairs(x) do
       value["relative_path"] = client:vault_relative_path(value.path.filename)
+      value["links"] = {}
+      for num, line in ipairs(value.contents) do
+        local link = line:match("%[%[[%w-_.',]*[|%]]")
+        if link ~= nil then
+          table.insert(value.links, {link:sub(3,-2), num})
+        end
+        -- local tag = line:match("#[%w-]")
+        -- if tag ~= nil then
+        --   table.insert(value.body_tags, {tag:sub(2,-1), num})
+        -- end
+      end
     end
     notes = x
-  end)
-
+  end, { notes = { load_contents = true } })
 end
 
 return {

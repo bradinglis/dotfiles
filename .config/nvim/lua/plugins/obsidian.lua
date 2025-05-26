@@ -8,6 +8,16 @@ return {
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
+      {
+        "preservim/vim-pencil",
+        init = function()
+          vim.g["pencil#cursorwrap"] = 0
+          vim.g["pencil#wrapModeDefault"] = "soft"
+          vim.g["pencil#conceallevel"] = 2
+        end,
+      },
+      "bullets-vim/bullets.vim",
+      'MeanderingProgrammer/render-markdown.nvim',
     },
     opts = {
       workspaces = {
@@ -126,16 +136,8 @@ return {
     },
   },
   {
-    "preservim/vim-pencil",
-    init = function()
-      vim.g["pencil#cursorwrap"] = 0
-      vim.g["pencil#wrapModeDefault"] = "soft"
-      vim.g["pencil#conceallevel"] = 2
-    end,
-  },
-  "bullets-vim/bullets.vim",
-  {
     'MeanderingProgrammer/render-markdown.nvim',
+    event = "VeryLazy",
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     opts = {
       preset = 'obsidian',
