@@ -6,10 +6,21 @@ local Note = require "obsidian.note"
 
 local source = abc.new_class()
 
+local function filter(arr, func)
+  local new_arr = {}
+  for old_index, v in ipairs(arr) do
+    if func(v, old_index) then
+      new_arr[#new_arr + 1] = v
+    end
+  end
+  return new_arr
+end
+
 local SOURCE_PATTERNS = {
-  { pattern = "[%s%(]~[A-Za-z0-9_/-]*$", offset = 1 },
-  { pattern = "^~[A-Za-z0-9_/-]*$", offset = 0 },
+  { pattern = "[%s%(]s_[A-Za-z0-9_/-]*$", offset = 1 },
+  { pattern = "^s_[A-Za-z0-9_/-]*$",       offset = 0 },
 }
+
 
 local find_sources_start = function(input)
   for _, pattern in ipairs(SOURCE_PATTERNS) do
@@ -31,12 +42,12 @@ source.new = function()
   return source.init()
 end
 
-source.get_trigger_characters = function ()
-    return { "~" }
+source.get_trigger_characters = function()
+  return { "_" }
 end
 
-source.get_keyword_pattern = function ()
-    return "\\~[a-zA-Z0-9_/-]\\+"
+source.get_keyword_pattern = function()
+  return "s_[a-zA-Z0-9_/-]\\+"
 end
 
 source.complete = function(_, request, callback)
@@ -55,33 +66,38 @@ source.complete = function(_, request, callback)
     return callback { isIncomplete = true }
   end
 
-  client:find_notes_async(search, function(notes)
-    print(vim.inspect(notes))
-    local sources = {}
-    for sourcenote in iter(notes) do
-      sources[sourcenote.id] = true
-    end
+  local notes = require("vault.search").get_notes()
 
-    local items = {}
-    for sourcenote, _ in pairs(sources) do
-      items[#items + 1] = {
-        sortText = sourcenote,
-        label = "Source: " .. sourcenote,
-        kind = 1, -- "Text"
-        insertText = sourcenote,
-        data = {
-          bufnr = request.context.bufnr,
-          line = request.context.cursor.line,
-          sourcenote = sourcenote,
-        },
-      }
+  local source_notes = filter(notes, function(val, _)
+    if val.metadata ~= nil then
+      if val.metadata.type ~= nil then
+        return val.metadata.type == "source"
+      end
+    else
+      return false
     end
+  end)
 
-    return callback {
-      items = items,
-      isIncomplete = false,
+  local items = {}
+
+  for _, source_val in pairs(source_notes) do
+    items[#items + 1] = {
+      sortText = source_val.id,
+      label = "Source: " .. source_val.id,
+      kind = 1, -- "Text"
+      insertText = source_val.id,
+      data = {
+        bufnr = request.context.bufnr,
+        line = request.context.cursor.line,
+        sourcenote = source_val.id,
+      },
     }
-  end, { search = { sort = false } })
+  end
+
+  return callback {
+    items = items,
+    isIncomplete = false,
+  }
 end
 
 return source

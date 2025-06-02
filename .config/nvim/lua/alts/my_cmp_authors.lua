@@ -5,7 +5,32 @@ local util = require "obsidian.util"
 local iter = require("obsidian.itertools").iter
 local Note = require "obsidian.note"
 
-local source = abc.new_class()
+local author = abc.new_class()
+
+local function filter(arr, func)
+  local new_arr = {}
+  for old_index, v in ipairs(arr) do
+    if func(v, old_index) then
+      new_arr[#new_arr + 1] = v
+    end
+  end
+  return new_arr
+end
+
+local AUTHOR_PATTERNS = {
+  { pattern = "[%s%(]a_[A-Za-z0-9_/-]*$", offset = 1 },
+  { pattern = "^a_[A-Za-z0-9_/-]*$",      offset = 0 },
+}
+
+
+local find_authors_start = function(input)
+  for _, pattern in ipairs(AUTHOR_PATTERNS) do
+    local match = string.match(input, pattern.pattern)
+    if match then
+      return string.sub(match, pattern.offset + 1)
+    end
+  end
+end
 
 local get_frontmatter_boundaries = function(bufnr)
   local note = Note.from_buffer(bufnr)
@@ -14,19 +39,21 @@ local get_frontmatter_boundaries = function(bufnr)
   end
 end
 
-source.new = function()
-  return source.init()
+
+author.new = function()
+  return author.init()
 end
 
-source.get_trigger_characters = function ()
-    return { "%" }
+author.get_trigger_characters = function ()
+    return { "_" }
 end
 
-source.get_keyword_pattern = function ()
-    return "%[a-zA-Z0-9_/-]\\+"
+author.get_keyword_pattern = function ()
+    return "a_[a-zA-Z0-9_/-]\\+"
 end
 
-source.complete = function(_, request, callback)
+
+author.complete = function(_, request, callback)
   local client = assert(obsidian.get_client())
 
   local in_frontmatter = false
@@ -36,45 +63,48 @@ source.complete = function(_, request, callback)
     in_frontmatter = true
   end
 
-  local match = string.match(request.context.cursor_before_line, "^%[A-Za-z0-9_/-]*")
+  local search = find_authors_start(request.context.cursor_before_line)
 
-  print(vim.inspect(in_frontmatter))
-  print(vim.inspect(match))
-
-  if (not match or string.len(match) == 0) or not in_frontmatter then
+  if (not search or string.len(search) == 0) or not in_frontmatter or search == nil then
     return callback { isIncomplete = true }
   end
 
-  client:find_notes_async(match, function(notes)
-    local sources = {}
-    for sourcenote in iter(notes) do
-      sources[sourcenote.id] = true
-    end
+  local notes = require("vault.search").get_notes()
 
-    local items = {}
-    for sourcenote, _ in pairs(sources) do
-      items[#items + 1] = {
-        sortText = sourcenote,
-        label = "Source: " .. sourcenote,
-        kind = 1, -- "Text"
-        insertText = sourcenote,
-        data = {
-          bufnr = request.context.bufnr,
-          line = request.context.cursor.line,
-          sourcenote = sourcenote,
-        },
-      }
+  local author_notes = filter(notes, function(val, _)
+    if val.metadata ~= nil then
+      if val.metadata.type ~= nil then
+        return val.metadata.type == "author"
+      end
+    else
+      return false
     end
+  end)
 
-    return callback {
-      items = items,
-      isIncomplete = false,
+  local items = {}
+
+  for _, author_val in pairs(author_notes) do
+    items[#items + 1] = {
+      sortText = author_val.id,
+      label = "Author: " .. author_val.id,
+      kind = 1, -- "Text"
+      insertText = author_val.id,
+      data = {
+        bufnr = request.context.bufnr,
+        line = request.context.cursor.line,
+        authornote = author_val.id,
+      },
     }
-  end, { search = { sort = false } })
+  end
+
+  return callback {
+    items = items,
+    isIncomplete = false,
+  }
 end
 
-source.execute = function(_, _, callback)
+author.execute = function(_, _, callback)
   return callback {}
 end
 
-return source
+return author

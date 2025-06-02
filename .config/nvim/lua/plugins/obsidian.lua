@@ -1,6 +1,16 @@
 local globs = require('globals').getglobs()
 local colours = globs.colours
 return {
+  "bullets-vim/bullets.vim",
+  "nvim-lua/plenary.nvim",
+  {
+    "preservim/vim-pencil",
+    init = function()
+      vim.g["pencil#cursorwrap"] = 0
+      vim.g["pencil#wrapModeDefault"] = "soft"
+      vim.g["pencil#conceallevel"] = 2
+    end,
+  },
   {
     "bradinglis/obsidian.nvim",
     version = "*",
@@ -70,7 +80,8 @@ return {
         enter_note = function(_, note)
           require("globals").set_hl()
           if note.has_frontmatter then
-            require("vault_actions").frontmatter_hightlighting(note)
+            require("vault_actions").frontmatter_highlighting(note)
+            require("vault_actions").tag_highlighting(note)
           end
         end,
       },

@@ -11,21 +11,24 @@ local function print_test()
 end
 
 local function note_id_gen(name)
-  return name:gsub("n_[()'\"*]", "")
+  return name:gsub("[()'\"*,:]", "")
       :gsub(" %l* ", " ")
-      :gsub(" . ", " ")
-      :gsub("The ", "")
-      :gsub(" the ", " ")
+      :gsub("A ", "")
+      :gsub("An ", "")
+      :gsub("I ", "")
+      :gsub("The ", ""):lower()
       :gsub("'s ", " ")
-      :gsub(" ", "-"):lower()
+      :gsub(" ", "-")
 end
 
 local function source_id_gen(name)
   return name:gsub("[()'\"*:?,]", "")
       :gsub(" %l* ", " ")
+      :gsub("A ", "")
+      :gsub("An ", "")
+      :gsub("I ", "")
       :gsub(" . ", " ")
       :gsub("The ", ""):lower()
-      :gsub(" the ", " ")
       :gsub("'s ", " ")
       :gsub(" ", "-")
 end
@@ -37,7 +40,7 @@ local function new_source()
   local author = ""
   local sourceparents = {}
   if current_note.metadata.type == "source" then
-    dir = client.dir.filename .. "/sources/" .. current_note.metadata.author[1] .. "/"
+    dir = client.dir.filename .. "/sources/" .. current_note.metadata.author[1]:gsub("^a_", "") .. "/"
 
     if current_note.metadata["source-parents"] ~= nil and not vim.tbl_isempty(current_note.metadata["source-parents"]) then
       for _, parent in ipairs(current_note.metadata["source-parents"]) do
@@ -52,7 +55,7 @@ local function new_source()
 
     author = current_note.metadata.author
   elseif current_note.metadata.type == "author" then
-    dir = client.dir.filename .. "/sources/" .. current_note.id:gsub("%%", "") .. "/"
+    dir = client.dir.filename .. "/sources/" .. current_note.id:gsub("^a_", "") .. "/"
     author = current_note.id
   else
     print("Invalid current note type")
@@ -248,6 +251,7 @@ local function new_author()
     shortName = shortNameP
   end
 
+  shortName = shortName:lower()
   local id = "a_" .. shortName
   local dir = client.dir.filename .. "/sources/" .. shortName .. "/" .. id .. ".md"
 
@@ -306,7 +310,7 @@ local function find_frontmatter_tags(line)
   return tags
 end
 
-local function frontmatter_hightlighting(note)
+local function frontmatter_highlighting(note)
   local client = require("obsidian").get_client()
   local ns_id = vim.api.nvim_create_namespace("ObsidianBrad")
   local lines = vim.api.nvim_buf_get_lines(note.bufnr, 0, note.frontmatter_end_line, true)
@@ -341,6 +345,32 @@ local function frontmatter_hightlighting(note)
           spell = false,
         }
       ):materialize(note.bufnr, ns_id)
+    end
+  end
+end
+
+local function tag_highlighting(note)
+  local client = require("obsidian").get_client()
+  local ns_id = vim.api.nvim_create_namespace("ObsidianBrad")
+  local lines = vim.api.nvim_buf_get_lines(note.bufnr, note.frontmatter_end_line, -1, true)
+  for i, line in ipairs(lines) do
+    local lnum = i + note.frontmatter_end_line - 1
+    local matches = search.find_refs(line, { include_naked_urls = false, include_tags = true, include_block_ids = false })
+    for match in iter(matches) do
+      local m_start, m_end, m_type = unpack(match)
+      if m_type == search.RefTypes.Tag then
+        ui.ExtMark.new(
+          nil,
+          lnum,
+          m_start - 1,
+          ui.ExtMarkOpts.from_tbl {
+            end_row = lnum,
+            end_col = m_end,
+            hl_group = client.opts.ui.tags.hl_group,
+            spell = false,
+          }
+        ):materialize(note.bufnr, ns_id)
+      end
     end
   end
 end
@@ -423,7 +453,8 @@ end
 
 return {
   enter_command = enter_command,
-  frontmatter_hightlighting = frontmatter_hightlighting,
+  frontmatter_highlighting = frontmatter_highlighting,
+  tag_highlighting = tag_highlighting,
   new_author = new_author,
   new_source = new_source,
   new_note = new_note,
