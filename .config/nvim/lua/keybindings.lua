@@ -129,7 +129,6 @@ local function markdown()
   local vault_actions = require 'vault_actions'
   local backlinks = require 'backlinks'
 
-  require('vault.search').refresh_notes()
 
   vim.api.nvim_create_user_command('NewSource', vault_actions.new_source, {})
   vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})

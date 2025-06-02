@@ -4,7 +4,7 @@ return {
   {
     "bradinglis/obsidian.nvim",
     version = "*",
-    lazy = true,
+    event = "VeryLazy",
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -19,6 +19,7 @@ return {
       "bullets-vim/bullets.vim",
       'MeanderingProgrammer/render-markdown.nvim',
     },
+
     opts = {
       workspaces = {
         {
@@ -66,7 +67,10 @@ return {
         end
       end,
       callbacks = {
-        post_setup = function() require("alts.alter") end,
+        post_setup = function()
+          require("alts.alter")
+          require('vault.search').refresh_notes()
+        end,
         enter_note = function(_, note)
           require("globals").set_hl()
           if note.has_frontmatter then
@@ -137,7 +141,8 @@ return {
   },
   {
     'MeanderingProgrammer/render-markdown.nvim',
-    event = "VeryLazy",
+    ft = "markdown",
+    event = "BufEnter",
     dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
     opts = {
       preset = 'obsidian',
