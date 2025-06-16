@@ -44,6 +44,7 @@ local pick_all = function()
     end
     return arg_id
   end
+
   local displayer = entry_display.create {
     separator = " ",
     items = {

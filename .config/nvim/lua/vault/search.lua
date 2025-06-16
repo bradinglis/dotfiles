@@ -31,7 +31,7 @@ local refresh_notes = function ()
       end
     end
     notes = x
-  end, { notes = { load_contents = true } })
+  end, { search = { sort = true, sort_by = "modified", sort_reversed = true, fixed_strings = true, }, notes = { load_contents = true } })
 end
 
 return {
