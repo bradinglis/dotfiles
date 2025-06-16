@@ -30,6 +30,13 @@ return {
       'MeanderingProgrammer/render-markdown.nvim',
     },
     opts = {
+      picker = {
+        sort_by = "modified",
+        sort_reversed = true,
+        search_max_lines = 1000,
+        fixed_strings = true,
+
+      },
       workspaces = {
         {
           name = "notes",
@@ -163,9 +170,9 @@ return {
           icon = ' ',
         },
         custom = {
-            next = { raw = '[>]', rendered = ' ', highlight = 'RenderMarkdownTodo', scope_highlight = nil },
-            blocked = { raw = '[!]', rendered = ' ', highlight = 'RenderMarkdownTodo', scope_highlight = nil },
-            tilde = { raw = '[~]', rendered = '󰰱 ', highlight = 'RenderMarkdownTodo', scope_highlight = nil },
+          next = { raw = '[>]', rendered = ' ', highlight = 'ObsidianRightArrow', scope_highlight = nil },
+          blocked = { raw = '[!]', rendered = ' ', highlight = 'ObsidianImportant', scope_highlight = nil },
+          tilde = { raw = '[~]', rendered = '󰰱 ', highlight = 'ObsidianTilde', scope_highlight = nil },
         },
       }
     },
