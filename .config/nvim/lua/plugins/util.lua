@@ -96,7 +96,7 @@ return {
       },
       explorer = { enabled = true },
       indent = { enabled = false },
-      input = { enabled = true },
+      -- input = { enabled = true },
       picker = { enabled = false },
       notifier = { enabled = true },
       quickfile = { enabled = true },

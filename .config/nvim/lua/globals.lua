@@ -1,5 +1,4 @@
 vim.g.c_syntax_for_h = 1
-vim.opt.signcolumn = "no"
 vim.opt.autoread = true
 
 vim.opt.scrolloff = 8
@@ -86,6 +85,7 @@ local function set_hl()
   vim.api.nvim_set_hl(0, "RenderMarkdownWikiLink", { underline = true, fg = colours.blue })
   vim.api.nvim_set_hl(0, "@markup.link.label", { underline = true, fg = colours.blue })
   vim.api.nvim_set_hl(0, "RenderMarkdownInlineHighlight", { bg = colours.bggreen })
+  vim.api.nvim_set_hl(0, "@property.yaml", { fg = colours.purple })
 end
 
 return {
