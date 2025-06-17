@@ -25,7 +25,7 @@ local function find_references(client, note)
     separator = " ",
     items = {
       { width = 10 },
-      { width = 7 },
+      { width = 2 },
       { width = 40 },
       { width = 20 },
       { remaining = true },
@@ -60,7 +60,7 @@ local function find_references(client, note)
               display = function()
                 return displayer {
                   { "Reference",   "Grey" },
-                  { "Author",      "markdownBold" },
+                  { "",      "Fg" },
                   { resnote.title, "markdownBoldItalic" },
                   { "",            "Grey" },
                   { resnote.id,    "Grey" },
@@ -78,7 +78,7 @@ local function find_references(client, note)
               display = function()
                 return displayer {
                   { "Reference",                            "Grey" },
-                  { "Source",                               "markdownBold" },
+                  { "",                               "Fg" },
                   { resnote.title,                          "markdownBoldItalic" },
                   { get_author(resnote.metadata.author[1]), "markdownItalic" },
                   { resnote.id,                             "Grey" },
@@ -96,7 +96,7 @@ local function find_references(client, note)
               display = function()
                 return displayer {
                   { "Reference",   "Grey" },
-                  { "Note",        "markdownBold" },
+                  { "",        "Fg" },
                   { resnote.title, "markdownBoldItalic" },
                   { "",            "Grey" },
                   { resnote.id,    "Grey" },
@@ -114,7 +114,7 @@ local function find_references(client, note)
               display = function()
                 return displayer {
                   { "Reference",   "Grey" },
-                  { "Type",        "markdownBold" },
+                  { "?",        "Fg" },
                   { resnote.title, "markdownBoldItalic" },
                   { "",            "markdownItalic" },
                   { resnote.id,    "Grey" },
@@ -139,7 +139,7 @@ local function find_references(client, note)
               display = function()
                 return displayer {
                   { "Reference",   "Grey" },
-                  { "Author",      "markdownBold" },
+                  { "",      "Fg" },
                   { resnote.title, "markdownBoldItalic" },
                   { "",            "Grey" },
                   { resnote.id,    "Grey" },
@@ -157,7 +157,7 @@ local function find_references(client, note)
               display = function()
                 return displayer {
                   { "Link [" .. value[2] .. "]",            "Grey" },
-                  { "Source",                               "markdownBold" },
+                  { "",                               "Fg" },
                   { resnote.title,                          "markdownBoldItalic" },
                   { get_author(resnote.metadata.author[1]), "markdownItalic" },
                   { resnote.id,                             "Grey" },
@@ -175,7 +175,7 @@ local function find_references(client, note)
               display = function()
                 return displayer {
                   { "Link [" .. value[2] .. "]", "Grey" },
-                  { "Note",                      "markdownBold" },
+                  { "",                      "Fg" },
                   { resnote.title,               "markdownBoldItalic" },
                   { "",                          "Grey" },
                   { resnote.id,                  "Grey" },
@@ -193,7 +193,7 @@ local function find_references(client, note)
               display = function()
                 return displayer {
                   { "Link [" .. value[2] .. "]", "Grey" },
-                  { "Type",                      "markdownBold" },
+                  { "?",                      "Fg" },
                   { resnote.title,               "markdownBoldItalic" },
                   { "",                          "markdownItalic" },
                   { resnote.id,                  "Grey" },
@@ -249,7 +249,7 @@ local function collect_backlinks(client, picker, note, opts)
     prompt_title = string.format("Backlinks to '%s'", note.title)
   end
 
-  pickers.new({}, {
+  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }), {
     prompt_title = prompt_title,
     title = prompt_title,
     finder = finders.new_table {

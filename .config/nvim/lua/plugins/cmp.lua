@@ -12,9 +12,9 @@ return {
       local cmp = require("cmp")
 
       cmp.setup({
-        completion = {
-          keyword_length = 4
-        },
+        -- completion = {
+        --   keyword_length = 4
+        -- },
         snippet = {
           expand = function(args)
             vim.snippet.expand(args.body)

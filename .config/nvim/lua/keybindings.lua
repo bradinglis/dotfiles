@@ -139,16 +139,24 @@ local function markdown()
   vim.api.nvim_create_user_command('NoteSearch', require 'vault.note_search', {})
   vim.api.nvim_create_user_command('AllSearch', require 'vault.all_search', {})
   vim.api.nvim_create_user_command('RefreshNotes', require 'vault.search'.refresh_notes, {})
+  vim.api.nvim_create_user_command('TagSearch', function (args)
+    if #args.fargs == 0 then
+      require('vault.tag_search').all_tags()
+    else
+      require('vault.tag_search').single_tag(args.fargs[1])
+    end
+  end, {nargs = '?'})
 
   vim.keymap.set('n', '<CR>', function() return vault_actions.enter_command() end, { buffer = true, expr = true })
   vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
 
   vim.keymap.set('n', '<leader>fg', vim.cmd.ObsidianSearch, { desc = 'find grep', buffer = true })
   vim.keymap.set('n', '<leader>fl', vim.cmd.FindBacklinks, { desc = 'find backlinks', buffer = true })
-  vim.keymap.set('n', '<leader>ft', vim.cmd.ObsidianTags, { desc = 'find tags', buffer = true })
+  vim.keymap.set('n', '<leader>ft', vim.cmd.TagSearch, { desc = 'find tags', buffer = true })
   vim.keymap.set('n', '<leader>fn', require 'vault.note_search', { desc = 'find note', buffer = true })
   vim.keymap.set('n', '<leader>fs', require 'vault.source_search', { desc = 'find source', buffer = true })
   vim.keymap.set('n', '<leader>fa', require 'vault.author_search', { desc = 'find author', buffer = true })
+  vim.keymap.set('n', '<leader>ff', require 'vault.all_search', { desc = 'find all notes', buffer = true })
   vim.keymap.set('n', '<leader>fx', require 'vault.all_search', { desc = 'find all notes', buffer = true })
 
   wk.add({ { "<leader>n", group = "new", icon = { cat = "filetype", name = "markdown" } } })

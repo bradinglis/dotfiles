@@ -36,7 +36,7 @@ local pick_note = function()
       { remaining = true },
     },
   }
-  pickers.new({}, {
+  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }), {
     prompt_title = "Notes",
     title = "Notes",
     finder = finders.new_table {

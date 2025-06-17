@@ -57,7 +57,7 @@ local pick_source = function()
     },
   }
 
-  pickers.new({}, {
+  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }), {
     prompt_title = "Sources",
     title = "Sources",
     finder = finders.new_table {

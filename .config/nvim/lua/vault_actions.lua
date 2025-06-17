@@ -443,7 +443,7 @@ local function enter_command()
   local link = cursor_on_link()
 
   if tag then
-    return "<cmd>ObsidianTags " .. tag:sub(2, -1) .. "<CR>"
+    return "<cmd>TagSearch " .. tag:sub(2, -1) .. "<CR>"
   elseif link then
     return "<cmd>ObsidianQuickSwitch " .. link .. "<CR>"
   else

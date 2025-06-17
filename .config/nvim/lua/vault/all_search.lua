@@ -48,14 +48,14 @@ local pick_all = function()
   local displayer = entry_display.create {
     separator = " ",
     items = {
-      { width = 7 },
+      { width = 2 },
       { width = 40 },
       { width = 20 },
       { remaining = true },
     },
   }
 
-  pickers.new({}, {
+  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }), {
     prompt_title = "Sources",
     title = "Sources",
     finder = finders.new_table {
@@ -66,10 +66,10 @@ local pick_all = function()
             value = entry,
             display = function()
               return displayer {
-                { "Author",    "markdownBold" },
+                { "", "Fg" },
                 { entry.title, "markdownBoldItalic" },
-                { "",          "Grey" },
-                { entry.id,    "Grey" },
+                { "", "Grey" },
+                { entry.id, "Grey" },
               }
             end,
             ordinal = entry.title .. " " .. entry.id,
@@ -82,10 +82,10 @@ local pick_all = function()
             value = entry,
             display = function()
               return displayer {
-                { "Source",                             "markdownBold" },
-                { entry.title,                          "markdownBoldItalic" },
+                { "", "Fg" },
+                { entry.title, "markdownBoldItalic" },
                 { get_author(entry.metadata.author[1]), "markdownItalic" },
-                { entry.id,                             "Grey" },
+                { entry.id, "Grey" },
               }
             end,
             ordinal = entry.title .. " " .. entry.metadata.author[1] .. " " .. get_author(entry.metadata.author[1]),
@@ -98,10 +98,10 @@ local pick_all = function()
             value = entry,
             display = function()
               return displayer {
-                { "Note",      "markdownBold" },
+                { "", "Fg" },
                 { entry.title, "markdownBoldItalic" },
-                { "",          "Grey" },
-                { entry.id,    "Grey" },
+                { "", "Grey" },
+                { entry.id, "Grey" },
               }
             end,
             ordinal = entry.title,
