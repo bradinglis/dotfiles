@@ -19,7 +19,6 @@ end
 
 
 local single_tag = function(tag)
-  vim.print(tag)
   local notes = require("vault.search").get_notes()
   local tags = require("vault.search").get_tags()
 
@@ -129,7 +128,7 @@ local single_tag = function(tag)
         }, {})
       end
     },
-    previewer = conf.generic_previewer({}),
+    previewer = conf.file_previewer({}),
     sorter = conf.generic_sorter({}),
   }):find()
 end
@@ -139,12 +138,15 @@ local all_tags = function()
   local tag_keys = vim.tbl_keys(tags)
 
   local displayer = entry_display.create {
+    separator = " ",
     items = {
+      { width = 6 },
+      { width = 20 },
       { remaining = true },
     },
   }
 
-  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }), {
+  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.9, anchor_padding = 0, anchor = "S" } }), {
     prompt_title = "Tags",
     title = "Tags",
     finder = finders.new_table {
@@ -153,8 +155,12 @@ local all_tags = function()
         return make_entry.set_default_entry_mt({
           value = entry,
           display = function()
+            local number = "[" .. vim.tbl_count(tags[entry]) .. "]"
+            local notes =  table.concat(vim.tbl_keys(tags[entry]), " ")
             return displayer {
+              { number,  "Fg" },
               { entry, "ObsidianTag" },
+              { notes, "Grey" },
             }
           end,
           ordinal = entry,
@@ -168,9 +174,6 @@ local all_tags = function()
       end)
       return true
     end,
-    -- previewer = previewers.new({preview_fn = function (self, entry, status)
-    --   return vim.inspect(entry)
-    -- end}),
     sorter = conf.generic_sorter({}),
   }):find()
 end

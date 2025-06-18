@@ -86,7 +86,7 @@ author.complete = function(_, request, callback)
   for _, author_val in pairs(author_notes) do
     items[#items + 1] = {
       sortText = author_val.id,
-      label = "Author: " .. author_val.id,
+      label = " " .. author_val.id,
       kind = 1, -- "Text"
       insertText = author_val.id,
       data = {

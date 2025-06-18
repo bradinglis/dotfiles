@@ -6,29 +6,8 @@ local make_entry = require "telescope.make_entry"
 local conf = require("telescope.config").values
 local themes = require("telescope.themes")
 
-
-local function filter(arr, func)
-    local new_arr = {}
-    for old_index, v in ipairs(arr) do
-        if func(v, old_index) then
-            new_arr[#new_arr+1] = v
-        end
-    end
-    return new_arr
-end
-
-
 local pick_note = function()
-  local notes = require("vault.search").get_notes()
-  local note_notes = filter(notes, function (val, _)
-      if val.metadata ~= nil then
-          if val.metadata.type ~= nil then
-              return val.metadata.type == "note"
-          end
-      else
-          return false
-      end
-  end)
+  local note_notes = require("vault.search").get_note_notes()
   local displayer = entry_display.create {
     separator = " ",
     items = {

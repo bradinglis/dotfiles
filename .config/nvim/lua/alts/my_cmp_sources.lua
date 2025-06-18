@@ -83,7 +83,7 @@ source.complete = function(_, request, callback)
   for _, source_val in pairs(source_notes) do
     items[#items + 1] = {
       sortText = source_val.id,
-      label = "Source: " .. source_val.id,
+      label = " " .. source_val.id,
       kind = 1, -- "Text"
       insertText = source_val.id,
       data = {
