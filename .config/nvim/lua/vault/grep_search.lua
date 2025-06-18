@@ -1,17 +1,18 @@
-local pickers = require "telescope.pickers"
-local finders = require "telescope.finders"
+local telescope = require "telescope.builtin"
 local entry_display = require "telescope.pickers.entry_display"
 local make_entry = require "telescope.make_entry"
+local pickers = require "telescope.pickers"
+local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 
-local pick_all = function()
-  local all_notes = require("vault.search").get_all_notes()
+local grep = function()
+  local lines = require("vault.search").get_lines()
+  local cwd = require("obsidian"):get_client().dir
 
   local displayer = entry_display.create {
     separator = " ",
     items = {
-      { width = 2 },
-      { width = 40 },
+      { width = 4 },
       { width = 20 },
       { remaining = true },
     },
@@ -20,30 +21,30 @@ local pick_all = function()
   pickers.new(
   require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }),
     {
-      prompt_title = "All Notes",
-      title = "All Notes",
+      prompt_title = "Sources",
+      title = "Sources",
       finder = finders.new_table {
-        results = all_notes,
+        results = lines,
         entry_maker = function(entry)
           return make_entry.set_default_entry_mt({
             value = entry,
             display = function()
               return displayer {
-                { entry.icon,          "Fg" },
-                { entry.title, "markdownBoldItalic" },
-                { entry.author_string,          "markdownItalic" },
-                { entry.id,    "Grey" },
+                { entry.num, "Grey" },
+                { entry.note.id, "markdownBoldItalic" },
+                { entry.text, "Grey" },
               }
             end,
-            ordinal = entry.title .. " " .. entry.author_string .. " ".. entry.id,
-            title = entry.title,
-            path = entry.path.filename
+            ordinal = entry.text,
+            path = entry.note.path,
+            lnum = entry.num,
           }, {})
         end
       },
-      previewer = conf.file_previewer({}),
+      previewer = conf.grep_previewer({}),
       sorter = conf.generic_sorter({}),
     }):find()
 end
 
-return pick_all
+
+return grep
