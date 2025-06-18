@@ -1,9 +1,6 @@
 --keeping
 vim.loader.enable()
 
-vim.lsp.set_log_level("debug")
-
-
 require('globals')
 
 require('config.lazy')

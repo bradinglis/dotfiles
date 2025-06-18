@@ -82,42 +82,45 @@ local function new_source()
     id = sourceparents[1] .. "_" .. source_id_gen(longName)
   end
 
-  local new_note_dir = dir .. id .. ".md"
-  local sourceNote = Note.new(id, { longName }, current_note.tags, new_note_dir)
+  vim.ui.input({ prompt = "Enter note name: ", default = id }, function(input)
 
-  local note = client:write_note(sourceNote, { template = "source" })
+    local new_note_dir = dir .. input .. ".md"
+    local sourceNote = Note.new(input, { longName }, current_note.tags, new_note_dir)
 
-  local viz
-  if vim.endswith(vim.fn.mode():lower(), "v") then
-    viz = util.get_visual_selection()
-  end
+    local note = client:write_note(sourceNote, { template = "source" })
 
-  local link = client:format_link(note)
-  local content = {}
+    local viz
+    if vim.endswith(vim.fn.mode():lower(), "v") then
+      viz = util.get_visual_selection()
+    end
 
-  if viz then
-    content = vim.split(viz.selection, "\n", { plain = true })
-    vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
-  else
-    local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-    vim.api.nvim_buf_set_lines(0, cur_row - 1, cur_row - 1, false, { link })
-  end
-  client:update_ui(0)
+    local link = client:format_link(note)
+    local content = {}
 
-  note.metadata = {
-    type = "source",
-    ["source-parents"] = sourceparents,
-    author = author
-  }
+    if viz then
+      content = vim.split(viz.selection, "\n", { plain = true })
+      vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
+    else
+      local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
+      vim.api.nvim_buf_set_lines(0, cur_row - 1, cur_row - 1, false, { link })
+    end
+    client:update_ui(0)
 
-  client:open_note(note, {
-    callback = function(bufnr)
-      client:write_note_to_buffer(note, { bufnr = bufnr })
-    end,
-    sync = true
-  })
+    note.metadata = {
+      type = "source",
+      ["source-parents"] = sourceparents,
+      author = author
+    }
 
-  vim.api.nvim_buf_set_lines(0, -1, -1, false, content)
+    client:open_note(note, {
+      callback = function(bufnr)
+        client:write_note_to_buffer(note, { bufnr = bufnr })
+      end,
+      sync = true
+    })
+
+    vim.api.nvim_buf_set_lines(0, -1, -1, false, content)
+  end)
 end
 
 local function append_to_note()
