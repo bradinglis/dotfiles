@@ -1,8 +1,6 @@
 --keeping
 vim.loader.enable()
-
 vim.lsp.set_log_level("debug")
-
 
 require('globals')
 
@@ -16,5 +14,4 @@ vim.lsp.config('clangd', {
 })
 
 require('autocmd')
-
 require('keybindings').general()

@@ -13,7 +13,7 @@ local grep = function()
     separator = " ",
     items = {
       { width = 4 },
-      { width = 20 },
+      { width = 20, right_justify = true },
       { remaining = true },
     },
   }

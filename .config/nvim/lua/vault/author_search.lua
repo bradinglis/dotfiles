@@ -32,12 +32,15 @@ local pick_author = function()
           end,
           ordinal = entry.title .. " " .. entry.id,
           title = entry.title,
-          path = entry.relative_path.filename
+          path = entry.relative_path.filename,
+          id = entry.id,
+          link = "[[".. entry.id .. "|".. entry.title .."]]"
         }, {})
       end
     },
     previewer = conf.file_previewer({}),
     sorter = conf.generic_sorter({}),
+      attach_mappings = require("vault.pick_mappings")
   }):find()
 end
 

@@ -27,7 +27,7 @@ return {
         end,
       },
       "bullets-vim/bullets.vim",
-      'MeanderingProgrammer/render-markdown.nvim',
+      -- 'MeanderingProgrammer/render-markdown.nvim',
 
     },
 
@@ -87,7 +87,6 @@ return {
       callbacks = {
         post_setup = function()
           require("alts.alter")
-          require('vault.search').refresh_notes()
         end,
         enter_note = function(_, note)
           require("globals").set_hl()
@@ -159,28 +158,147 @@ return {
     },
   },
   {
-    'MeanderingProgrammer/render-markdown.nvim',
-    ft = "markdown",
-    event = "BufEnter",
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-    opts = {
-      preset = 'obsidian',
-      bullet = {
-        icons = "•",
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    branch = "dev",
+    config = {
+      preview = {
+        debounce = 0,
+        modes = { "n", "i", "c" },
+        hybrid_modes = { "n", "i" },
+        linewise_hybrid_mode = false,
       },
-      checkbox = {
-        unchecked = {
-          icon = '󰄱 ',
+      yaml = {
+        properties = {
+          ["^id$"] = {
+            match_string = "^id$",
+            use_types = false,
+
+            text = "󰌕 ",
+            hl = "MarkviewIcon6"
+          },
+          ["^type$"] = {
+            match_string = "^type$",
+            use_types = false,
+
+            text = " ",
+            hl = "MarkviewIcon1"
+          },
+          ["^references$"] = {
+            match_string = "^references$",
+            use_types = false,
+
+            text = " ",
+            hl = "MarkviewIcon3"
+          },
+          ["^source.parents$"] = {
+            match_string = "^source.parents$",
+            use_types = false,
+
+            text = " ",
+            hl = "MarkviewIcon4"
+          },
+          ["^author$"] = {
+            match_string = "^author$",
+            use_types = false,
+
+            text = " ",
+            hl = "MarkviewIcon5"
+          },
+        }
+      },
+      markdown = {
+        list_items = {
+          indent_size = 0,
+          marker_minus = {
+            add_padding = false,
+            text = "•",
+          },
+          marker_dot = {
+            add_padding = false
+          }
         },
-        checked = {
-          icon = ' ',
-        },
-        custom = {
-          next = { raw = '[>]', rendered = ' ', highlight = 'ObsidianRightArrow', scope_highlight = nil },
-          blocked = { raw = '[!]', rendered = ' ', highlight = 'ObsidianImportant', scope_highlight = nil },
-          tilde = { raw = '[~]', rendered = '󰰱 ', highlight = 'ObsidianTilde', scope_highlight = nil },
-        },
+        headings = {
+          heading_1 = {
+            sign = "",
+            icon = "§ ",
+            icon_hl = "MarkviewHeading1",
+          },
+          heading_2 = {
+            sign = "",
+            icon = "§ ",
+            icon_hl = "MarkviewHeading2",
+          },
+          heading_3 = {
+            sign = "",
+            icon = "§ ",
+            icon_hl = "MarkviewHeading3",
+          },
+          heading_4 = {
+            sign = "",
+            icon = "§ ",
+            icon_hl = "MarkviewHeading4",
+          },
+          heading_5 = {
+            sign = "",
+            icon = "§ ",
+            icon_hl = "MarkviewHeading5",
+          },
+          heading_6 = {
+            sign = "",
+            icon = "§ ",
+            icon_hl = "MarkviewHeading6",
+          },
+        }
+      },
+
+      markdown_inline = {
+        internal_links = {
+          default = {
+            icon = "",
+            hl = "MarkviewHyperlink",
+          }
+        }
       }
     },
+    init = function(markview)
+      require("markview").setup({
+        markdown = {
+          -- headings = require("markview.presets").headings.marker,
+        }
+      })
+    end
+
+    -- For blink.cmp's completion
+    -- source
+    -- dependencies = {
+    --     "saghen/blink.cmp"
+    -- },
   },
+  -- {
+  --   'MeanderingProgrammer/render-markdown.nvim',
+  --   ft = "markdown",
+  --   event = "BufEnter",
+  --   dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
+  --   log_level = 'trace',
+  --   opts = {
+  --     preset = 'obsidian',
+  --     bullet = {
+  --       icons = "•",
+  --     },
+  --     checkbox = {
+  --       unchecked = {
+  --         icon = '󰄱 ',
+  --       },
+  --       checked = {
+  --         icon = ' ',
+  --       },
+  --       custom = {
+  --         next = { raw = '[>]', rendered = ' ', highlight = 'ObsidianRightArrow', scope_highlight = nil },
+  --         blocked = { raw = '[!]', rendered = ' ', highlight = 'ObsidianImportant', scope_highlight = nil },
+  --         tilde = { raw = '[~]', rendered = '󰰱 ', highlight = 'ObsidianTilde', scope_highlight = nil },
+  --       },
+  --     }
+  --   },
+  -- },
 }
