@@ -14,6 +14,7 @@ local pick_source = function()
     items = {
       { width = 40 },
       { width = 20 },
+      { width = 40 },
       { remaining = true },
     },
   }
@@ -30,6 +31,7 @@ local pick_source = function()
             return displayer {
               { entry.title, "markdownBold" },
               { entry.author_string, "markdownItalic" },
+              { table.concat(entry.tags, " "),          "ObsidianTag" },
               { entry.id, "Grey" },
             }
           end,

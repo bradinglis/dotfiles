@@ -2,7 +2,13 @@ return {
   {
     "mason-org/mason-lspconfig.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      automatic_enable = {
+        exclude = {
+          "ltex_plus"
+        }
+      }
+    },
     dependencies = {
       { "mason-org/mason.nvim", opts = {} },
       "neovim/nvim-lspconfig",

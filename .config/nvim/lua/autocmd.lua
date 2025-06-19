@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.md",
   callback = function()
-    require("plenary.async").run(require('vault.search').refresh_notes)
+    require('vault.search').refresh_notes()
   end,
 })
 

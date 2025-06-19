@@ -4,6 +4,8 @@ local entry_display = require "telescope.pickers.entry_display"
 local make_entry = require "telescope.make_entry"
 local conf = require("telescope.config").values
 
+local client = require "telescope.pickers"
+
 local pick_all = function()
   local all_notes = require("vault.search").get_all_notes()
 
@@ -13,6 +15,7 @@ local pick_all = function()
       { width = 2 },
       { width = 40 },
       { width = 20 },
+      { width = 40 },
       { remaining = true },
     },
   }
@@ -32,17 +35,21 @@ local pick_all = function()
                 { entry.icon,          "Fg" },
                 { entry.title, "markdownBoldItalic" },
                 { entry.author_string,          "markdownItalic" },
+                { table.concat(entry.tags, " "),          "ObsidianTag" },
                 { entry.id,    "Grey" },
               }
             end,
             ordinal = entry.title .. " " .. entry.author_string .. " ".. entry.id,
             title = entry.title,
-            path = entry.path.filename
+            path = entry.path.filename,
+            id = entry.id,
+            link = "[[".. entry.id .. "|".. entry.title .."]]"
           }, {})
         end
       },
       previewer = conf.file_previewer({}),
       sorter = conf.generic_sorter({}),
+      attach_mappings = require("vault.pick_mappings")
     }):find()
 end
 

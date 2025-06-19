@@ -12,6 +12,7 @@ local pick_note = function()
     separator = " ",
     items = {
       { width = 40 },
+      { width = 60 },
       { remaining = true },
     },
   }
@@ -26,6 +27,7 @@ local pick_note = function()
           display = function()
             return displayer {
               { entry.title, "markdownBold" },
+              { table.concat(entry.tags, " "),          "ObsidianTag" },
               { entry.id, "Grey" },
             }
           end,

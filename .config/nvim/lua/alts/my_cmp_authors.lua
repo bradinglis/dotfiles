@@ -69,17 +69,7 @@ author.complete = function(_, request, callback)
     return callback { isIncomplete = true }
   end
 
-  local notes = require("vault.search").get_notes()
-
-  local author_notes = filter(notes, function(val, _)
-    if val.metadata ~= nil then
-      if val.metadata.type ~= nil then
-        return val.metadata.type == "author"
-      end
-    else
-      return false
-    end
-  end)
+  local author_notes = require("vault.search").get_author_notes()
 
   local items = {}
 
@@ -96,6 +86,8 @@ author.complete = function(_, request, callback)
       },
     }
   end
+
+  vim.print(vim.inspect(items))
 
   return callback {
     items = items,

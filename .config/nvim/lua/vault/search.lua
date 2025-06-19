@@ -117,6 +117,7 @@ local refresh_notes = function()
   source_notes = {}
   lines = {}
   tags = {}
+  vim.print(os.date())
   client:find_notes_async("",
     function(x)
       for _, value in ipairs(x) do
@@ -147,6 +148,7 @@ local refresh_notes = function()
           table.insert(source_notes, value)
         end
       end
+      vim.print(os.date())
     end,
     { search = { sort = true, sort_by = "modified", sort_reversed = true, fixed_strings = true, }, notes = { load_contents = true } })
 end

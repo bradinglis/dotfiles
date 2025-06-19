@@ -66,17 +66,7 @@ source.complete = function(_, request, callback)
     return callback { isIncomplete = true }
   end
 
-  local notes = require("vault.search").get_notes()
-
-  local source_notes = filter(notes, function(val, _)
-    if val.metadata ~= nil then
-      if val.metadata.type ~= nil then
-        return val.metadata.type == "source"
-      end
-    else
-      return false
-    end
-  end)
+  local source_notes = require("vault.search").get_source_notes()
 
   local items = {}
 

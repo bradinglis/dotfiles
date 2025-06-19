@@ -6,6 +6,7 @@ cmp.unregister_source("obsidian_new", require("alts.my_cmp_obsidian_new").new())
 cmp.register_source("my_obsidian_new", require("alts.my_cmp_obsidian_new").new())
 cmp.register_source("my_authors", require("alts.my_cmp_authors").new())
 cmp.register_source("my_sources", require("alts.my_cmp_sources").new())
+vim.print("Test")
 
 local log = require "obsidian.log"
 
