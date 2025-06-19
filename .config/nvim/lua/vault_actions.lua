@@ -82,7 +82,7 @@ local function new_source()
     id = sourceparents[1] .. "_" .. source_id_gen(longName)
   end
 
-  vim.ui.input({ prompt = "Enter note name: ", default = id }, function(input)
+  vim.ui.input({ prompt = "Enter source name: ", default = id }, function(input)
 
     local new_note_dir = dir .. input .. ".md"
     local sourceNote = Note.new(input, { longName }, current_note.tags, new_note_dir)

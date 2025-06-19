@@ -110,6 +110,13 @@ local handle_note = function(note)
 end
 
 local refresh_notes = function()
+  notes = {}
+  all_notes = {}
+  note_notes = {}
+  author_notes = {}
+  source_notes = {}
+  lines = {}
+  tags = {}
   client:find_notes_async("",
     function(x)
       for _, value in ipairs(x) do
