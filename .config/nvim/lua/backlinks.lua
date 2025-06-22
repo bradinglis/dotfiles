@@ -17,8 +17,8 @@ local function filter(arr, func)
   return new_arr
 end
 
-local function find_references(client, note)
-  local notes = require("vault.search").get_notes()
+local function find_references(noteid)
+  local notes = require("vault.search").get_all_notes()
   local res = {}
 
   local displayer = entry_display.create {
@@ -31,181 +31,55 @@ local function find_references(client, note)
       { remaining = true },
     },
   }
-  local author_notes = filter(notes, function(val, _)
-    if val.metadata ~= nil then
-      if val.metadata.type ~= nil then
-        return val.metadata.type == "author"
-      end
-    else
-      return false
-    end
-  end)
-
-  local get_author = function(arg_id)
-    for _, v in ipairs(author_notes) do
-      if v.id == arg_id then
-        return v.title
-      end
-    end
-    return arg_id
-  end
 
   for _, resnote in pairs(notes) do
     if resnote.metadata ~= nil and not vim.tbl_isempty(resnote.metadata) then
       if resnote.metadata.references ~= nil and not vim.tbl_isempty(resnote.metadata.references) then
-        if vim.tbl_contains(resnote.metadata.references, note.id) then
-          if resnote.metadata.type == "author" then
-            res[#res + 1] = {
-              value = { path = resnote.path, line = 1 },
-              display = function()
-                return displayer {
-                  { "Reference",   "Grey" },
-                  { "",      "Fg" },
-                  { resnote.title, "markdownBoldItalic" },
-                  { "",            "Grey" },
-                  { resnote.id,    "Grey" },
-                }
-              end,
-              ordinal = resnote.title .. " " .. resnote.id,
-              title = resnote.title,
-              path = resnote.path.filename,
-              filename = tostring(resnote.path),
-              lnum = 1,
-            }
-          elseif resnote.metadata.type == "source" then
-            res[#res + 1] = {
-              value = { path = resnote.path, line = 1 },
-              display = function()
-                return displayer {
-                  { "Reference",                            "Grey" },
-                  { "",                               "Fg" },
-                  { resnote.title,                          "markdownBoldItalic" },
-                  { get_author(resnote.metadata.author[1]), "markdownItalic" },
-                  { resnote.id,                             "Grey" },
-                }
-              end,
-              ordinal = resnote.title .. " " .. resnote.id,
-              title = resnote.title,
-              path = resnote.path.filename,
-              filename = tostring(resnote.path),
-              lnum = 1,
-            }
-          elseif resnote.metadata.type == "note" then
-            res[#res + 1] = {
-              value = { path = resnote.path, line = 1 },
-              display = function()
-                return displayer {
-                  { "Reference",   "Grey" },
-                  { "",        "Fg" },
-                  { resnote.title, "markdownBoldItalic" },
-                  { "",            "Grey" },
-                  { resnote.id,    "Grey" },
-                }
-              end,
-              ordinal = resnote.title .. " " .. resnote.id,
-              title = resnote.title,
-              path = resnote.path.filename,
-              filename = tostring(resnote.path),
-              lnum = 1,
-            }
-          else
-            res[#res + 1] = {
-              value = { path = resnote.path, line = 1 },
-              display = function()
-                return displayer {
-                  { "Reference",   "Grey" },
-                  { "?",        "Fg" },
-                  { resnote.title, "markdownBoldItalic" },
-                  { "",            "markdownItalic" },
-                  { resnote.id,    "Grey" },
-                }
-              end,
-              ordinal = resnote.title .. " " .. resnote.id,
-              title = resnote.title,
-              path = resnote.path.filename,
-              filename = tostring(resnote.path),
-              lnum = 1,
-            }
-          end
+        vim.print(vim.inspect(resnote.references))
+        if vim.tbl_contains(resnote.metadata.references, noteid) then
+          res[#res + 1] = {
+            value = { path = resnote.path, line = 1 },
+            display = function()
+              return displayer {
+                { "Reference",           "Grey" },
+                { resnote.icon,          "Fg" },
+                { resnote.title,         "markdownBoldItalic" },
+                { resnote.author_string, "markdownItalic" },
+                { resnote.id,            "Grey" },
+              }
+            end,
+            ordinal = resnote.title .. " " .. resnote.author_string .. resnote.id,
+            title = resnote.title,
+            path = resnote.path.filename,
+            filename = tostring(resnote.path),
+            lnum = 1,
+            id = resnote.id,
+          }
         end
       end
     end
     if resnote.links ~= nil and resnote.metadata ~= nil and resnote.metadata.type ~= nil and not vim.tbl_isempty(resnote.links) then
+      vim.print(vim.inspect(resnote.links))
       for _, value in ipairs(resnote.links) do
-        if value[1] == note.id then
-          if resnote.metadata.type == "author" then
-            res[#res + 1] = {
-              value = { path = resnote.path, line = value[2] },
-              display = function()
-                return displayer {
-                  { "Reference",   "Grey" },
-                  { "",      "Fg" },
-                  { resnote.title, "markdownBoldItalic" },
-                  { "",            "Grey" },
-                  { resnote.id,    "Grey" },
-                }
-              end,
-              ordinal = resnote.title .. " " .. resnote.id,
-              title = resnote.title,
-              path = resnote.path.filename,
-              filename = tostring(resnote.path),
-              lnum = value[2],
-            }
-          elseif resnote.metadata.type == "source" then
-            res[#res + 1] = {
-              value = { path = resnote.path, line = value[2] },
-              display = function()
-                return displayer {
-                  { "Link [" .. value[2] .. "]",            "Grey" },
-                  { "",                               "Fg" },
-                  { resnote.title,                          "markdownBoldItalic" },
-                  { get_author(resnote.metadata.author[1]), "markdownItalic" },
-                  { resnote.id,                             "Grey" },
-                }
-              end,
-              ordinal = resnote.title .. " " .. resnote.id,
-              title = resnote.title,
-              path = resnote.path.filename,
-              filename = tostring(resnote.path),
-              lnum = value[2],
-            }
-          elseif resnote.metadata.type == "note" then
-            res[#res + 1] = {
-              value = { path = resnote.path, line = value[2] },
-              display = function()
-                return displayer {
-                  { "Link [" .. value[2] .. "]", "Grey" },
-                  { "",                      "Fg" },
-                  { resnote.title,               "markdownBoldItalic" },
-                  { "",                          "Grey" },
-                  { resnote.id,                  "Grey" },
-                }
-              end,
-              ordinal = resnote.title .. " " .. resnote.id,
-              title = resnote.title,
-              path = resnote.path.filename,
-              filename = tostring(resnote.path),
-              lnum = value[2],
-            }
-          else
-            res[#res + 1] = {
-              value = { path = resnote.path, line = value[2] },
-              display = function()
-                return displayer {
-                  { "Link [" .. value[2] .. "]", "Grey" },
-                  { "?",                      "Fg" },
-                  { resnote.title,               "markdownBoldItalic" },
-                  { "",                          "markdownItalic" },
-                  { resnote.id,                  "Grey" },
-                }
-              end,
-              ordinal = resnote.title .. " " .. resnote.id,
-              title = resnote.title,
-              path = resnote.path.filename,
-              filename = tostring(resnote.path),
-              lnum = value[2],
-            }
-          end
+        if value[1] == noteid then
+          res[#res + 1] = {
+            value = { path = resnote.path, line = 1 },
+            display = function()
+              return displayer {
+                { "Link [" .. value[2] .. "]", "Grey" },
+                { resnote.icon,                "Fg" },
+                { resnote.title,               "markdownBoldItalic" },
+                { resnote.author_string,       "markdownItalic" },
+                { resnote.id,                  "Grey" },
+              }
+            end,
+            ordinal = resnote.title .. " " .. resnote.author_string .. resnote.id,
+            title = resnote.title,
+            path = resnote.path.filename,
+            filename = tostring(resnote.path),
+            lnum = value[2],
+            id = resnote.id,
+          }
         end
       end
     end
@@ -213,54 +87,33 @@ local function find_references(client, note)
   return res
 end
 
-local function collect_backlinks(client, picker, note, opts)
+local function collect_backlinks(noteid, opts)
   opts = opts or {}
 
   local references = {}
-  local noteissource = false
-  if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-    if note.metadata.type ~= nil then
-      noteissource = note.metadata.type == "source"
-    end
-  end
-
-  references = find_references(client, note)
+  references = find_references(noteid)
 
   if vim.tbl_isempty(references) then
-    if opts.anchor then
-      log.info("No backlinks found for anchor '%s' in note '%s'", opts.anchor, note.id)
-    elseif opts.block then
-      log.info("No backlinks found for block '%s' in note '%s'", opts.block, note.id)
-    else
-      log.info("No backlinks found for note '%s'", note.id)
-    end
+    log.info("No backlinks found for note '%s'", noteid)
     return
   end
 
+  local prompt_title = string.format("Backlinks to '%s'", noteid)
 
-  local prompt_title
-  if opts.anchor then
-    prompt_title = string.format("Backlinks to '%s ❯ %s'", note.title, opts.anchor)
-  elseif opts.block then
-    prompt_title = string.format("Backlinks to '%s ❯ %s'", note.title, util.standardize_block(opts.block))
-  elseif noteissource then
-    prompt_title = string.format("Backlinks and references to '%s'", note.title)
-  else
-    prompt_title = string.format("Backlinks to '%s'", note.title)
-  end
-
-  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }), {
-    prompt_title = prompt_title,
-    title = prompt_title,
-    finder = finders.new_table {
-      results = references,
-      entry_maker = function(entry)
-        return make_entry.set_default_entry_mt(entry)
-      end
-    },
-    previewer = conf.file_previewer({}),
-    sorter = conf.generic_sorter({}),
-  }):find()
+  pickers.new(
+    require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }),
+    {
+      prompt_title = prompt_title,
+      title = prompt_title,
+      finder = finders.new_table {
+        results = references,
+        entry_maker = function(entry)
+          return make_entry.set_default_entry_mt(entry)
+        end
+      },
+      previewer = conf.file_previewer({}),
+      sorter = conf.generic_sorter({}),
+    }):find()
 end
 
 local function main()
@@ -285,28 +138,20 @@ local function main()
       location = vim.api.nvim_buf_get_name(0)
     end
 
+    -- local search_note = {}
+    -- for key, value in pairs(require("vault.search").get_all_notes()) do
+    --   if(value.id == location) then
+    --     search_note = value
+    --     break
+    --   end
+    -- end
+
+
+    -- ball
+
     local opts = { anchor = anchor_link, block = block_link }
+    collect_backlinks(location, opts)
 
-    vim.print("test")
-    client:resolve_note_async(location, function(...)
-      local notes = { ... }
-
-      if #notes == 0 then
-        log.err("No notes matching '%s'", location)
-        return
-      elseif #notes == 1 then
-        return collect_backlinks(client, picker, notes[1], opts)
-      else
-        return vim.schedule(function()
-          picker:pick_note(notes, {
-            prompt_title = "Select note",
-            callback = function(note)
-              collect_backlinks(client, picker, note, opts)
-            end,
-          })
-        end)
-      end
-    end)
   else
     local opts = {}
     local load_opts = {}
@@ -328,7 +173,7 @@ local function main()
     if note == nil then
       log.err "Current buffer does not appear to be a note inside the vault"
     else
-      collect_backlinks(client, picker, note, opts)
+      collect_backlinks(note.id, opts)
     end
   end
 end

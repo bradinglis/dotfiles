@@ -5,9 +5,26 @@ local util = require "obsidian.util"
 local Note = require "obsidian.note"
 
 local function print_test()
-  local client = require("obsidian").get_client()
-  local current_note = client:current_note(0, { load_contents = true })
-  print(vim.inspect(current_note))
+  -- local client = require("obsidian").get_client()
+  -- local current_note = client:current_note(0, { load_contents = true })
+  -- print(vim.inspect(current_note))
+  local lines = require("vault.search").get_lines()
+  print("Lines = " .. #lines)
+  local words = 0
+  for index, value in ipairs(lines) do
+    words = words + vim.tbl_count(vim.split(value.text, " ", {trimempty = true}))
+  end
+  print("Words = " .. words)
+end
+
+local function word_count()
+  local lines = require("vault.search").get_lines()
+  print("Lines = " .. #lines)
+  local words = 0
+  for index, value in ipairs(lines) do
+    words = words + vim.split(value.text, " ", {trimempty = true})
+  end
+  print("Words = " .. words)
 end
 
 local function note_id_gen(name)

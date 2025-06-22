@@ -14,7 +14,6 @@ return {
   {
     "bradinglis/obsidian.nvim",
     version = "*",
-    event = "VeryLazy",
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -87,6 +86,7 @@ return {
       callbacks = {
         post_setup = function()
           require("alts.alter")
+          require('vault.search').refresh_notes()
         end,
         enter_note = function(_, note)
           require("globals").set_hl()
@@ -160,50 +160,72 @@ return {
   {
     "OXY2DEV/markview.nvim",
     lazy = false,
-    branch = "dev",
     config = {
       preview = {
-        debounce = 0,
-        modes = { "n", "i", "c" },
-        hybrid_modes = { "n", "i" },
-        linewise_hybrid_mode = false,
+        debounce = 10,
+        max_buf_lines = 50,
+        draw_range = { vim.o.lines, vim.o.lines },
+        modes = { "n", "no", "i", "v", "c" },
+        hybrid_modes = { "n", "i", "v" },
+        linewise_hybrid_mode = true,
       },
       yaml = {
         properties = {
+          default = {
+            text = "󰗊  ",
+            hl = "MarkviewIcon4",
+            use_types = false,
+
+          },
+
           ["^id$"] = {
             match_string = "^id$",
             use_types = false,
 
-            text = "󰌕 ",
+            text = "󰌕  ",
             hl = "MarkviewIcon6"
           },
           ["^type$"] = {
             match_string = "^type$",
             use_types = false,
 
-            text = " ",
+            text = "  ",
             hl = "MarkviewIcon1"
           },
           ["^references$"] = {
             match_string = "^references$",
             use_types = false,
 
-            text = " ",
+            text = "  ",
             hl = "MarkviewIcon3"
           },
           ["^source.parents$"] = {
             match_string = "^source.parents$",
             use_types = false,
 
-            text = " ",
+            text = "  ",
             hl = "MarkviewIcon4"
           },
           ["^author$"] = {
             match_string = "^author$",
             use_types = false,
 
-            text = " ",
+            text = "  ",
             hl = "MarkviewIcon5"
+          },
+          ["^tags$"] = {
+            match_string = "^tags$",
+            use_types = false,
+
+            text = "󰓹  ",
+            hl = "MarkviewIcon0"
+          },
+          ["^aliases$"] = {
+            match_string = "^aliases$",
+            use_types = false,
+
+            text = "󱞫  ",
+            hl = "MarkviewIcon2"
           },
         }
       },
@@ -261,13 +283,6 @@ return {
         }
       }
     },
-    init = function(markview)
-      require("markview").setup({
-        markdown = {
-          -- headings = require("markview.presets").headings.marker,
-        }
-      })
-    end
 
     -- For blink.cmp's completion
     -- source

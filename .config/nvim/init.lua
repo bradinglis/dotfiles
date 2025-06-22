@@ -1,9 +1,6 @@
 --keeping
 vim.loader.enable()
-<<<<<<< HEAD
-=======
-vim.lsp.set_log_level("debug")
->>>>>>> 2f7eebefd8319a30d0b5021dd4c7524c022ca2a8
+-- vim.lsp.set_log_level("debug")
 
 require('globals')
 

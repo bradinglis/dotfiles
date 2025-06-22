@@ -129,7 +129,7 @@ local function markdown()
   local vault_actions = require 'vault_actions'
   local backlinks = require 'backlinks'
 
-  vim.api.nvim_create_user_command('PrintTest', vault_actions.new_source, {})
+  vim.api.nvim_create_user_command('PrintTest', vault_actions.print_test, {})
   vim.api.nvim_create_user_command('NewSource', vault_actions.new_source, {})
   vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
   vim.api.nvim_create_user_command('FindBacklinks', backlinks.backlink_search, {})
