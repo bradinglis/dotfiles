@@ -126,19 +126,20 @@ local function delete_surround(surround)
 end
 
 local function markdown()
-  local vault_actions = require 'vault_actions'
-  local backlinks = require 'backlinks'
+  local vault_create = require 'vault.create'
+  local vault_util = require 'vault.util'
 
-  vim.api.nvim_create_user_command('PrintTest', vault_actions.print_test, {})
-  vim.api.nvim_create_user_command('NewSource', vault_actions.new_source, {})
-  vim.api.nvim_create_user_command('NewNote', vault_actions.new_note, {})
-  vim.api.nvim_create_user_command('FindBacklinks', backlinks.backlink_search, {})
+  vim.api.nvim_create_user_command('PrintTest', vault_util.print_test, {})
+  vim.api.nvim_create_user_command('NewSource', vault_create.new_source, {})
+  vim.api.nvim_create_user_command('NewNote', vault_create.new_note, {})
+  vim.api.nvim_create_user_command('FindBacklinks', require('vault.backlinks').backlink_search, {})
 
   vim.api.nvim_create_user_command('SourceSearch', require 'vault.source_search', {})
   vim.api.nvim_create_user_command('AuthorSearch', require 'vault.author_search', {})
   vim.api.nvim_create_user_command('NoteSearch', require 'vault.note_search', {})
   vim.api.nvim_create_user_command('AllSearch', require 'vault.all_search', {})
-  vim.api.nvim_create_user_command('RefreshNotes', require 'vault.search'.refresh_notes, {})
+  vim.api.nvim_create_user_command('RefreshNotes', require 'vault.data'.refresh_notes, {})
+
   vim.api.nvim_create_user_command('TagSearch', function (args)
     if #args.fargs == 0 then
       require('vault.tag_search').all_tags()
@@ -147,12 +148,11 @@ local function markdown()
     end
   end, {nargs = '?'})
 
-  vim.keymap.set('n', '<CR>', function() return vault_actions.enter_command() end, { buffer = true, expr = true })
+  vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end, { buffer = true, expr = true })
   vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
 
-  -- vim.keymap.set('n', '<leader>fg', vim.cmd.ObsidianSearch, { desc = 'find grep', buffer = true })
   vim.keymap.set('n', '<leader>fg', require('vault.grep_search'), { desc = 'find grep', buffer = true })
-  vim.keymap.set('n', '<leader>fl', vim.cmd.FindBacklinks, { desc = 'find backlinks', buffer = true })
+  vim.keymap.set('n', '<leader>fl', vim.cmd.FindBacklinks, { desc = 'find backlinks)', buffer = true })
   vim.keymap.set('n', '<leader>ft', vim.cmd.TagSearch, { desc = 'find tags', buffer = true })
   vim.keymap.set('n', '<leader>fn', require 'vault.note_search', { desc = 'find note', buffer = true })
   vim.keymap.set('n', '<leader>fs', require 'vault.source_search', { desc = 'find source', buffer = true })
@@ -161,11 +161,10 @@ local function markdown()
   vim.keymap.set('n', '<leader>fx', require 'vault.all_search', { desc = 'find all notes', buffer = true })
 
   wk.add({ { "<leader>n", group = "new", icon = { cat = "filetype", name = "markdown" } } })
-  vim.keymap.set({ "v", "n" }, '<leader>ns', vault_actions.new_source, { desc = 'new source', buffer = true })
-  vim.keymap.set({ "v", "n" }, '<leader>nn', vault_actions.new_note, { desc = 'new note', buffer = true })
-  vim.keymap.set({ "v", "n" }, '<leader>na', vault_actions.new_author, { desc = 'new author', buffer = true })
-  vim.keymap.set('x', '<leader>np', vault_actions.append_to_note, { desc = 'append to note', buffer = true })
-
+  vim.keymap.set({ "v", "n" }, '<leader>ns', vault_create.new_source, { desc = 'new source', buffer = true })
+  vim.keymap.set({ "v", "n" }, '<leader>nn', vault_create.new_note, { desc = 'new note', buffer = true })
+  vim.keymap.set({ "v", "n" }, '<leader>na', vault_create.new_author, { desc = 'new author', buffer = true })
+  vim.keymap.set('x', '<leader>np', vault_create.append_to_note, { desc = 'append to note', buffer = true })
 
   vim.keymap.set('x', '<leader>h', function() surround_visual('==') end, { buffer = true })
   vim.keymap.set('x', '<leader>b', function() surround_visual('**') end, { buffer = true })
@@ -178,8 +177,11 @@ local function markdown()
   vim.keymap.set('n', '<leader>de', function() delete_surround('*') end, { buffer = true, desc = 'delete italic' })
   vim.keymap.set('n', '<leader>dc', function() delete_surround('`') end, { buffer = true, desc = 'delete code' })
 
-  vim.keymap.set('n', '<leader>r', [[:%s/\v(\a\.) (\u)/\1\r\2/g|norm!``<CR>]], { buffer = true })
-  vim.keymap.set('n', '<leader>R', [[:%s/\v(\a\.)\n(\u)/\1 \2/g|norm!``<CR>]], { buffer = true })
+  vim.keymap.set('n', '<leader>r', function () 
+    vim.cmd.Markview("Toggle")
+    vim.opt.conceallevel = 2
+    vim.opt.concealcursor = ""
+  end, { buffer = true })
 
   vim.keymap.set('i', '--', '—', { buffer = true })
   vim.keymap.set('i', '->', '→', { buffer = true })

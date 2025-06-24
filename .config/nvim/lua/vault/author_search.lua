@@ -7,7 +7,7 @@ local conf = require("telescope.config").values
 local themes = require("telescope.themes")
 
 local pick_author = function()
-  local author_notes = require("vault.search").get_author_notes()
+  local author_notes = require("vault.data").get_author_notes()
 
   local displayer = entry_display.create {
     separator = " ",

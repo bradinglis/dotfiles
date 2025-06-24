@@ -86,13 +86,15 @@ return {
       callbacks = {
         post_setup = function()
           require("alts.alter")
-          require('vault.search').refresh_notes()
+          require('vault.data').refresh_notes()
         end,
         enter_note = function(_, note)
           require("globals").set_hl()
+          vim.opt.conceallevel = 2
+          vim.opt.concealcursor = ""
           if note.has_frontmatter then
-            require("vault_actions").frontmatter_highlighting(note)
-            require("vault_actions").tag_highlighting(note)
+            require("vault.util").frontmatter_highlighting(note)
+            require("vault.util").tag_highlighting(note)
           end
         end,
       },
@@ -140,14 +142,13 @@ return {
         return out
       end,
       ui = {
-        enable = false,
         hl_groups = {
           ObsidianTodo = { bold = true, fg = colours.yellow },
           ObsidianDone = { bold = true, fg = colours.blue },
           ObsidianRightArrow = { bold = true, fg = colours.orange },
           ObsidianTilde = { bold = true, fg = colours.purple },
           ObsidianImportant = { bold = true, fg = colours.red },
-          ObsidianBullet = { bold = true, fg = colours.blue },
+          ObsidianBullet = { bold = true, fg = colours.orange },
           ObsidianRefText = { underline = true, fg = colours.blue },
           ObsidianExtLinkIcon = { fg = colours.blue },
           ObsidianTag = { italic = true, fg = colours.aqua },
@@ -162,6 +163,124 @@ return {
     lazy = false,
     config = {
       preview = {
+        callbacks = {
+          on_attach = function(_, wins)
+            local attach_state = spec.get({ "preview", "enable" }, { fallback = true, ignore_enable = true });
+
+            if attach_state == false then
+              return;
+            end
+
+            for _, win in ipairs(wins) do
+              vim.wo[win].conceallevel = 2;
+            end
+          end,
+
+          on_detach = function(_, wins)
+            for _, win in ipairs(wins) do
+              vim.wo[win].conceallevel = 2;
+            end
+          end,
+
+          on_enable = function(_, wins)
+            local attach_state = spec.get({ "preview", "enable" }, { fallback = true, ignore_enable = true });
+
+            if attach_state == false then
+              ---@type string[]
+              local preview_modes = spec.get({ "preview", "modes" }, { fallback = {}, ignore_enable = true });
+              ---@type string[]
+              local hybrid_modes = spec.get({ "preview", "hybrid_modes" }, { fallback = {}, ignore_enable = true });
+
+              local concealcursor = "";
+
+              for _, mode in ipairs(preview_modes) do
+                if vim.list_contains(hybrid_modes, mode) == false and vim.list_contains({ "n", "v", "i", "c" }, mode) then
+                  concealcursor = concealcursor .. mode;
+                end
+              end
+
+              for _, win in ipairs(wins) do
+                vim.wo[win].conceallevel = 2;
+                vim.wo[win].concealcursor = concealcursor;
+              end
+            else
+              for _, win in ipairs(wins) do
+                vim.wo[win].conceallevel = 2;
+              end
+            end
+          end,
+
+          on_disable = function(_, wins)
+            for _, win in ipairs(wins) do
+              vim.wo[win].conceallevel = 2;
+            end
+          end,
+
+          on_hybrid_enable = function(_, wins)
+            ---@type string[]
+            local preview_modes = spec.get({ "preview", "modes" }, { fallback = {}, ignore_enable = true });
+            ---@type string[]
+            local hybrid_modes = spec.get({ "preview", "hybrid_modes" }, { fallback = {}, ignore_enable = true });
+
+            local concealcursor = "";
+
+            for _, mode in ipairs(preview_modes) do
+              if vim.list_contains(hybrid_modes, mode) == false and vim.list_contains({ "n", "v", "i", "c" }, mode) then
+                concealcursor = concealcursor .. mode;
+              end
+            end
+
+            for _, win in ipairs(wins) do
+              vim.wo[win].concealcursor = concealcursor;
+            end
+          end,
+
+          on_hybrid_disable = function(_, wins)
+            ---@type string[]
+            local preview_modes = spec.get({ "preview", "modes" }, { fallback = {}, ignore_enable = true });
+            local concealcursor = "";
+
+            for _, mode in ipairs(preview_modes) do
+              if vim.list_contains({ "n", "v", "i", "c" }, mode) then
+                concealcursor = concealcursor .. mode;
+              end
+            end
+
+            for _, win in ipairs(wins) do
+              vim.wo[win].concealcursor = concealcursor;
+            end
+          end,
+
+          on_mode_change = function(_, wins, current_mode)
+            ---@type string[]
+            local preview_modes = spec.get({ "preview", "modes" }, { fallback = {}, ignore_enable = true });
+            ---@type string[]
+            local hybrid_modes = spec.get({ "preview", "hybrid_modes" }, { fallback = {}, ignore_enable = true });
+
+            local concealcursor = "";
+
+            for _, mode in ipairs(preview_modes) do
+              if vim.list_contains(hybrid_modes, mode) == false and vim.list_contains({ "n", "v", "i", "c" }, mode) then
+                concealcursor = concealcursor .. mode;
+              end
+            end
+
+            for _, win in ipairs(wins) do
+              if vim.list_contains(preview_modes, current_mode) then
+                vim.wo[win].conceallevel = 3;
+                vim.wo[win].concealcursor = concealcursor;
+              else
+                vim.wo[win].conceallevel = 0;
+                vim.wo[win].concealcursor = "";
+              end
+            end
+          end,
+
+          on_splitview_open = function(_, _, win)
+            vim.wo[win].conceallevel = 3;
+            vim.wo[win].concealcursor = "n";
+          end
+        },
         debounce = 10,
         max_buf_lines = 50,
         draw_range = { vim.o.lines, vim.o.lines },
@@ -231,14 +350,7 @@ return {
       },
       markdown = {
         list_items = {
-          indent_size = 0,
-          marker_minus = {
-            add_padding = false,
-            text = "•",
-          },
-          marker_dot = {
-            add_padding = false
-          }
+          enable = false,
         },
         headings = {
           heading_1 = {
@@ -275,7 +387,11 @@ return {
       },
 
       markdown_inline = {
+        hyperlinks = {
+          enable = false,
+        },
         internal_links = {
+          enable = false,
           default = {
             icon = "",
             hl = "MarkviewHyperlink",

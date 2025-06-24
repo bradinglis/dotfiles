@@ -62,6 +62,10 @@
   j down
   k up
   l right
+  n home
+  m pgdn
+  , pgup
+  . end
 )
 
 (deflayer nomods

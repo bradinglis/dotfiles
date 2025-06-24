@@ -19,8 +19,8 @@ end
 
 
 local single_tag = function(tag)
-  local notes = require("vault.search").get_notes()
-  local tags = require("vault.search").get_tags()
+  local notes = require("vault.data").get_notes()
+  local tags = require("vault.data").get_tags()
 
   local tag_notes = vim.tbl_values(tags[tag])
 
@@ -134,7 +134,7 @@ local single_tag = function(tag)
 end
 
 local all_tags = function()
-  local tags = require("vault.search").get_tags()
+  local tags = require("vault.data").get_tags()
   local tag_keys = vim.tbl_keys(tags)
 
   local displayer = entry_display.create {

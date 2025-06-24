@@ -66,7 +66,7 @@ source.complete = function(_, request, callback)
     return callback { isIncomplete = true }
   end
 
-  local source_notes = require("vault.search").get_source_notes()
+  local source_notes = require("vault.data").get_source_notes()
 
   local items = {}
 

@@ -31,12 +31,13 @@ vim.opt.incsearch = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.conceallevel = 2
+vim.opt.concealcursor = ""
 vim.opt.inccommand = "split"
 vim.opt.showtabline = 0
 
 vim.g["pencil#wrapModeDefault"] = "soft"
 vim.g["pencil#conceallevel"] = 2
-vim.g.bullets_outline_levels = {'ROM', 'ABC', 'num', 'abc', 'rom', 'std-'}
+vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
 vim.g.mkdp_browser = 'Chrome'
 vim.g.mkdp_echo_preview_url = 1
 
@@ -60,12 +61,12 @@ local function set_hl()
   vim.api.nvim_set_hl(0, "ObsidianRightArrow", { bold = true, fg = colours.orange })
   vim.api.nvim_set_hl(0, "ObsidianTilde", { bold = true, fg = colours.purple })
   vim.api.nvim_set_hl(0, "ObsidianImportant", { bold = true, fg = colours.red })
-  vim.api.nvim_set_hl(0, "ObsidianBullet", { bold = true, fg = colours.blue })
+  vim.api.nvim_set_hl(0, "ObsidianBullet", { bold = true, fg = colours.orange })
   vim.api.nvim_set_hl(0, "ObsidianRefText", { underline = true, fg = colours.blue })
   vim.api.nvim_set_hl(0, "ObsidianExtLinkIcon", { fg = colours.blue })
   vim.api.nvim_set_hl(0, "ObsidianTag", { italic = true, fg = colours.aqua })
   vim.api.nvim_set_hl(0, "ObsidianBlockID", { italic = true, fg = colours.orange })
-  vim.api.nvim_set_hl(0, "ObsidianHighlightText", { bg = colours.bggreen })
+  vim.api.nvim_set_hl(0, "ObsidianHighlightText", { bg = colours.bgyellow })
   vim.api.nvim_set_hl(0, "markdownItalic", { italic = true, fg = colours.green })
   vim.api.nvim_set_hl(0, "markdownBold", { bold = true, fg = colours.yellow })
   vim.api.nvim_set_hl(0, "markdownBoldItalic", { italic = true, bold = true, fg = colours.red })
@@ -83,8 +84,8 @@ local function set_hl()
   vim.api.nvim_set_hl(0, "RenderMarkdownH6Bg", { bg = colours.bgall })
   vim.api.nvim_set_hl(0, "RenderMarkdownLink", { underline = true, fg = colours.blue })
   vim.api.nvim_set_hl(0, "RenderMarkdownWikiLink", { underline = true, fg = colours.blue })
-  vim.api.nvim_set_hl(0, "@markup.list.markdown", { fg = colours.orange })
-  vim.api.nvim_set_hl(0, "@markup.link.label", { underline = true, fg = colours.blue })
+  vim.api.nvim_set_hl(0, "@markup.list.markdown", { fg = colours.orange, bold = true })
+  -- vim.api.nvim_set_hl(0, "@markup.link.label", { underline = true, fg = colours.blue })
   vim.api.nvim_set_hl(0, "RenderMarkdownInlineHighlight", { bg = colours.bggreen })
   vim.api.nvim_set_hl(0, "@property.yaml", { fg = colours.purple })
 end

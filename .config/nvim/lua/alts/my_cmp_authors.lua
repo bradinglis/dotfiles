@@ -69,7 +69,7 @@ author.complete = function(_, request, callback)
     return callback { isIncomplete = true }
   end
 
-  local author_notes = require("vault.search").get_author_notes()
+  local author_notes = require("vault.data").get_author_notes()
 
   local items = {}
 

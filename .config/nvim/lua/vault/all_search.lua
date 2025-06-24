@@ -7,7 +7,7 @@ local conf = require("telescope.config").values
 local client = require "telescope.pickers"
 
 local pick_all = function()
-  local all_notes = require("vault.search").get_all_notes()
+  local all_notes = require("vault.data").get_all_notes()
 
   local displayer = entry_display.create {
     separator = " ",

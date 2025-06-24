@@ -11,7 +11,12 @@ return {
       extensions = { 'quickfix', 'nvim-tree' },
       sections = {
         lualine_a = { 'mode' },
-        lualine_b = {},
+        lualine_b = {
+          {
+            require("noice").api.status.mode.get,
+            cond = require("noice").api.status.mode.has,
+          },
+        },
         lualine_c = {
           {
             'harpoon2',
@@ -38,14 +43,16 @@ return {
             color_active = { bg = "#475258" },
           },
         },
-        lualine_x = { {
-          'filename',
-          path = 1,
-        } },
+        lualine_x = {
+          {
+            'filename',
+            path = 1,
+          },
+        },
         lualine_y = { 'diagnostics', 'diff', 'branch' },
       }
     },
-    dependencies = { 'nvim-tree/nvim-web-devicons', "letieu/harpoon-lualine" }
+    dependencies = { "folke/noice.nvim", 'nvim-tree/nvim-web-devicons', "letieu/harpoon-lualine" }
   },
   {
     "neanias/everforest-nvim",

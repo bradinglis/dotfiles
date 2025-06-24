@@ -6,7 +6,7 @@ local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 
 local grep = function()
-  local lines = require("vault.search").get_lines()
+  local lines = require("vault.data").get_lines()
   local cwd = require("obsidian"):get_client().dir
 
   local displayer = entry_display.create {
