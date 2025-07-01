@@ -12,10 +12,10 @@ return {
       sections = {
         lualine_a = { 'mode' },
         lualine_b = {
-          {
-            require("noice").api.status.mode.get,
-            cond = require("noice").api.status.mode.has,
-          },
+          -- {
+          --   require("noice").api.status.mode.get,
+          --   cond = function() return require("noice").api.status.mode.has() end,
+          -- },
         },
         lualine_c = {
           {

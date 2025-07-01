@@ -1,5 +1,5 @@
 (defcfg
-  process-unmapped-keys yes
+  process-unmapped-keys no
 )
 ;;(defsrc
 ;;  a   s   d   f   j   k   l   ;
@@ -42,8 +42,6 @@
    ; @;
 
    spc (tap-hold-release $tap-time $hold-time spc (layer-while-held numnav))
-   caps esc
-   esc caps
 )
 
 (deflayermap (numnav)

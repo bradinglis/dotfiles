@@ -98,9 +98,6 @@ return {
 
     if hostname == 'AL6WZQHR3' then
       notesdir = '~/notes'
-      vim.opt.shell = "powershell"
-      vim.opt.shellcmdflag = "-nologo -noprofile -ExecutionPolicy RemoteSigned -command"
-      vim.opt.shellxquote = ''
     elseif hostname == 'DESKTOP-6K7U30E' then
       notesdir = '~/zettel'
     elseif hostname == 'Brads-MBP' then

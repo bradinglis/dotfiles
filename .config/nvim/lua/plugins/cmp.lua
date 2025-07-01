@@ -85,10 +85,10 @@ return {
       cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
     end,
     dependencies = {
-      "cmp-buffer",
-      "cmp-cmdline",
-      "cmp-nvim-lsp",
-      "cmp-path",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-cmdline",
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
       'L3MON4D3/LuaSnip',
       'saadparwaiz1/cmp_luasnip',
     }
