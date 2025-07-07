@@ -4,6 +4,10 @@ if [ -f ~/.zprofile ]; then
     source ~/.zprofile
 fi
 
+if [ -f ~/.profile ]; then
+    source ~/.profile
+fi
+
 # stty stop undef #disable ^s
 setopt autocd
 bindkey -v
@@ -16,7 +20,7 @@ alias sv="sudo nvim"
 alias g="git"
 alias mkd="mkdir -pv"
 alias vrc="nvim ~/.config/nvim/init.vim"
-export TERM=alacritty
+# export TERM=alacritty
 
 setopt GLOB_DOTS
 
@@ -204,8 +208,9 @@ n ()
     }
 }
 
-setxkbmap -option caps:escape
+# setxkbmap -option caps:escape
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 eval "$(oh-my-posh init zsh --config $HOME/.config/omp/theme.toml)"

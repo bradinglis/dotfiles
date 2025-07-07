@@ -1,20 +1,59 @@
-version = 2
-final_space = true
 console_title_template = '{{ .Shell }} in {{ .Folder }}'
+version = 3
+final_space = true
+
+[palette]
+  background = '#2d353b'
+  black = '#475258'
+  blue = '#7fbbb3'
+  cyan = '#83c092'
+  foreground = '#d3c6aa'
+  green = '#a7c080'
+  magenta = '#d699b6'
+  orange = '#e69875'
+  red = '#e67e80'
+  white = '#d3c6aa'
+  yellow = '#dbbc7f'
+  grey = '#7A8478'
+
+[transient_prompt]
+  template = '⟩ '
+  background = 'transparent'
+  foreground_templates = ['{{if gt .Code 0}}p:red{{end}}', '{{if eq .Code 0}}p:green{{end}}']
 
 [[blocks]]
-type = 'prompt'
-alignment = 'left'
+  type = 'prompt'
+  alignment = 'left'
 
   [[blocks.segments]]
+    template = '{{ .Path }}'
+    foreground = 'p:blue'
+    background = 'transparent'
     type = 'path'
     style = 'plain'
-    background = 'transparent'
-    foreground = 'p:blue'
-    template = '{{ .Path }}'
 
     [blocks.segments.properties]
+      cache_duration = 'none'
       style = 'full'
+
+  [[blocks.segments]]
+    type = "git"
+    style = "plain"
+    foreground = "p:green"
+    background = 'transparent'
+    template = "<p:grey></> {{ .UpstreamIcon }} {{ .HEAD }}{{if .BranchStatus }} {{ .BranchStatus }}{{ end }}{{ if .Working.Changed }}<p:grey> |</><p:red>  {{ .Working.String }}</>{{ end }}{{ if .Staging.Changed }}<p:grey> | </><p:blue> {{ .Staging.String }}</>{{ end }}{{ if gt .StashCount 0 }}  {{ .StashCount }}{{ end }}"
+
+    [blocks.segments.properties]
+    fetch_status = true
+    fetch_upstream_icon = true
+    source = "cli"
+
+      [blocks.segments.properties.untracked_modes]
+      "/Users/user/Projects/oh-my-posh/" = "no"
+
+      [blocks.segments.properties.mapped_branches]
+      "feat/*" = "🚀 "
+      "bug/*" = "🐛 "
 
 [[blocks]]
   type = 'prompt'
@@ -22,35 +61,12 @@ alignment = 'left'
   newline = true
 
   [[blocks.segments]]
+    template = '⟩'
+    background = 'transparent'
     type = 'text'
     style = 'plain'
-    # foreground = 'p:green'
-    foreground_templates = [
-        "{{if gt .Code 0}}p:red{{end}}",
-        "{{if eq .Code 0}}p:green{{end}}",
-    ]
-    background = 'transparent'
-    template = '⟩'
+    foreground_templates = ['{{if gt .Code 0}}p:red{{end}}', '{{if eq .Code 0}}p:green{{end}}']
 
-[transient_prompt]
-  foreground_templates = [
-      "{{if gt .Code 0}}p:red{{end}}",
-      "{{if eq .Code 0}}p:green{{end}}",
-  ]
-  background = 'transparent'
-  template = '⟩ '
+    [blocks.segments.properties]
+      cache_duration = 'none'
 
-
-
-[palette]
-  background = '#2d353b'
-  black   = '#475258'
-  red     = '#e67e80'
-  green   = '#a7c080'
-  yellow  = '#dbbc7f'
-  blue    = '#7fbbb3'
-  magenta = '#d699b6'
-  cyan    = '#83c092'
-  white   = '#d3c6aa'
-  orange = '#e69875'
-  foreground = '#d3c6aa'

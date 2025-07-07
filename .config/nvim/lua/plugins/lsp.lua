@@ -10,7 +10,9 @@ return {
       }
     },
     dependencies = {
-      { "mason-org/mason.nvim", opts = {} },
+      { "mason-org/mason.nvim", opts = {
+        log_level = vim.log.levels.DEBUG
+      } },
       "neovim/nvim-lspconfig",
       "barreiroleo/ltex-extra.nvim",
       "Hoffs/omnisharp-extended-lsp.nvim",

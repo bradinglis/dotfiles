@@ -97,6 +97,7 @@ return {
     local notesdir = ''
 
     if hostname == 'AL6WZQHR3' then
+
       notesdir = '~/notes'
     elseif hostname == 'DESKTOP-6K7U30E' then
       notesdir = '~/zettel'
@@ -109,8 +110,10 @@ return {
     elseif hostname == 'bradpc' then
       notesdir = '~/zettel'
     else
+      vim.o.shell = "/bin/zsh"
       notesdir = '~/zettel'
     end
+    vim.o.shell = "/bin/zsh"
 
     return {
       notesdir = notesdir,

@@ -5,11 +5,10 @@ return {
     build = ":TSUpdate",
     branch = 'master',
     event = { "BufReadPre", "VeryLazy" },
-    lazy = vim.fn.argc(-1) == 0,
+    lazy = false,
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
 
     opts = {
-      ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline", "graphql", "go", "c_sharp", "gleam" },
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = true,
@@ -82,7 +81,7 @@ return {
       vim.treesitter.language.register('c_sharp', 'csharp')
       require 'nvim-treesitter.install'.prefer_git = true
     end,
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", 'ThePrimeagen/git-worktree.nvim' }
+    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", 'ThePrimeagen/git-worktree.nvim', "OXY2DEV/markview.nvim" }
   },
   {
     "nvim-treesitter/nvim-treesitter-textobjects",
