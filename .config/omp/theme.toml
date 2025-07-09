@@ -16,10 +16,10 @@ final_space = true
   yellow = '#dbbc7f'
   grey = '#7A8478'
 
-[transient_prompt]
-  template = '⟩ '
-  background = 'transparent'
-  foreground_templates = ['{{if gt .Code 0}}p:red{{end}}', '{{if eq .Code 0}}p:green{{end}}']
+# [transient_prompt]
+#   template = '⟩ '
+#   background = 'transparent'
+#   foreground_templates = ['{{if gt .Code 0}}p:red{{end}}', '{{if eq .Code 0}}p:green{{end}}']
 
 [[blocks]]
   type = 'prompt'
