@@ -44,6 +44,7 @@ alias la='ls -A'
 alias ll='ls -lhA'
 alias l='ls'
 alias l.="ls -A | egrep '^\.'"
+alias cmake='cmake3'
 
 #fix obvious typo's
 alias cd..='cd ..'
