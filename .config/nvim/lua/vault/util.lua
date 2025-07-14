@@ -172,7 +172,7 @@ local function cursor_on_link()
         end
         local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
         for _, value in pairs(lines) do
-          for id, reference in string.gmatch(value, "%[([0-9]+)%]: (%w+)") do
+          for id, reference in string.gmatch(value, "%[([0-9]+)%]: (.+)") do
             if id == ref then
               return reference
             end
@@ -262,7 +262,7 @@ local function links_to_reference()
       if links[id] == nil then
         links[id] = vim.tbl_count(links)
       end
-      value = string.gsub(value, "%[%[" .. id .. "%|" .. text .. "%]%]", "[" .. text .. "][" .. links[id] .. "]")
+      value = string.gsub(value, "%[%[" .. id:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%|" .. text:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%]%]", "[" .. text .. "][" .. links[id] .. "]")
     end
     new_lines[#new_lines + 1] = value
   end
@@ -282,7 +282,7 @@ local function references_to_links()
   local new_lines = {}
   for _, value in pairs(lines) do
     local count = vim.tbl_count(references)
-    for id, reference in string.gmatch(value, "%[([0-9]+)%]: (%w+)") do
+    for id, reference in string.gmatch(value, "%[([0-9]+)%]: (.+)") do
       references[id] = reference
     end
     if count == vim.tbl_count(references) then
@@ -292,7 +292,7 @@ local function references_to_links()
 
   for i, value in pairs(new_lines) do
     for text, id in string.gmatch(value, "%[([^%]]+)%]%[(%d+)%]") do
-      value = string.gsub(value, "%[" .. text .. "%]%[" .. id .. "%]", "[[" .. references[id] .. "|" .. text .. "]]")
+      value = string.gsub(value, "%[" .. text:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%]%[" .. id:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%]", "[[" .. references[id] .. "|" .. text .. "]]")
     end
     new_lines[i] = value
   end

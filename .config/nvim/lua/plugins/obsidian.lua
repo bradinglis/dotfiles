@@ -33,7 +33,7 @@ return {
       workspaces = {
         {
           name = "notes",
-          path = globs.notesdir,
+          path = "~/test/zettel/",
         },
       },
       completion = {
