@@ -35,6 +35,7 @@ vim.opt.concealcursor = ""
 vim.opt.inccommand = "split"
 vim.opt.showtabline = 0
 
+vim.g["pencil#cursorwrap"] = 0
 vim.g["pencil#wrapModeDefault"] = "soft"
 vim.g["pencil#conceallevel"] = 2
 vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
@@ -85,7 +86,7 @@ local function set_hl()
   vim.api.nvim_set_hl(0, "RenderMarkdownLink", { underline = true, fg = colours.blue })
   vim.api.nvim_set_hl(0, "RenderMarkdownWikiLink", { underline = true, fg = colours.blue })
   vim.api.nvim_set_hl(0, "@markup.list.markdown", { fg = colours.orange, bold = true })
-  -- vim.api.nvim_set_hl(0, "@markup.link.label", { underline = true, fg = colours.blue })
+  vim.api.nvim_set_hl(0, "@markup.link.label", { underline = true, fg = colours.blue })
   vim.api.nvim_set_hl(0, "RenderMarkdownInlineHighlight", { bg = colours.bggreen })
   vim.api.nvim_set_hl(0, "@property.yaml", { fg = colours.purple })
 end

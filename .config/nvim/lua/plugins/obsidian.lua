@@ -17,16 +17,8 @@ return {
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      {
-        "preservim/vim-pencil",
-        init = function()
-          vim.g["pencil#cursorwrap"] = 0
-          vim.g["pencil#wrapModeDefault"] = "soft"
-          vim.g["pencil#conceallevel"] = 2
-        end,
-      },
+      "preservim/vim-pencil",
       "bullets-vim/bullets.vim",
-      -- 'MeanderingProgrammer/render-markdown.nvim',
 
     },
 
@@ -142,6 +134,7 @@ return {
         return out
       end,
       ui = {
+        enable = false,
         hl_groups = {
           ObsidianTodo = { bold = true, fg = colours.yellow },
           ObsidianDone = { bold = true, fg = colours.blue },
@@ -159,130 +152,12 @@ return {
     },
   },
   {
-    "OXY2DEV/markview.nvim",
+    "bradinglis/markview.nvim",
     lazy = false,
     priority = 49,
     config = {
       preview = {
-        callbacks = {
-          on_attach = function(_, wins)
-            local attach_state = spec.get({ "preview", "enable" }, { fallback = true, ignore_enable = true });
-
-            if attach_state == false then
-              return;
-            end
-
-            for _, win in ipairs(wins) do
-              vim.wo[win].conceallevel = 2;
-            end
-          end,
-
-          on_detach = function(_, wins)
-            for _, win in ipairs(wins) do
-              vim.wo[win].conceallevel = 2;
-            end
-          end,
-
-          on_enable = function(_, wins)
-            local attach_state = spec.get({ "preview", "enable" }, { fallback = true, ignore_enable = true });
-
-            if attach_state == false then
-              ---@type string[]
-              local preview_modes = spec.get({ "preview", "modes" }, { fallback = {}, ignore_enable = true });
-              ---@type string[]
-              local hybrid_modes = spec.get({ "preview", "hybrid_modes" }, { fallback = {}, ignore_enable = true });
-
-              local concealcursor = "";
-
-              for _, mode in ipairs(preview_modes) do
-                if vim.list_contains(hybrid_modes, mode) == false and vim.list_contains({ "n", "v", "i", "c" }, mode) then
-                  concealcursor = concealcursor .. mode;
-                end
-              end
-
-              for _, win in ipairs(wins) do
-                vim.wo[win].conceallevel = 2;
-                vim.wo[win].concealcursor = concealcursor;
-              end
-            else
-              for _, win in ipairs(wins) do
-                vim.wo[win].conceallevel = 2;
-              end
-            end
-          end,
-
-          on_disable = function(_, wins)
-            for _, win in ipairs(wins) do
-              vim.wo[win].conceallevel = 2;
-            end
-          end,
-
-          on_hybrid_enable = function(_, wins)
-            ---@type string[]
-            local preview_modes = spec.get({ "preview", "modes" }, { fallback = {}, ignore_enable = true });
-            ---@type string[]
-            local hybrid_modes = spec.get({ "preview", "hybrid_modes" }, { fallback = {}, ignore_enable = true });
-
-            local concealcursor = "";
-
-            for _, mode in ipairs(preview_modes) do
-              if vim.list_contains(hybrid_modes, mode) == false and vim.list_contains({ "n", "v", "i", "c" }, mode) then
-                concealcursor = concealcursor .. mode;
-              end
-            end
-
-            for _, win in ipairs(wins) do
-              vim.wo[win].concealcursor = concealcursor;
-            end
-          end,
-
-          on_hybrid_disable = function(_, wins)
-            ---@type string[]
-            local preview_modes = spec.get({ "preview", "modes" }, { fallback = {}, ignore_enable = true });
-            local concealcursor = "";
-
-            for _, mode in ipairs(preview_modes) do
-              if vim.list_contains({ "n", "v", "i", "c" }, mode) then
-                concealcursor = concealcursor .. mode;
-              end
-            end
-
-            for _, win in ipairs(wins) do
-              vim.wo[win].concealcursor = concealcursor;
-            end
-          end,
-
-          on_mode_change = function(_, wins, current_mode)
-            ---@type string[]
-            local preview_modes = spec.get({ "preview", "modes" }, { fallback = {}, ignore_enable = true });
-            ---@type string[]
-            local hybrid_modes = spec.get({ "preview", "hybrid_modes" }, { fallback = {}, ignore_enable = true });
-
-            local concealcursor = "";
-
-            for _, mode in ipairs(preview_modes) do
-              if vim.list_contains(hybrid_modes, mode) == false and vim.list_contains({ "n", "v", "i", "c" }, mode) then
-                concealcursor = concealcursor .. mode;
-              end
-            end
-
-            for _, win in ipairs(wins) do
-              if vim.list_contains(preview_modes, current_mode) then
-                vim.wo[win].conceallevel = 3;
-                vim.wo[win].concealcursor = concealcursor;
-              else
-                vim.wo[win].conceallevel = 0;
-                vim.wo[win].concealcursor = "";
-              end
-            end
-          end,
-
-          on_splitview_open = function(_, _, win)
-            vim.wo[win].conceallevel = 3;
-            vim.wo[win].concealcursor = "n";
-          end
-        },
-        debounce = 10,
+        debounce = 1,
         max_buf_lines = 50,
         draw_range = { vim.o.lines, vim.o.lines },
         modes = { "n", "no", "i", "v", "c" },
@@ -384,53 +259,70 @@ return {
             icon = "§ ",
             icon_hl = "MarkviewHeading6",
           },
+          setext_1 = {
+            border = "",
+            border_hl = "",
+            hl = "",
+            icon = "",
+            icon_hl = "",
+            sign = "",
+            sign_hl = "",
+            style = "",
+          },
+          setext_2 = {
+            border = "",
+            border_hl = "",
+            hl = "",
+            icon = "",
+            icon_hl = "",
+            sign = "",
+            sign_hl = "",
+            style = "",
+          },
         }
       },
 
       markdown_inline = {
         hyperlinks = {
-          enable = false,
-        },
-        internal_links = {
-          enable = false,
+          enable = true,
           default = {
             icon = "",
             hl = "MarkviewHyperlink",
           }
+        },
+        internal_links = {
+          enable = true,
+          default = {
+            icon = "",
+            hl = "MarkviewHyperlink",
+          }
+        },
+        footnotes = {
+          enable = true,
+          default = {
+            icon = "",
+          },
+          ["^%d+$"] = {
+
+            icon = "",
+            hl = "MarkviewPalette4Fg"
+          }
+
         }
       }
     },
-
-    -- For blink.cmp's completion
-    -- source
-    -- dependencies = {
-    --     "saghen/blink.cmp"
-    -- },
   },
-  -- {
-  --   'MeanderingProgrammer/render-markdown.nvim',
-  --   ft = "markdown",
-  --   event = "BufEnter",
-  --   dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' }, -- if you prefer nvim-web-devicons
-  --   log_level = 'trace',
-  --   opts = {
-  --     preset = 'obsidian',
-  --     bullet = {
-  --       icons = "•",
-  --     },
-  --     checkbox = {
-  --       unchecked = {
-  --         icon = '󰄱 ',
-  --       },
-  --       checked = {
-  --         icon = ' ',
-  --       },
-  --       custom = {
-  --         next = { raw = '[>]', rendered = ' ', highlight = 'ObsidianRightArrow', scope_highlight = nil },
-  --         blocked = { raw = '[!]', rendered = ' ', highlight = 'ObsidianImportant', scope_highlight = nil },
-  --         tilde = { raw = '[~]', rendered = '󰰱 ', highlight = 'ObsidianTilde', scope_highlight = nil },
-  --       },
-  --     }
-  --   },
-  -- },
+  {
+    'chenxin-yan/footnote.nvim',
+    event = "VeryLazy",
+    opts = {
+      keys = {
+        new_footnote = '<C-f>',
+        organize_footnotes = '<leader>of',
+        next_footnote = ']f',
+        prev_footnote = '[f',
+      },
+      organize_on_new = true,
+    }
+  }
 }

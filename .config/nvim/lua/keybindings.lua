@@ -35,6 +35,8 @@ local function general()
     { desc = 'git worktrees' })
   vim.keymap.set('n', '<leader>gn', require('telescope').extensions.git_worktree.create_git_worktree,
     { desc = 'create git worktree' })
+  vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { desc = 'create git worktree' })
+  vim.keymap.set('n', '<leader>gc', '<cmd>DiffviewClose<CR>', { desc = 'create git worktree' })
 
   -- Functional
   vim.keymap.set('n', '<leader>v', vim.cmd.Oil, { desc = 'file browser' })
@@ -150,6 +152,8 @@ local function markdown()
 
   vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end, { buffer = true, expr = true })
   vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
+  vim.keymap.set('n', '<leader>rr', vault_util.links_to_reference, { buffer = true })
+  vim.keymap.set('n', '<leader>rl', vault_util.references_to_links, { buffer = true })
 
   vim.keymap.set('n', '<leader>fg', require('vault.grep_search'), { desc = 'find grep', buffer = true })
   vim.keymap.set('n', '<leader>fl', vim.cmd.FindBacklinks, { desc = 'find backlinks)', buffer = true })
