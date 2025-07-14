@@ -69,4 +69,3 @@ final_space = true
 
     [blocks.segments.properties]
       cache_duration = 'none'
-
