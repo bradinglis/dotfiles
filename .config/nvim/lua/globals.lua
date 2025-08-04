@@ -114,7 +114,6 @@ return {
       vim.o.shell = "/bin/zsh"
       notesdir = '~/zettel'
     end
-    vim.o.shell = "/bin/zsh"
 
     return {
       notesdir = notesdir,
