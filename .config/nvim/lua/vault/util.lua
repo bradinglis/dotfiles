@@ -301,13 +301,11 @@ local function references_to_links()
 end
 
 local function print_test()
-  local lines = require("vault.data").get_lines()
-  print("Lines = " .. #lines)
-  local words = 0
-  for index, value in ipairs(lines) do
-    words = words + vim.tbl_count(vim.split(value.text, " ", { trimempty = true }))
-  end
-  print("Words = " .. words)
+  local notes = require("vault.data").get_all_notes()
+  print(vim.inspect(notes[1]))
+  print(vim.inspect(vim.tbl_map(function (value)
+    return value.id
+  end, notes)))
 end
 
 return {

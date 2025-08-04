@@ -196,7 +196,7 @@ return {
       preview = {
         debounce = 1,
         max_buf_lines = 50,
-        draw_range = { vim.o.lines, vim.o.lines },
+        -- draw_range = { vim.o.lines, vim.o.lines },
         modes = { "n", "no", "i", "v", "c" },
         hybrid_modes = { "n", "i", "v" },
         linewise_hybrid_mode = true,

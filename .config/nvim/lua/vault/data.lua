@@ -110,6 +110,11 @@ local handle_note = function(note, t_lines, t_tags)
 end
 
 local refresh_notes = function()
+  if vim.g.notes_refreshing then
+    return
+  end
+  vim.g.notes_refreshing = true
+
   local t_all_notes = {}
   local t_note_notes = {}
   local t_author_notes = {}
@@ -152,6 +157,7 @@ local refresh_notes = function()
       source_notes = t_source_notes
       lines = t_lines
       tags = t_tags
+      vim.g.notes_refreshing = false
     end,
     { search = { sort = true, sort_by = "modified", sort_reversed = true, fixed_strings = true, }, notes = { load_contents = true } })
 end
@@ -164,5 +170,6 @@ return {
   get_source_notes = get_source_notes,
   get_tags = get_tags,
   get_lines = get_lines,
-  refresh_notes = refresh_notes
+  refresh_notes = refresh_notes,
+
 }
