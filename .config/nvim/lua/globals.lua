@@ -103,11 +103,11 @@ return {
     elseif hostname == 'DESKTOP-6K7U30E' then
       notesdir = '~/zettel'
     elseif hostname == 'Brads-MBP' then
-      notesdir = '~/OneDrive/Apps/remotely-save/Notes'
+      notesdir = '~/zettel'
     elseif hostname == 'Brads-MacBook-Pro' then
-      notesdir = '~/OneDrive/Apps/remotely-save/Notes'
+      notesdir = '~/zettel'
     elseif hostname == 'Brads-MacBook-Pro.local' then
-      notesdir = '~/OneDrive/Apps/remotely-save/Notes'
+      notesdir = '~/zettel'
     elseif hostname == 'bradpc' then
       notesdir = '~/zettel'
     else
