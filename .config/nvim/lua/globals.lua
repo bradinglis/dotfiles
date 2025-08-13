@@ -111,8 +111,7 @@ return {
     elseif hostname == 'bradpc' then
       notesdir = '~/zettel'
     else
-      vim.o.shell = "/bin/zsh"
-      notesdir = '~/zettel'
+      notesdir = '~/test/zettel'
     end
 
     return {

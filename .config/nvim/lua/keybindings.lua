@@ -77,6 +77,8 @@ local function general()
 
   vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
   vim.keymap.set('n', 'z=', require("telescope.builtin").spell_suggest, opts)
+
+  vim.keymap.set('i', '<C-Space>', '<Space>')
 end
 
 local function lsp()
