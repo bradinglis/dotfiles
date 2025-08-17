@@ -282,7 +282,8 @@ local function references_to_links()
   local new_lines = {}
   for _, value in pairs(lines) do
     local count = vim.tbl_count(references)
-    for id, reference in string.gmatch(value, "%[([0-9]+)%]: (.+)") do
+    local id, reference = string.match(value, "^%[([0-9]+)%]: (.+)")
+    if id ~= nil then
       references[id] = reference
     end
     if count == vim.tbl_count(references) then
