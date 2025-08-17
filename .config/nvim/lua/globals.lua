@@ -98,7 +98,6 @@ return {
     local notesdir = ''
 
     if hostname == 'AL6WZQHR3' then
-
       notesdir = '~/notes'
     elseif hostname == 'DESKTOP-6K7U30E' then
       notesdir = '~/zettel'
@@ -112,6 +111,18 @@ return {
       notesdir = '~/zettel'
     else
       notesdir = '~/test/zettel'
+      vim.g.clipboard = {
+        name = 'win32yank-wsl',
+        copy = {
+          ["+"] = 'win32yank.exe -i --crlf',
+          ["*"] = 'win32yank.exe -i --crlf',
+        },
+        paste = {
+          ["+"] = 'win32yank.exe -o --lf',
+          ["*"] = 'win32yank.exe -o --lf',
+        },
+        cache_enabled = true,
+      }
     end
 
     return {
