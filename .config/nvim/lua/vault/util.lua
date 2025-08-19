@@ -4,19 +4,29 @@ local iter = require("obsidian.itertools").iter
 
 local function find_frontmatter_links(line)
   local links = {}
-  local pattern = "[as]_[A-Za-z]+[A-Za-z0-9_/-]*[A-Za-z0-9]+"
+  local pattern = "[A-Za-z]+[A-Za-z0-9_/-]*[A-Za-z0-9]+"
 
-  local search_start = 1
-  while search_start < #line do
-    local m_start, m_end = string.find(line, pattern, search_start)
+  local patterns = {"^references:", "^source%-parents:", "^author:"}
+
+  for _, value in ipairs(patterns) do
+    local m_start, m_end = string.find(line, value, 1)
     if m_start ~= nil and m_end ~= nil then
-      links[#links + 1] = { m_start, m_end }
-      search_start = m_end
-    else
-      return links
+      local search_start = m_end
+      while search_start < #line do
+        m_start, m_end = string.find(line, pattern, search_start)
+        if m_start ~= nil and m_end ~= nil then
+          links[#links + 1] = { m_start, m_end }
+          search_start = m_end
+        else
+          return links
+        end
+      end
     end
   end
+
   return links
+
+
 end
 
 local function find_reference_links(line)

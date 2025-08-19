@@ -3,18 +3,19 @@ local Note = require "obsidian.note"
 
 local function note_id_gen(name)
   return name:gsub("[()'\"*,:]", "")
-      :gsub(" %l* ", " ")
+      :gsub(" %l*", " ")
       :gsub("A ", "")
       :gsub("An ", "")
       :gsub("I ", "")
       :gsub("The ", ""):lower()
       :gsub("'s ", " ")
       :gsub(" ", "-")
+
 end
 
 local function source_id_gen(name)
   return name:gsub("[()'\"*:?,]", "")
-      :gsub(" %l* ", " ")
+      :gsub(" %l*", " ")
       :gsub("A ", "")
       :gsub("Lecture ", "")
       :gsub("An ", "")
