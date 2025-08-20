@@ -6,6 +6,13 @@ local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 
 local grep = function()
+
+  if not vim.wait(5000, function ()
+    return not vim.g.notes_refreshing
+  end) then
+    return
+  end
+
   local lines = require("vault.data").get_lines()
   local cwd = require("obsidian"):get_client().dir
 
@@ -43,6 +50,7 @@ local grep = function()
       },
       previewer = conf.grep_previewer({}),
       sorter = conf.generic_sorter({}),
+      attach_mappings = require("vault.pick_mappings")
     }):find()
 end
 

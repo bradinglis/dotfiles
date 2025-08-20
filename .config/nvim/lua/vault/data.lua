@@ -78,6 +78,8 @@ local handle_tag = function(tag, note,  t_tags, line)
 end
 
 local handle_body = function(note, t_lines, t_tags)
+  local r_links = {}
+  local references = {}
   for num, line in ipairs(note.contents) do
     local endline = note.frontmatter_end_line or 0
     if (num > (endline)) then
@@ -93,7 +95,19 @@ local handle_body = function(note, t_lines, t_tags)
         table.insert(note.body_tags, { tag, num })
         handle_tag(tag, note,  t_tags, num)
       end
+
+      local id, reference = line:match("^%[([0-9]+)%]: (.+)")
+      if id ~= nil then
+        references[id] = reference
+      else
+        for _, r in line:gmatch("%[([^%]]+)%]%[(%d+)%]") do
+          table.insert(r_links, { r, num })
+        end
+      end
     end
+  end
+  for _, value in ipairs(r_links) do
+    table.insert(note.links, { references[value[1]], value[2] })
   end
 end
 

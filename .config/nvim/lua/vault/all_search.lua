@@ -9,7 +9,6 @@ local client = require "telescope.pickers"
 local pick_all = function()
 
   if not vim.wait(5000, function ()
-    vim.print(vim.g.notes_refreshing)
     return not vim.g.notes_refreshing
   end) then
     return

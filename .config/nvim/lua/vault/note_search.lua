@@ -7,6 +7,13 @@ local conf = require("telescope.config").values
 local themes = require("telescope.themes")
 
 local pick_note = function()
+
+  if not vim.wait(5000, function ()
+    return not vim.g.notes_refreshing
+  end) then
+    return
+  end
+
   local note_notes = require("vault.data").get_note_notes()
   local displayer = entry_display.create {
     separator = " ",
@@ -39,6 +46,7 @@ local pick_note = function()
     },
     previewer = conf.file_previewer({}),
     sorter = conf.generic_sorter({}),
+    attach_mappings = require("vault.pick_mappings")
   }):find()
 end
 
