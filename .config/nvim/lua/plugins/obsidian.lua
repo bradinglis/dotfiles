@@ -265,6 +265,22 @@ return {
         list_items = {
           enable = false,
         },
+        horizontal_rules = {
+          enable = true,
+
+          parts = {
+            {
+              type = "repeating",
+              repeat_amount = function()
+                return vim.o.columns;
+              end,
+
+              text = "━",
+              hl = "Comment"
+            }
+          }
+          ---_
+        },
         headings = {
           heading_1 = {
             sign = "",
