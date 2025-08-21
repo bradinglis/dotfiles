@@ -5,7 +5,6 @@ return function(prompt_bufnr, map)
   map({ "i", "n" }, "<c-i>", function()
     actions.close(prompt_bufnr)
     local entry = actions_state.get_selected_entry()
-    vim.print(vim.inspect(entry))
     vim.api.nvim_put({ entry.id }, "", false, true)
   end)
 

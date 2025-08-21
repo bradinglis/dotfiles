@@ -19,6 +19,13 @@ end
 
 
 local single_tag = function(tag)
+
+  if not vim.wait(5000, function ()
+    return not vim.g.notes_refreshing
+  end) then
+    return
+  end
+
   local notes = require("vault.data").get_notes()
   local tags = require("vault.data").get_tags()
 
@@ -130,10 +137,18 @@ local single_tag = function(tag)
     },
     previewer = conf.file_previewer({}),
     sorter = conf.generic_sorter({}),
+    attach_mappings = require("vault.pick_mappings")
   }):find()
 end
 
 local all_tags = function()
+
+  if not vim.wait(5000, function ()
+    return not vim.g.notes_refreshing
+  end) then
+    return
+  end
+
   local tags = require("vault.data").get_tags()
   local tag_keys = vim.tbl_keys(tags)
 

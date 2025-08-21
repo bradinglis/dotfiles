@@ -35,10 +35,9 @@ local function find_references(noteid)
   for _, resnote in pairs(notes) do
     if resnote.metadata ~= nil and not vim.tbl_isempty(resnote.metadata) then
       if resnote.metadata.references ~= nil and not vim.tbl_isempty(resnote.metadata.references) then
-        vim.print(vim.inspect(resnote.references))
         if vim.tbl_contains(resnote.metadata.references, noteid) then
           res[#res + 1] = {
-            value = { path = resnote.path, line = 1 },
+            value = { path = resnote.path, lnum = 1 },
             display = function()
               return displayer {
                 { "Reference",           "Grey" },
@@ -52,21 +51,20 @@ local function find_references(noteid)
             title = resnote.title,
             path = resnote.path.filename,
             filename = tostring(resnote.path),
-            lnum = 1,
             id = resnote.id,
           }
         end
       end
     end
     if resnote.links ~= nil and resnote.metadata ~= nil and resnote.metadata.type ~= nil and not vim.tbl_isempty(resnote.links) then
-      vim.print(vim.inspect(resnote.links))
       for _, value in ipairs(resnote.links) do
         if value[1] == noteid then
+          local line = value[2]
           res[#res + 1] = {
-            value = { path = resnote.path, line = 1 },
+            value = { path = resnote.path, lnum = line },
             display = function()
               return displayer {
-                { "Link [" .. value[2] .. "]", "Grey" },
+                { "Link [" .. line .. "]", "Grey" },
                 { resnote.icon,                "Fg" },
                 { resnote.title,               "markdownBoldItalic" },
                 { resnote.author_string,       "markdownItalic" },
@@ -77,7 +75,7 @@ local function find_references(noteid)
             title = resnote.title,
             path = resnote.path.filename,
             filename = tostring(resnote.path),
-            lnum = value[2],
+            lnum = line,
             id = resnote.id,
           }
         end
@@ -100,8 +98,7 @@ local function collect_backlinks(noteid, opts)
 
   local prompt_title = string.format("Backlinks to '%s'", noteid)
 
-  pickers.new(
-    require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }),
+  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }),
     {
       prompt_title = prompt_title,
       title = prompt_title,
@@ -111,8 +108,9 @@ local function collect_backlinks(noteid, opts)
           return make_entry.set_default_entry_mt(entry)
         end
       },
-      previewer = conf.file_previewer({}),
+      previewer = conf.grep_previewer({}),
       sorter = conf.generic_sorter({}),
+      attach_mappings = require("vault.pick_mappings")
     }):find()
 end
 
@@ -145,9 +143,6 @@ local function main()
     --     break
     --   end
     -- end
-
-
-    -- ball
 
     local opts = { anchor = anchor_link, block = block_link }
     collect_backlinks(location, opts)
