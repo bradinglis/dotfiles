@@ -1,6 +1,8 @@
+-- local Obsidian = require("obsidian")
 local search = require("obsidian.search")
 local ui = require("obsidian.ui")
-local iter = require("obsidian.itertools").iter
+local api = require("obsidian.api")
+local iter = vim.iter
 
 local function find_frontmatter_links(line)
   local links = {}
@@ -85,7 +87,6 @@ local function find_frontmatter_tags(line)
 end
 
 local function frontmatter_highlighting(note)
-  local client = require("obsidian").get_client()
   local ns_id = vim.api.nvim_create_namespace("ObsidianBrad")
   local lines = vim.api.nvim_buf_get_lines(note.bufnr, 0, note.frontmatter_end_line, true)
   for i, line in ipairs(lines) do
@@ -100,7 +101,7 @@ local function frontmatter_highlighting(note)
         ui.ExtMarkOpts.from_tbl {
           end_row = lnum,
           end_col = m_end,
-          hl_group = client.opts.ui.reference_text.hl_group,
+          hl_group = Obsidian.opts.ui.reference_text.hl_group,
           spell = false,
         }
       ):materialize(note.bufnr, ns_id)
@@ -115,7 +116,7 @@ local function frontmatter_highlighting(note)
         ui.ExtMarkOpts.from_tbl {
           end_row = lnum,
           end_col = m_end,
-          hl_group = client.opts.ui.tags.hl_group,
+          hl_group = Obsidian.opts.ui.tags.hl_group,
           spell = false,
         }
       ):materialize(note.bufnr, ns_id)
@@ -124,7 +125,6 @@ local function frontmatter_highlighting(note)
 end
 
 local function tag_highlighting(note)
-  local client = require("obsidian").get_client()
   local ns_id = vim.api.nvim_create_namespace("ObsidianBrad")
   local lines = vim.api.nvim_buf_get_lines(note.bufnr, note.frontmatter_end_line, -1, true)
   for i, line in ipairs(lines) do
@@ -140,7 +140,7 @@ local function tag_highlighting(note)
           ui.ExtMarkOpts.from_tbl {
             end_row = lnum,
             end_col = m_end,
-            hl_group = client.opts.ui.tags.hl_group,
+            hl_group = Obsidian.opts.ui.tags.hl_group,
             spell = false,
           }
         ):materialize(note.bufnr, ns_id)
@@ -150,13 +150,12 @@ local function tag_highlighting(note)
 end
 
 local function cursor_on_link()
-  local client = require("obsidian").get_client()
   local current_line = vim.api.nvim_get_current_line()
   local cur_row, cur_col = unpack(vim.api.nvim_win_get_cursor(0))
   cur_col = cur_col + 1
 
   local in_frontmatter = false
-  local note = client.current_note(client)
+  local note = api.current_note()
   if note.frontmatter_end_line ~= nil then
     if cur_row < note.frontmatter_end_line then
       in_frontmatter = true
@@ -196,13 +195,12 @@ local function cursor_on_link()
 end
 
 local function cursor_on_tag()
-  local client = require("obsidian").get_client()
   local current_line = vim.api.nvim_get_current_line()
   local cur_row, cur_col = unpack(vim.api.nvim_win_get_cursor(0))
   cur_col = cur_col + 1
 
   local in_frontmatter = false
-  local note = client.current_note(client)
+  local note = api.current_note()
   if note.frontmatter_end_line ~= nil then
     if cur_row < note.frontmatter_end_line then
       in_frontmatter = true
@@ -232,7 +230,6 @@ local function cursor_on_tag()
 end
 
 local function cursor_on_footnote()
-  local client = require("obsidian").get_client()
   local current_line = vim.api.nvim_get_current_line()
   local cur_row, cur_col = unpack(vim.api.nvim_win_get_cursor(0))
   cur_col = cur_col + 1

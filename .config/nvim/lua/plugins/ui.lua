@@ -61,7 +61,6 @@ return {
     priority = 1000,
     config = function()
       require("everforest").load()
-      vim.cmd.colorscheme("everforest")
     end
   },
   { "lewis6991/gitsigns.nvim", config = true },

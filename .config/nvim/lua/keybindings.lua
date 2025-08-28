@@ -153,7 +153,7 @@ local function markdown()
   end, {nargs = '?'})
 
   vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end, { buffer = true, expr = true })
-  vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
+  -- vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
   vim.keymap.set('n', '<leader>rr', vault_util.links_to_reference, { buffer = true })
   vim.keymap.set('n', '<leader>rl', vault_util.references_to_links, { buffer = true })
 
@@ -164,7 +164,7 @@ local function markdown()
   vim.keymap.set('n', '<leader>fs', require 'vault.source_search', { desc = 'find source', buffer = true })
   vim.keymap.set('n', '<leader>fa', require 'vault.author_search', { desc = 'find author', buffer = true })
   vim.keymap.set('n', '<leader>ff', require 'vault.all_search', { desc = 'find all notes', buffer = true })
-  vim.keymap.set('n', '<leader>fx', require 'vault.all_search', { desc = 'find all notes', buffer = true })
+  vim.keymap.set('n', '<leader>fx', require 'vault.all_search_new', { desc = 'find all notes', buffer = true })
 
   wk.add({ { "<leader>n", group = "new", icon = { cat = "filetype", name = "markdown" } } })
   vim.keymap.set({ "v", "n" }, '<leader>ns', vault_create.new_source, { desc = 'new source', buffer = true })

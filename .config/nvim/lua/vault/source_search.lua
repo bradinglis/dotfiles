@@ -8,11 +8,11 @@ local themes = require("telescope.themes")
 
 local pick_source = function()
 
-  if not vim.wait(5000, function ()
-    return not vim.g.notes_refreshing
-  end) then
-    return
-  end
+  -- if not vim.wait(5000, function ()
+  --   return not vim.g.notes_refreshing
+  -- end) then
+  --   return
+  -- end
 
   local source_notes = require("vault.data").get_source_notes()
 
@@ -44,7 +44,7 @@ local pick_source = function()
           end,
           ordinal = entry.title .. " " .. entry.author_string .. " " .. entry.id,
           title = entry.title,
-          path = entry.relative_path.filename
+          path = entry.relative_path
         }, {})
       end
     },

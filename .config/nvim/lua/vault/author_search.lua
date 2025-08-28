@@ -39,7 +39,7 @@ local pick_author = function()
           end,
           ordinal = entry.title .. " " .. entry.id,
           title = entry.title,
-          path = entry.relative_path.filename,
+          path = entry.relative_path,
           id = entry.id,
           link = "[[".. entry.id .. "|".. entry.title .."]]"
         }, {})

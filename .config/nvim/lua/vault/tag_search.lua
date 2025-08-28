@@ -90,12 +90,11 @@ local single_tag = function(tag)
               return displayer {
                 { "", "Fg" },
                 { entry.note.title, "markdownBoldItalic" },
-                { get_author(entry.note.metadata.author[1]), "markdownItalic" },
+                { entry.note.author_string, "markdownItalic" },
                 { entry.note.id, "Grey" },
               }
             end,
-            ordinal = entry.note.title ..
-            " " .. entry.note.metadata.author[1] .. " " .. get_author(entry.note.metadata.author[1]),
+            ordinal = entry.note.title .. entry.note.author_string,
             title = entry.note.title,
             path = entry.note.path.filename,
             lnum = entry.line,

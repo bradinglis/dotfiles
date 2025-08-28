@@ -14,7 +14,6 @@ local grep = function()
   end
 
   local lines = require("vault.data").get_lines()
-  local cwd = require("obsidian"):get_client().dir
 
   local displayer = entry_display.create {
     separator = " ",

@@ -15,3 +15,4 @@ vim.lsp.config('clangd', {
 
 require('autocmd')
 require('keybindings').general()
+require('config.snippets')

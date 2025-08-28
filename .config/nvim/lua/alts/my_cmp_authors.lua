@@ -2,7 +2,7 @@ local abc = require "obsidian.abc"
 local obsidian = require "obsidian"
 local completion = require "obsidian.completion.tags"
 local util = require "obsidian.util"
-local iter = require("obsidian.itertools").iter
+local iter = vim.iter
 local Note = require "obsidian.note"
 
 local author = abc.new_class()

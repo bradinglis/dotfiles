@@ -4,15 +4,13 @@ local entry_display = require "telescope.pickers.entry_display"
 local make_entry = require "telescope.make_entry"
 local conf = require("telescope.config").values
 
-local client = require "telescope.pickers"
-
 local pick_all = function()
 
-  if not vim.wait(5000, function ()
-    return not vim.g.notes_refreshing
-  end) then
-    return
-  end
+  -- if not vim.wait(5000, function ()
+  --   return not vim.g.notes_refreshing
+  -- end) then
+  --   return
+  -- end
 
   local all_notes = require("vault.data").get_all_notes()
 
@@ -48,7 +46,7 @@ local pick_all = function()
             end,
             ordinal = entry.title .. " " .. entry.author_string .. " ".. entry.id,
             title = entry.title,
-            path = entry.path.filename,
+            path = entry.relative_path,
             id = entry.id,
             link = "[[".. entry.id .. "|".. entry.title .."]]"
           }, {})

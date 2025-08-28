@@ -116,11 +116,6 @@ end
 
 local function main()
   local client = require("obsidian").get_client()
-  local picker = assert(client:picker())
-  if not picker then
-    log.err "No picker configured"
-    return
-  end
 
   local location, _, ref_type = util.parse_cursor_link { include_block_ids = true }
 

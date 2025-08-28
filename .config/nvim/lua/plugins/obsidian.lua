@@ -51,7 +51,6 @@ return {
   },
   {
     "bradinglis/obsidian.nvim",
-    version = "*",
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
@@ -60,13 +59,11 @@ return {
     },
 
     opts = {
-      picker = {
-        sort_by = "modified",
-        sort_reversed = true,
-        search_max_lines = 1000,
-        fixed_strings = true,
-
-      },
+      legacy_commands = false,
+      sort_by = "modified",
+      sort_reversed = true,
+      search_max_lines = 1000,
+      fixed_strings = true,
       workspaces = {
         {
           name = "notes",
@@ -74,7 +71,7 @@ return {
         },
       },
       completion = {
-        nvim_cmp = true,
+        blink = true,
         min_chars = 1,
       },
       templates = {
@@ -114,7 +111,7 @@ return {
       end,
       callbacks = {
         post_setup = function()
-          require("alts.alter")
+          -- require("alts.alter")
           require('vault.data').refresh_notes()
         end,
         enter_note = function(_, note)
@@ -127,7 +124,6 @@ return {
           end
         end,
       },
-      mappings = {},
       note_frontmatter_func = function(note)
         local out = { id = note.id }
         if not vim.tbl_isempty(note.aliases) then
@@ -171,7 +167,7 @@ return {
         return out
       end,
       ui = {
-        enable = false,
+        enable = true,
         hl_groups = {
           ObsidianTodo = { bold = true, fg = colours.yellow },
           ObsidianDone = { bold = true, fg = colours.blue },

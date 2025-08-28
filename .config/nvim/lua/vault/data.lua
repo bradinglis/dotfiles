@@ -1,3 +1,6 @@
+local util = require("obsidian.util")
+local Path = require("obsidian.path")
+local search = require("obsidian.search")
 local client = require("obsidian").get_client()
 
 local notes = {}
@@ -112,7 +115,7 @@ local handle_body = function(note, t_lines, t_tags)
 end
 
 local handle_note = function(note, t_lines, t_tags)
-  note["relative_path"] = client:vault_relative_path(note.path.filename)
+  note["relative_path"] = Path.vault_relative_path(note.path)
   note["links"] = {}
   note["body_tags"] = {}
 
@@ -136,10 +139,11 @@ local refresh_notes = function()
   local t_lines = {}
   local t_tags = {}
 
-  client:find_notes_async("",
+  search.find_notes_async("",
     function(x)
       for _, value in ipairs(x) do
         if value.metadata ~= nil and value.metadata.type ~= nil and (value.metadata.type == "source" or value.metadata.type == "note" or value.metadata.type == "author") then
+          -- print(value.id)
           handle_note(value, t_lines, t_tags)
           value.icon = ""
           value.author_string = ""
