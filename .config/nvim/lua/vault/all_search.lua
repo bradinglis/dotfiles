@@ -6,11 +6,11 @@ local conf = require("telescope.config").values
 
 local pick_all = function()
 
-  -- if not vim.wait(5000, function ()
-  --   return not vim.g.notes_refreshing
-  -- end) then
-  --   return
-  -- end
+  if not vim.wait(5000, function ()
+    return not vim.g.notes_refreshing
+  end) then
+    return
+  end
 
   local all_notes = require("vault.data").get_all_notes()
 
