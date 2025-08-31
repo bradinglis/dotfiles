@@ -87,7 +87,7 @@ local handle_body = function(note, t_lines, t_tags)
     local endline = note.frontmatter_end_line or 0
     if (num > (endline)) then
       if #line > 1 then
-        table.insert(t_lines, { note = { id = note.id, path = note.path.filename }, text = line, num = num })
+        table.insert(t_lines, { note = { id = note.id, path = note.path.filename, title = note.title, icon = note.icon}, text = line, num = num })
       end
 
       for link in line:gmatch("%[%[[%w-_.',]*[|%]]") do

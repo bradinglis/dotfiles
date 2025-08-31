@@ -1,195 +1,100 @@
-local pickers = require "telescope.pickers"
-local actions = require "telescope.actions"
-local action_state = require "telescope.actions.state"
-local finders = require "telescope.finders"
-local previewers = require "telescope.previewers"
-local entry_display = require "telescope.pickers.entry_display"
-local make_entry = require "telescope.make_entry"
-local conf = require("telescope.config").values
-
-local function filter(arr, func)
-  local new_arr = {}
-  for old_index, v in ipairs(arr) do
-    if func(v, old_index) then
-      new_arr[#new_arr + 1] = v
-    end
-  end
-  return new_arr
-end
-
+local snacks_picker = require "snacks.picker"
+local util = require("vault.util")
 
 local single_tag = function(tag)
-
-  if not vim.wait(5000, function ()
-    return not vim.g.notes_refreshing
-  end) then
-    return
-  end
-
   local notes = require("vault.data").get_notes()
   local tags = require("vault.data").get_tags()
 
   local tag_notes = vim.tbl_values(tags[tag])
 
-  local author_notes = filter(notes, function(val, _)
-    if val.metadata ~= nil then
-      if val.metadata.type ~= nil then
-        return val.metadata.type == "author"
-      end
-    else
-      return false
-    end
-  end)
-
-  local get_author = function(arg_id)
-    for _, v in ipairs(author_notes) do
-      if v.id == arg_id then
-        return v.title
-      end
-    end
-    return arg_id
+  local entries = {}
+  for _, entry in ipairs(tag_notes) do
+    table.insert(entries, {
+      text = entry.note.title .. " " .. entry.note.author_string .. " " .. entry.note.id,
+      ordinal = entry.note.title .. " " .. entry.note.author_string .. " " .. entry.note.id,
+      title = entry.note.title,
+      author = entry.note.author_string,
+      tags = entry.note.tags,
+      icon = entry.note.icon,
+      value = entry.note,
+      file = entry.note.relative_path,
+      id = entry.note.id,
+      link = "[[" .. entry.note.id .. "|" .. entry.note.title .. "]]"
+    })
   end
 
-  local displayer = entry_display.create {
-    separator = " ",
-    items = {
-      { width = 2 },
-      { width = 40 },
-      { width = 20 },
-      { remaining = true },
-    },
-  }
+  local pick_opts = vim.tbl_deep_extend('force', util.picker_opts or {}, {
+    title = "[" .. tag .. "] Notes",
+    items = entries,
+    format = function(item, _)
+      local ret = {}
+      ret[#ret + 1] = { item.icon .. " ", "Fg" }
+      ret[#ret + 1] = { util.set_string_width(item.title, 40) .. " ", "markdownBoldItalic" }
+      ret[#ret + 1] = { util.set_string_width(item.author, 20) .. " ", "markdownItalic" }
+      ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }
+      ret[#ret + 1] = { item.id, "Grey" }
+      return ret
+    end
+  })
 
-  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }), {
-    prompt_title = tag,
-    title = tag,
-    finder = finders.new_table {
-      results = tag_notes,
-      entry_maker = function(entry)
-        if entry.note.metadata.type == "author" then
-          return make_entry.set_default_entry_mt({
-            value = entry.note,
-            display = function()
-              return displayer {
-                { "", "Fg" },
-                { entry.note.title, "markdownBoldItalic" },
-                { "", "Grey" },
-                { entry.note.id, "Grey" },
-              }
-            end,
-            ordinal = entry.note.title .. " " .. entry.note.id,
-            title = entry.note.title,
-            path = entry.note.path.filename,
-            lnum = entry.line,
-          }, {})
-        end
-        if entry.note.metadata.type == "source" then
-          return make_entry.set_default_entry_mt({
-            value = entry.note,
-            display = function()
-              return displayer {
-                { "", "Fg" },
-                { entry.note.title, "markdownBoldItalic" },
-                { entry.note.author_string, "markdownItalic" },
-                { entry.note.id, "Grey" },
-              }
-            end,
-            ordinal = entry.note.title .. entry.note.author_string,
-            title = entry.note.title,
-            path = entry.note.path.filename,
-            lnum = entry.line,
-          }, {})
-        end
-        if entry.note.metadata.type == "note" then
-          return make_entry.set_default_entry_mt({
-            value = entry.note,
-            display = function()
-              return displayer {
-                { "", "Fg" },
-                { entry.note.title, "markdownBoldItalic" },
-                { "", "Grey" },
-                { entry.note.id, "Grey" },
-              }
-            end,
-            ordinal = entry.note.title,
-            title = entry.note.title,
-            path = entry.note.path.filename,
-            lnum = entry.line,
-          }, {})
-        end
-        return make_entry.set_default_entry_mt({
-          value = entry.note,
-          display = function()
-            return displayer {
-              { "Type",           "markdownBold" },
-              { entry.note.title, "markdownBoldItalic" },
-              { "",               "markdownItalic" },
-              { entry.note.id,    "Grey" },
-            }
-          end,
-          ordinal = entry.note.title .. " " .. entry.note.id,
-          title = entry.note.title,
-          path = entry.note.relative_path.filename,
-          lnum = entry.line,
-        }, {})
-      end
-    },
-    previewer = conf.file_previewer({}),
-    sorter = conf.generic_sorter({}),
-    attach_mappings = require("vault.pick_mappings")
-  }):find()
+  snacks_picker.pick(pick_opts)
 end
 
 local all_tags = function()
-
-  if not vim.wait(5000, function ()
-    return not vim.g.notes_refreshing
-  end) then
+  if not vim.wait(5000, function()
+        return not vim.g.notes_refreshing
+      end) then
     return
   end
 
   local tags = require("vault.data").get_tags()
   local tag_keys = vim.tbl_keys(tags)
 
-  local displayer = entry_display.create {
-    separator = " ",
-    items = {
-      { width = 6 },
-      { width = 20 },
-      { remaining = true },
-    },
-  }
-
-  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.9, anchor_padding = 0, anchor = "S" } }), {
-    prompt_title = "Tags",
+  local entries = {}
+  for _, entry in ipairs(tag_keys) do
+    table.insert(entries, {
+      text = entry .. vim.tbl_count(tags[entry]),
+      number = vim.tbl_count(tags[entry]),
+      notes = table.concat(vim.tbl_keys(tags[entry]), " "),
+      tag = entry,
+    })
+  end
+  local pick_opts = {
     title = "Tags",
-    finder = finders.new_table {
-      results = tag_keys,
-      entry_maker = function(entry)
-        return make_entry.set_default_entry_mt({
-          value = entry,
-          display = function()
-            local number = "[" .. vim.tbl_count(tags[entry]) .. "]"
-            local notes =  table.concat(vim.tbl_keys(tags[entry]), " ")
-            return displayer {
-              { number,  "Fg" },
-              { entry, "ObsidianTag" },
-              { notes, "Grey" },
-            }
-          end,
-          ordinal = entry,
-        }, {})
-      end
+    items = entries,
+    preview = "none",
+    layout = {
+      layout = {
+        backdrop = false,
+        width = 0.90,
+        min_width = 80,
+        height = 0.95,
+        border = "none",
+        box = "vertical",
+        {
+          box = "vertical",
+          border = "rounded",
+          title = "{title} {live} {flags}",
+          title_pos = "center",
+          { win = "input", height = 1,     border = "bottom" },
+          { win = "list",  border = "none" },
+        },
+      }
     },
-    attach_mappings = function()
-      actions.select_default:replace(function()
-        local selection = action_state.get_selected_entry()
-        single_tag(selection.ordinal)
-      end)
-      return true
+    format = function(item, _)
+      local ret = {}
+      ret[#ret + 1] = { util.set_string_width("[" .. item.number .. "] ", 5) .. " ", "Fg" }
+      ret[#ret + 1] = { util.set_string_width(item.tag, 20) .. " ", "ObsidianTag" }
+      ret[#ret + 1] = { item.notes, "Grey" }
+      return ret
     end,
-    sorter = conf.generic_sorter({}),
-  }):find()
+    confirm = function(picker, item)
+      picker:close()
+      single_tag(item.tag)
+    end,
+  }
+  snacks_picker.pick(pick_opts)
+
 end
 
 return {

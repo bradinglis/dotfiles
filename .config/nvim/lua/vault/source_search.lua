@@ -1,57 +1,46 @@
-local pickers = require "telescope.pickers"
-local finders = require "telescope.finders"
-local previewers = require "telescope.previewers"
-local entry_display = require "telescope.pickers.entry_display"
-local make_entry = require "telescope.make_entry"
-local conf = require("telescope.config").values
-local themes = require("telescope.themes")
+local snacks_picker = require "snacks.picker"
+local util = require("vault.util")
 
 local pick_source = function()
-
-  -- if not vim.wait(5000, function ()
-  --   return not vim.g.notes_refreshing
-  -- end) then
-  --   return
-  -- end
+  if not vim.wait(5000, function()
+        return not vim.g.notes_refreshing
+      end) then
+    return
+  end
 
   local source_notes = require("vault.data").get_source_notes()
 
-  local displayer = entry_display.create {
-    separator = " ",
-    items = {
-      { width = 40 },
-      { width = 20 },
-      { width = 40 },
-      { remaining = true },
-    },
-  }
+  local entries = {}
+  for _, entry in ipairs(source_notes) do
+    table.insert(entries, {
+      text = entry.title .. " " .. entry.author_string .. " " .. entry.id,
+      ordinal = entry.title .. " " .. entry.author_string .. " " .. entry.id,
+      title = entry.title,
+      author = entry.author_string,
+      tags = entry.tags,
+      icon = entry.icon,
+      value = entry,
+      file = entry.relative_path,
+      id = entry.id,
+      link = "[[" .. entry.id .. "|" .. entry.title .. "]]"
+    })
+  end
 
-  pickers.new(require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }), {
-    prompt_title = "Sources",
-    title = "Sources",
-    finder = finders.new_table {
-      results = source_notes,
-      entry_maker = function(entry)
-        return make_entry.set_default_entry_mt({
-          value = entry,
-          display = function()
-            return displayer {
-              { entry.title, "markdownBold" },
-              { entry.author_string, "markdownItalic" },
-              { table.concat(entry.tags, " "),          "ObsidianTag" },
-              { entry.id, "Grey" },
-            }
-          end,
-          ordinal = entry.title .. " " .. entry.author_string .. " " .. entry.id,
-          title = entry.title,
-          path = entry.relative_path
-        }, {})
-      end
-    },
-    previewer = conf.file_previewer({}),
-    sorter = conf.generic_sorter({}),
-    attach_mappings = require("vault.pick_mappings")
-  }):find()
+  local pick_opts = vim.tbl_deep_extend('force', util.picker_opts or {}, {
+    title = "Source Notes",
+    items = entries,
+    format = function(item, _)
+      local ret = {}
+      ret[#ret + 1] = { util.set_string_width(item.title, 40) .. " ", "markdownBoldItalic" }
+      ret[#ret + 1] = { util.set_string_width(item.author, 20) .. " ", "markdownItalic" }
+      ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }
+      ret[#ret + 1] = { item.id, "Grey" }
+      return ret
+    end
+  })
+
+  snacks_picker.pick(pick_opts)
+
 end
 
 return pick_source

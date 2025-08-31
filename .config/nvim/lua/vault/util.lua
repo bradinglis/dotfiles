@@ -4,11 +4,63 @@ local ui = require("obsidian.ui")
 local api = require("obsidian.api")
 local iter = vim.iter
 
+local picker_opts = {
+  layout = {
+    layout = {
+      backdrop = false,
+      width = 0.90,
+      min_width = 80,
+      height = 0.95,
+      border = "none",
+      box = "vertical",
+      { win = "preview", title = "{preview}", height = 0.5, border = "rounded" },
+      {
+        box = "vertical",
+        border = "rounded",
+        title = "{title} {live} {flags}",
+        title_pos = "center",
+        { win = "input", height = 1,     border = "bottom" },
+        { win = "list",  border = "none" },
+      },
+    }
+  },
+  win = {
+    input = {
+      keys = {
+        ["<C-l>"] = { "put_link", mode = { "n", "i" }, desc = "Put Link" },
+        ["<C-o>"] = { "put_id", mode = { "n", "i" }, desc = "Put ID" },
+      },
+    },
+  },
+  actions = {
+    put_link = function(picker)
+      local link = picker:current().link
+      picker:close()
+      vim.api.nvim_put({ link }, "", false, true)
+    end,
+    put_id = function(picker)
+      local id = picker:current().id
+      picker:close()
+      vim.api.nvim_put({ id }, "", false, true)
+    end,
+  },
+}
+
+local set_string_width = function(text, width)
+  if (vim.fn.strdisplaywidth(text) > width) then
+    return vim.fn.strcharpart(text, -1, width) .. "…"
+  elseif vim.fn.strdisplaywidth(text) < width then
+    return text .. string.rep(" ", width - vim.fn.strdisplaywidth(text))
+  else
+    return text
+  end
+end
+
 local function find_frontmatter_links(line)
   local links = {}
   local pattern = "[A-Za-z]+[A-Za-z0-9_/-]*[A-Za-z0-9]+"
 
-  local patterns = {"^references:", "^source%-parents:", "^author:"}
+  local patterns = { "^references:", "^source%-parents:", "^author:" }
 
   for _, value in ipairs(patterns) do
     local m_start, m_end = string.find(line, value, 1)
@@ -27,13 +79,28 @@ local function find_frontmatter_links(line)
   end
 
   return links
-
-
 end
 
 local function find_reference_links(line)
   local links = {}
   local pattern = "%[([^%]]+)%]%[(%d+)%]"
+
+  local search_start = 1
+  while search_start < #line do
+    local m_start, m_end = string.find(line, pattern, search_start)
+    if m_start ~= nil and m_end ~= nil then
+      links[#links + 1] = { m_start, m_end }
+      search_start = m_end
+    else
+      return links
+    end
+  end
+  return links
+end
+
+local function find_wiki_links(line)
+  local links = {}
+  local pattern = "%[%[([^|]+)|([^%]]+)%]%]"
 
   local search_start = 1
   while search_start < #line do
@@ -189,6 +256,15 @@ local function cursor_on_link()
         end
       end
     end
+    local wiki_links = find_wiki_links(current_line)
+    for link in iter(wiki_links) do
+      local m_start, m_end = unpack(link)
+      if m_start <= cur_col and cur_col <= m_end then
+        for id, text in current_line:sub(m_start, m_end):gmatch("%[%[([^|]+)|([^%]]+)%]%]") do
+          return id
+        end
+      end
+    end
   end
 
   return nil
@@ -254,9 +330,9 @@ local function enter_command()
   elseif tag then
     return "<cmd>TagSearch " .. tag:sub(2, -1) .. "<CR>"
   elseif link then
-    return "<cmd>ObsidianQuickSwitch " .. link .. "<CR>"
+    return "<cmd>Obsidian quick_switch " .. link .. "<CR>"
   else
-    return "<cmd>ObsidianFollowLink<CR>"
+    return "<cmd>Obsidian toggle_checkbox<CR>"
   end
 end
 
@@ -269,7 +345,11 @@ local function links_to_reference()
       if links[id] == nil then
         links[id] = vim.tbl_count(links)
       end
-      value = string.gsub(value, "%[%[" .. id:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%|" .. text:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%]%]", "[" .. text .. "][" .. links[id] .. "]")
+      value = string.gsub(value,
+        "%[%[" ..
+        id:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") ..
+        "%|" .. text:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%]%]",
+        "[" .. text .. "][" .. links[id] .. "]")
     end
     new_lines[#new_lines + 1] = value
   end
@@ -300,7 +380,11 @@ local function references_to_links()
 
   for i, value in pairs(new_lines) do
     for text, id in string.gmatch(value, "%[([^%]]+)%]%[(%d+)%]") do
-      value = string.gsub(value, "%[" .. text:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%]%[" .. id:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%]", "[[" .. references[id] .. "|" .. text .. "]]")
+      value = string.gsub(value,
+        "%[" ..
+        text:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") ..
+        "%]%[" .. id:gsub("%-", "%%-"):gsub("%(", "%%("):gsub("%)", "%%)") .. "%]",
+        "[[" .. references[id] .. "|" .. text .. "]]")
     end
     new_lines[i] = value
   end
@@ -311,7 +395,7 @@ end
 local function print_test()
   local notes = require("vault.data").get_all_notes()
   print(vim.inspect(notes[1]))
-  print(vim.inspect(vim.tbl_map(function (value)
+  print(vim.inspect(vim.tbl_map(function(value)
     return value.id
   end, notes)))
 end
@@ -323,4 +407,6 @@ return {
   frontmatter_highlighting = frontmatter_highlighting,
   tag_highlighting = tag_highlighting,
   print_test = print_test,
+  picker_opts = picker_opts,
+  set_string_width = set_string_width,
 }

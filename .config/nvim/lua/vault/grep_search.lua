@@ -5,53 +5,48 @@ local pickers = require "telescope.pickers"
 local finders = require "telescope.finders"
 local conf = require("telescope.config").values
 
-local grep = function()
+local snacks_picker = require "snacks.picker"
+local util = require("vault.util")
 
-  if not vim.wait(5000, function ()
-    return not vim.g.notes_refreshing
-  end) then
+local grep = function()
+  if not vim.wait(5000, function()
+        return not vim.g.notes_refreshing
+      end) then
     return
   end
 
   local lines = require("vault.data").get_lines()
 
-  local displayer = entry_display.create {
-    separator = " ",
-    items = {
-      { width = 4 },
-      { width = 20, right_justify = true },
-      { remaining = true },
-    },
-  }
+  local entries = {}
+  for _, entry in ipairs(lines) do
+    table.insert(entries, {
+      text = entry.note.title .. " " .. entry.text,
+      search = entry.text,
+      title = entry.note.title,
+      icon = entry.note.icon,
+      value = entry,
+      id = entry.note.id,
+      link = "[[" .. entry.note.id .. "|" .. entry.note.title .. "]]",
+      file = entry.note.path,
+      pos = {entry.num, 1},
+      line = entry.num
+    })
+  end
 
-  pickers.new(
-  require("telescope.themes").get_dropdown({ layout_config = { width = 0.9, height = 0.5, anchor_padding = 0, anchor = "S" } }),
-    {
-      prompt_title = "Sources",
-      title = "Sources",
-      finder = finders.new_table {
-        results = lines,
-        entry_maker = function(entry)
-          return make_entry.set_default_entry_mt({
-            value = entry,
-            display = function()
-              return displayer {
-                { entry.num, "Grey" },
-                { entry.note.id, "markdownBoldItalic" },
-                { entry.text, "Grey" },
-              }
-            end,
-            ordinal = entry.text,
-            path = entry.note.path,
-            lnum = entry.num,
-          }, {})
-        end
-      },
-      previewer = conf.grep_previewer({}),
-      sorter = conf.generic_sorter({}),
-      attach_mappings = require("vault.pick_mappings")
-    }):find()
+  local pick_opts = vim.tbl_deep_extend('force', util.picker_opts or {}, {
+    title = "Grep",
+    items = entries,
+    format = function(item, _)
+      local ret = {}
+      ret[#ret + 1] = { util.set_string_width(tostring(item.line), 5), "Grey" }
+      ret[#ret + 1] = { util.set_string_width(item.id, 40) .. " ", "markdownBoldItalic" }
+      ret[#ret + 1] = { item.search, "Fg" }
+      return ret
+    end
+  })
+
+  snacks_picker.pick(pick_opts)
+
 end
-
 
 return grep

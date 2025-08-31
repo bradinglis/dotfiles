@@ -1,23 +1,10 @@
 local snacks_picker = require "snacks.picker"
-local entry_display = require "telescope.pickers.entry_display"
-
-local set_width = function(text, width)
-
-  if(vim.fn.strdisplaywidth(text) > width) then
-    return string.sub(text, 1, width-1) .. "…"
-  elseif vim.fn.strdisplaywidth(text) < width then
-    return text .. string.rep(" ", width - vim.fn.strdisplaywidth(text))
-  else
-    return text
-  end
-
-end
-
+local util = require("vault.util")
 
 local pick_all = function()
-  if not vim.wait(5000, function ()
-    return not vim.g.notes_refreshing
-  end) then
+  if not vim.wait(5000, function()
+        return not vim.g.notes_refreshing
+      end) then
     return
   end
 
@@ -39,39 +26,22 @@ local pick_all = function()
     })
   end
 
-  local pick_opts = {
+  local pick_opts = vim.tbl_deep_extend('force', util.picker_opts or {}, {
     title = "All Notes",
     items = entries,
-    layout = {
-      layout = {
-        backdrop = false,
-        width = 0.90,
-        min_width = 80,
-        height = 0.95,
-        border = "none",
-        box = "vertical",
-        { win = "preview", title = "{preview}", height = 0.5, border = "rounded" },
-        {
-          box = "vertical",
-          border = "rounded",
-          title = "{title} {live} {flags}",
-          title_pos = "center",
-          { win = "input", height = 1,     border = "bottom" },
-          { win = "list",  border = "none" },
-        },
-      }
-    },
-    format = function(item, picker)
+    format = function(item, _)
       local ret = {}
       ret[#ret + 1] = { item.icon .. " ", "Fg" }
-      ret[#ret + 1] = { set_width(item.title, 40) .. " ", "markdownBoldItalic" }
-      ret[#ret + 1] = { set_width(item.author, 20) .. " ", "markdownItalic" }
-      ret[#ret + 1] = { set_width(table.concat(item.tags, " "), 20) .. " ", "ObsidianTag" }
+      ret[#ret + 1] = { util.set_string_width(item.title, 40) .. " ", "markdownBoldItalic" }
+      ret[#ret + 1] = { util.set_string_width(item.author, 20) .. " ", "markdownItalic" }
+      ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }
       ret[#ret + 1] = { item.id, "Grey" }
       return ret
     end
-  }
+  })
+
   snacks_picker.pick(pick_opts)
+
 end
 
 return pick_all

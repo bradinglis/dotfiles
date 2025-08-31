@@ -12,10 +12,10 @@ return {
     },
     config = function()
       require("autolist").setup({
-        colon = {      -- if a line ends in a colon
-          indent = true, -- if in list and line ends in `:` then create list
+        colon = {            -- if a line ends in a colon
+          indent = true,     -- if in list and line ends in `:` then create list
           indent_raw = true, -- above, but doesn't need to be in a list to work
-          preferred = "-", -- what the new list starts with (can be `1.` etc)
+          preferred = "-",   -- what the new list starts with (can be `1.` etc)
         },
       })
 
@@ -27,7 +27,7 @@ return {
       vim.keymap.set("n", "o", "o<cmd>AutolistNewBullet<cr>")
       vim.keymap.set("n", "O", "O<cmd>AutolistNewBulletBefore<cr>")
       vim.keymap.set("n", "<CR>", "<cmd>AutolistToggleCheckbox<cr><CR>")
-      vim.keymap.set("n", "<C-r>", "<cmd>AutolistRecalculate<cr>")
+      -- vim.keymap.set("n", "<C-r>", "<cmd>AutolistRecalculate<cr>")
 
       -- cycle list types with dot-repeat
       vim.keymap.set("n", "<leader>cn", require("autolist").cycle_next_dr, { expr = true })
@@ -115,12 +115,15 @@ return {
           require('vault.data').refresh_notes()
         end,
         enter_note = function(_, note)
+          local util = require("vault.util")
           require("globals").set_hl()
+          -- vim.keymap.del("n", "<CR>", { buffer = note.bufnr })
+          vim.keymap.set('n', '<CR>', function() return util.enter_command() end, { buffer = true, expr = true })
           vim.opt.conceallevel = 2
           vim.opt.concealcursor = ""
           if note.has_frontmatter then
-            require("vault.util").frontmatter_highlighting(note)
-            require("vault.util").tag_highlighting(note)
+            util.frontmatter_highlighting(note)
+            util.tag_highlighting(note)
           end
         end,
       },
@@ -167,7 +170,8 @@ return {
         return out
       end,
       ui = {
-        enable = true,
+        enable = false,
+        update_debounce = 1000,
         hl_groups = {
           ObsidianTodo = { bold = true, fg = colours.yellow },
           ObsidianDone = { bold = true, fg = colours.blue },
@@ -181,6 +185,12 @@ return {
           ObsidianBlockID = { italic = true, fg = colours.orange },
           ObsidianHighlightText = { bg = colours.bggreen },
         },
+      },
+      footer = {
+        enabled = false,
+        format = "{{words}} words  {{chars}} chars",
+        hl_group = "Comment",
+        separator = string.rep("-", 80),
       },
     },
   },

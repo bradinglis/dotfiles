@@ -143,6 +143,7 @@ local function markdown()
   vim.api.nvim_create_user_command('NoteSearch', require 'vault.note_search', {})
   vim.api.nvim_create_user_command('AllSearch', require 'vault.all_search', {})
   vim.api.nvim_create_user_command('RefreshNotes', require 'vault.data'.refresh_notes, {})
+  -- vim.api.nvim_create_user_command('SmartAction', require("obsidian.api").smart_action, {})
 
   vim.api.nvim_create_user_command('TagSearch', function (args)
     if #args.fargs == 0 then
