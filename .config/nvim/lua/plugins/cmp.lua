@@ -24,7 +24,7 @@ return {
       --
       -- See :h blink-cmp-config-keymap for defining your own keymap
       keymap = {
-        preset = 'default',
+        preset = 'none',
         ['<C-k>'] = { 'select_prev', 'fallback' },
         ['<C-j>'] = { 'select_next', 'fallback' },
         ['<C-n>'] = { 'select_and_accept', 'fallback_to_mappings' },
@@ -45,6 +45,13 @@ return {
 
       -- (Default) Only show the documentation popup when manually triggered
       completion = {
+        keyword = { range = "prefix" },
+        list = {
+          selection = {
+            preselect = false,
+            auto_insert = true,
+          },
+        },
         documentation = { auto_show = true },
         accept = { auto_brackets = { enabled = true }},
       },
@@ -52,10 +59,20 @@ return {
       -- Default list of enabled providers defined so that you can extend it
       -- elsewhere in your config, without redefining it, due to `opts_extend`
 
-      snippets = { preset = 'luasnip' },
+      snippets = {
+        preset = 'luasnip',
+      },
+
 
       sources = {
         default = { 'lsp', 'path', 'snippets' },
+        providers = {
+          snippets = {
+            opts = {
+              show_autosnippets = false,
+            }
+          }
+        }
       },
 
       -- (Default) Rust fuzzy matcher for typo resistance and significantly better performance
