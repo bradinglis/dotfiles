@@ -1,18 +1,17 @@
 local wk = require("which-key")
+local snacks = require("snacks")
 
 -- Key Bindings
 local function general()
   local globs = require('globals').getglobs()
   local opts = { silent = true }
-  -- local telescope = require('telescope.builtin')
-  -- local telescope_ext = require'telescope'.extensions
 
   -- Common Locations
-  vim.api.nvim_create_user_command('GotoNotes', function ()
+  vim.api.nvim_create_user_command('GotoNotes', function()
     vim.api.nvim_set_current_dir(globs.notesdir)
     vim.cmd('e index.md')
   end, {})
-  vim.api.nvim_create_user_command('GotoConf', function ()
+  vim.api.nvim_create_user_command('GotoConf', function()
     vim.cmd('e $MYVIMRC')
     vim.cmd('cd %:p:h')
   end, {})
@@ -21,16 +20,17 @@ local function general()
 
   -- Telescope
   wk.add({ { "<leader>f", group = "find" } })
-  vim.keymap.set('n', '<leader>ff', '<cmd>Telescope find_files<CR>', { desc = "files" })
-  vim.keymap.set('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { desc = "grep" })
-  vim.keymap.set('n', '<leader>fb', '<cmd>Telescope buffers<CR>', { desc = "buffers" })
-  vim.keymap.set('n', '<leader>f<Enter>', '<cmd>Telescope<CR>', { desc = 'list all pickers' })
+  vim.keymap.set('n', '<leader>ff', snacks.picker.smart, { desc = "files" })
+  vim.keymap.set('n', '<leader>fx', snacks.picker.files, { desc = "files" })
+  vim.keymap.set('n', '<leader>fg', snacks.picker.grep, { desc = "grep" })
+  vim.keymap.set('n', '<leader>fb', snacks.picker.buffers, { desc = "buffers" })
+  vim.keymap.set('n', '<leader>f<Enter>', function() snacks.explorer() end, { desc = 'explorer' })
 
   -- Git
   wk.add({ { "<leader>g", group = "git" } })
-  vim.keymap.set('n', '<leader>gb', '<cmd>Telescope git_branches<CR>', { desc = 'git branches' })
-  vim.keymap.set('n', '<leader>gc', '<cmd>Telescope git_commits<CR>', { desc = 'git commits' })
-  vim.keymap.set('n', '<leader>gs', '<cmd>Telescope git_status<CR>', { desc = 'git status' })
+  vim.keymap.set('n', '<leader>gb', snacks.picker.git_branches, { desc = 'git branches' })
+  vim.keymap.set('n', '<leader>gl', snacks.picker.git_log, { desc = 'git log' })
+  vim.keymap.set('n', '<leader>gs', snacks.picker.git_status, { desc = 'git status' })
   vim.keymap.set('n', '<leader>gw', require('telescope').extensions.git_worktree.git_worktrees,
     { desc = 'git worktrees' })
   vim.keymap.set('n', '<leader>gn', require('telescope').extensions.git_worktree.create_git_worktree,
@@ -76,29 +76,26 @@ local function general()
   vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
   vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
-  vim.keymap.set('n', 'z=', require("telescope.builtin").spell_suggest, opts)
+  vim.keymap.set('n', 'z=', snacks.picker.spelling, opts)
 
   vim.keymap.set('i', '<C-Space>', '<Space>')
 end
 
 local function lsp()
   local opts = { silent = true }
-  vim.keymap.set('n', '<C-CR>', require("telescope.builtin").lsp_definitions, opts)
-  vim.keymap.set('n', 'gd', require("telescope.builtin").lsp_definitions, { desc = 'lsp definition' })
-  vim.keymap.set('n', 'gr', require("telescope.builtin").lsp_references, { desc = 'lsp goto reference' })
+  vim.keymap.set('n', '<C-CR>', snacks.picker.lsp_definitions, opts)
+  vim.keymap.set('n', 'gd', snacks.picker.lsp_definitions, { desc = 'lsp definition' })
+  vim.keymap.set('n', 'gr', snacks.picker.lsp_references, { desc = 'lsp goto reference' })
   vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = 'lsp format' })
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, { desc = 'lsp code action' })
 
-  vim.keymap.set('n', '<leader>fi', '<cmd>Telescope lsp_incoming_calls<CR>', { buffer = true, desc = 'lsp incoming' })
-  vim.keymap.set('n', '<leader>fo', '<cmd>Telescope lsp_outgoing_calls<CR>', { buffer = true, desc = 'lsp outgoing' })
-  vim.keymap.set('n', '<leader>fd', require("telescope.builtin").diagnostics,
-    { buffer = true, desc = 'lsp diagnostics' })
-  vim.keymap.set('n', '<leader>fw', '<cmd>Telescope lsp_workspace_symbols<CR>',
-    { buffer = true, desc = 'lsp workplace symbols' })
-  vim.keymap.set('n', '<leader>fs', '<cmd>Telescope lsp_document_symbols<CR>',
-    { buffer = true, desc = 'lsp document symbols' })
-  vim.keymap.set('n', '<leader>fr', '<cmd>Telescope lsp_references<CR>',
-    { buffer = true, desc = 'lsp references' })
+  -- vim.keymap.set('n', '<leader>fi', snacks.picker.lsp_incoming_calls, { buffer = true, desc = 'lsp incoming' })
+  -- vim.keymap.set('n', '<leader>fo', snacks.picker.lsp_outgoing_calls, { buffer = true, desc = 'lsp outgoing' })
+  vim.keymap.set('n', '<leader>fD', snacks.picker.diagnostics, { buffer = true, desc = 'lsp diagnostics' })
+  vim.keymap.set('n', '<leader>fd', snacks.picker.diagnostics_buffer, { buffer = true, desc = 'lsp diagnostics buffer' })
+  vim.keymap.set('n', '<leader>fw', snacks.picker.lsp_workspace_symbols, { buffer = true, desc = 'lsp workplace symbols' })
+  vim.keymap.set('n', '<leader>fs', snacks.picker.lsp_symbols, { buffer = true, desc = 'lsp document symbols' })
+  vim.keymap.set('n', '<leader>fr', snacks.picker.lsp_references, { buffer = true, desc = 'lsp references' })
 end
 
 local function quickfix_list()
@@ -145,13 +142,13 @@ local function markdown()
   vim.api.nvim_create_user_command('RefreshNotes', require 'vault.data'.refresh_notes, {})
   -- vim.api.nvim_create_user_command('SmartAction', require("obsidian.api").smart_action, {})
 
-  vim.api.nvim_create_user_command('TagSearch', function (args)
+  vim.api.nvim_create_user_command('TagSearch', function(args)
     if #args.fargs == 0 then
       require('vault.tag_search').all_tags()
     else
       require('vault.tag_search').single_tag(args.fargs[1])
     end
-  end, {nargs = '?'})
+  end, { nargs = '?' })
 
   vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end, { buffer = true, expr = true })
   -- vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
@@ -184,7 +181,7 @@ local function markdown()
   vim.keymap.set('n', '<leader>de', function() delete_surround('*') end, { buffer = true, desc = 'delete italic' })
   vim.keymap.set('n', '<leader>dc', function() delete_surround('`') end, { buffer = true, desc = 'delete code' })
 
-  vim.keymap.set('n', '<leader>r', function () 
+  vim.keymap.set('n', '<leader>r', function()
     vim.cmd.Markview("Toggle")
     vim.opt.conceallevel = 2
     vim.opt.concealcursor = ""
