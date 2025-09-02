@@ -1,10 +1,3 @@
-local telescope = require "telescope.builtin"
-local entry_display = require "telescope.pickers.entry_display"
-local make_entry = require "telescope.make_entry"
-local pickers = require "telescope.pickers"
-local finders = require "telescope.finders"
-local conf = require("telescope.config").values
-
 local snacks_picker = require "snacks.picker"
 local util = require("vault.util")
 

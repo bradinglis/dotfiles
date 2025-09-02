@@ -31,16 +31,12 @@ local function general()
   vim.keymap.set('n', '<leader>gb', snacks.picker.git_branches, { desc = 'git branches' })
   vim.keymap.set('n', '<leader>gl', snacks.picker.git_log, { desc = 'git log' })
   vim.keymap.set('n', '<leader>gs', snacks.picker.git_status, { desc = 'git status' })
-  vim.keymap.set('n', '<leader>gw', require('telescope').extensions.git_worktree.git_worktrees,
-    { desc = 'git worktrees' })
-  vim.keymap.set('n', '<leader>gn', require('telescope').extensions.git_worktree.create_git_worktree,
-    { desc = 'create git worktree' })
-  vim.keymap.set('n', '<leader>gd', '<cmd>DiffviewOpen<CR>', { desc = 'create git worktree' })
-  vim.keymap.set('n', '<leader>gc', '<cmd>DiffviewClose<CR>', { desc = 'create git worktree' })
+  vim.keymap.set('n', '<leader>gd', function () require("diffview.nvim").open() end, { desc = 'diffview open' })
+  vim.keymap.set('n', '<leader>gc', function () require("diffview.nvim").close() end, { desc = 'diffview close' })
 
   -- Functional
-  vim.keymap.set('n', '<leader>v', vim.cmd.Oil, { desc = 'file browser' })
-  vim.keymap.set('n', '<leader>z', vim.cmd.ZenMode, { desc = 'zen mode' })
+  vim.keymap.set('n', '<leader>v', function () require("oil").toggle_float() end, { desc = 'file browser' })
+  vim.keymap.set('n', '<leader>z', function () require("zen-mode").toggle() end, { desc = 'zen mode' })
   vim.keymap.set('n', '<leader>o', vim.diagnostic.open_float, { desc = 'diagnostics' })
 
   -- Buffer Tab Navigation
@@ -91,11 +87,11 @@ local function lsp()
 
   -- vim.keymap.set('n', '<leader>fi', snacks.picker.lsp_incoming_calls, { buffer = true, desc = 'lsp incoming' })
   -- vim.keymap.set('n', '<leader>fo', snacks.picker.lsp_outgoing_calls, { buffer = true, desc = 'lsp outgoing' })
-  vim.keymap.set('n', '<leader>fD', snacks.picker.diagnostics, { buffer = true, desc = 'lsp diagnostics' })
-  vim.keymap.set('n', '<leader>fd', snacks.picker.diagnostics_buffer, { buffer = true, desc = 'lsp diagnostics buffer' })
-  vim.keymap.set('n', '<leader>fw', snacks.picker.lsp_workspace_symbols, { buffer = true, desc = 'lsp workplace symbols' })
-  vim.keymap.set('n', '<leader>fs', snacks.picker.lsp_symbols, { buffer = true, desc = 'lsp document symbols' })
-  vim.keymap.set('n', '<leader>fr', snacks.picker.lsp_references, { buffer = true, desc = 'lsp references' })
+  vim.keymap.set('n', '<leader>fD', snacks.picker.diagnostics, { desc = 'lsp diagnostics' })
+  vim.keymap.set('n', '<leader>fd', snacks.picker.diagnostics_buffer, { desc = 'lsp diagnostics buffer' })
+  vim.keymap.set('n', '<leader>fw', snacks.picker.lsp_workspace_symbols, { desc = 'lsp workplace symbols' })
+  vim.keymap.set('n', '<leader>fs', snacks.picker.lsp_symbols, { desc = 'lsp document symbols' })
+  vim.keymap.set('n', '<leader>fr', snacks.picker.lsp_references, { desc = 'lsp references' })
 end
 
 local function quickfix_list()

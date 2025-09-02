@@ -134,11 +134,9 @@ return {
       -- add any custom options here
     }
   },
-
-  "tpope/vim-fugitive",
-  "tpope/vim-repeat",
   {
     "echasnovski/mini.surround",
+    event = "VeryLazy",
     opts = {
       mappings = {
         add = "gsa",          -- Add surrounding in Normal and Visual modes

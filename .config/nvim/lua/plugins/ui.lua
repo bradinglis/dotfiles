@@ -63,7 +63,11 @@ return {
       require("everforest").load()
     end
   },
-  { "lewis6991/gitsigns.nvim", config = true },
+  {
+    "lewis6991/gitsigns.nvim",
+    event = "VeryLazy",
+    config = true
+  },
   "sindrets/diffview.nvim",
   {
     "folke/zen-mode.nvim",

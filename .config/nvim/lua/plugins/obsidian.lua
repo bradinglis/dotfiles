@@ -2,7 +2,6 @@ local globs = require('globals').getglobs()
 local colours = globs.colours
 return {
   "bullets-vim/bullets.vim",
-  "nvim-lua/plenary.nvim",
   {
     "preservim/vim-pencil",
     init = function()
@@ -17,7 +16,8 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",
       "preservim/vim-pencil",
-
+      "bullets-vim/bullets.vim",
+      'chenxin-yan/footnote.nvim',
     },
 
     opts = {
@@ -33,7 +33,10 @@ return {
         },
       },
       completion = {
-        min_chars = 1,
+        nvim_cmp = false,
+        blink = true,
+        min_chars = 2,
+        create_new = false,
       },
       templates = {
         folder = "templates",
@@ -334,7 +337,7 @@ return {
   },
   {
     'chenxin-yan/footnote.nvim',
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     opts = {
       keys = {
         new_footnote = '<C-f>',

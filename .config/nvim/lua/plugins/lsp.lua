@@ -5,13 +5,13 @@ return {
     opts = {
       automatic_enable = {
         exclude = {
-          "ltex_plus"
+          -- "ltex_plus"
         }
       }
     },
     dependencies = {
       { "mason-org/mason.nvim", opts = {
-        log_level = vim.log.levels.DEBUG
+        -- log_level = vim.log.levels.DEBUG
       } },
       "neovim/nvim-lspconfig",
       "barreiroleo/ltex-extra.nvim",
