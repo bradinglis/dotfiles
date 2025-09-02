@@ -1,43 +1,7 @@
 local globs = require('globals').getglobs()
 local colours = globs.colours
 return {
-  {
-    "gaoDean/autolist.nvim",
-    ft = {
-      "markdown",
-      "text",
-      "tex",
-      "plaintex",
-      "norg",
-    },
-    config = function()
-      require("autolist").setup({
-        colon = {            -- if a line ends in a colon
-          indent = true,     -- if in list and line ends in `:` then create list
-          indent_raw = true, -- above, but doesn't need to be in a list to work
-          preferred = "-",   -- what the new list starts with (can be `1.` etc)
-        },
-      })
-
-      -- vim.keymap.set("i", "<tab>", "<cmd>AutolistTab<cr>", {noremap=true})
-      -- vim.keymap.set("i", "<s-tab>", "<cmd>AutolistShiftTab<cr>")
-      vim.keymap.set("i", "<c-t>", "<c-t><cmd>AutolistRecalculate<cr>") -- an example of using <c-t> to indent
-      vim.keymap.set("i", "<c-d>", "<c-d><cmd>AutolistRecalculate<cr>") -- an example of using <c-t> to indent
-      vim.keymap.set("i", "<CR>", "<CR><cmd>AutolistNewBullet<cr>")
-      vim.keymap.set("n", "o", "o<cmd>AutolistNewBullet<cr>")
-      vim.keymap.set("n", "O", "O<cmd>AutolistNewBulletBefore<cr>")
-      vim.keymap.set("n", "<CR>", "<cmd>AutolistToggleCheckbox<cr><CR>")
-      -- cycle list types with dot-repeat
-      vim.keymap.set("n", "<leader>cn", require("autolist").cycle_next_dr, { expr = true })
-      vim.keymap.set("n", "<leader>cp", require("autolist").cycle_prev_dr, { expr = true })
-
-
-      vim.keymap.set("n", ">>", ">><cmd>AutolistRecalculate<cr>")
-      vim.keymap.set("n", "<<", "<<<cmd>AutolistRecalculate<cr>")
-      vim.keymap.set("n", "dd", "dd<cmd>AutolistRecalculate<cr>")
-      vim.keymap.set("v", "d", "d<cmd>AutolistRecalculate<cr>")
-    end,
-  },
+  "bullets-vim/bullets.vim",
   "nvim-lua/plenary.nvim",
   {
     "preservim/vim-pencil",
@@ -195,7 +159,7 @@ return {
     "bradinglis/markview.nvim",
     lazy = false,
     priority = 49,
-    config = {
+    opts = {
       preview = {
         debounce = 1,
         max_buf_lines = 50,
