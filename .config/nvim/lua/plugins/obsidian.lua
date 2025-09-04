@@ -164,9 +164,9 @@ return {
     priority = 49,
     opts = {
       preview = {
-        debounce = 1,
+        debounce = 10,
         max_buf_lines = 50,
-        -- draw_range = { vim.o.lines, vim.o.lines },
+        draw_range = { vim.o.lines, vim.o.lines },
         modes = { "n", "no", "i", "v", "c" },
         hybrid_modes = { "n", "i", "v" },
         linewise_hybrid_mode = true,
@@ -233,7 +233,17 @@ return {
       },
       markdown = {
         list_items = {
-          enable = false,
+          enable = true,
+          wrap = true,
+          indent_size = 0,
+          shift_width = 4,
+          marker_minus = {
+            add_padding = false,
+            text = "•"
+          },
+          marker_dot = {
+            add_padding = false,
+          }
         },
         horizontal_rules = {
           enable = true,

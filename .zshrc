@@ -20,6 +20,7 @@ alias sv="sudo nvim"
 alias g="git"
 alias mkd="mkdir -pv"
 alias fd="fdfind"
+alias lg="lazygit"
 # export TERM=alacritty
 
 setopt GLOB_DOTS

@@ -31,8 +31,8 @@ local function general()
   vim.keymap.set('n', '<leader>gb', snacks.picker.git_branches, { desc = 'git branches' })
   vim.keymap.set('n', '<leader>gl', snacks.picker.git_log, { desc = 'git log' })
   vim.keymap.set('n', '<leader>gs', snacks.picker.git_status, { desc = 'git status' })
-  vim.keymap.set('n', '<leader>gd', function () require("diffview.nvim").open() end, { desc = 'diffview open' })
-  vim.keymap.set('n', '<leader>gc', function () require("diffview.nvim").close() end, { desc = 'diffview close' })
+  vim.keymap.set('n', '<leader>gd', function () require("diffview").open() end, { desc = 'diffview open' })
+  vim.keymap.set('n', '<leader>gc', function () require("diffview").close() end, { desc = 'diffview close' })
 
   -- Functional
   vim.keymap.set('n', '<leader>v', function () require("oil").toggle_float() end, { desc = 'file browser' })
