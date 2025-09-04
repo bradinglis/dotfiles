@@ -3,6 +3,7 @@ return {
     'saghen/blink.cmp',
     -- optional: provides snippets for the snippet source
     dependencies = { 'L3MON4D3/LuaSnip', version = 'v2.*' },
+    event = "VeryLazy",
 
     -- use a release tag to download pre-built binaries
     version = '1.*',
@@ -94,8 +95,6 @@ return {
   {
     "windwp/nvim-ts-autotag",
     event = "BufReadPre",
-    opts = {
-
-    },
+    opts = {},
   },
 }

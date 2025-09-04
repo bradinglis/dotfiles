@@ -1,5 +1,6 @@
 vim.g.c_syntax_for_h = 1
 vim.opt.autoread = true
+vim.opt.autoread = true
 
 vim.opt.scrolloff = 8
 vim.opt_global.formatoptions:remove("o")
@@ -34,6 +35,7 @@ vim.opt.conceallevel = 2
 vim.opt.concealcursor = ""
 vim.opt.inccommand = "split"
 vim.opt.showtabline = 0
+vim.o.foldlevel = 99
 
 vim.g["pencil#cursorwrap"] = 0
 vim.g["pencil#wrapModeDefault"] = "soft"

@@ -15,9 +15,11 @@ local fmt = require("luasnip.extras.fmt").fmt
 --     return s(keys, format)
 -- end
 
+
 ls.add_snippets("markdown", {
   s({ trig = ",e", wordTrig = false },    fmt("*{}*{}", { i(1), i(0) })),
   s({ trig = ",b", wordTrig = false },    fmt("**{}**{}", { i(1), i(0) })),
+  s({ trig = ",ln", wordTrig = false },   fmt("----------\n{}", {i(0)})),
   s({ trig = ",h", wordTrig = false },    fmt("=={}=={}", { i(1), i(0) })),
   s({ trig = ",c", wordTrig = false },    fmt("`{}`{}", { i(1), i(0) })),
   s({ trig = ",k" },                      fmt("```{}\n{}\n```\n{}", { i(1, "language"), i(2), i(0) })),

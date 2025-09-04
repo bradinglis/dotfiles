@@ -13,10 +13,10 @@ local picker_opts = {
       height = 0.95,
       border = "none",
       box = "vertical",
-      { win = "preview", title = "{preview}", height = 0.5, border = "rounded" },
+      { win = "preview", title = "{preview}", height = 0.5, border = "single" },
       {
         box = "vertical",
-        border = "rounded",
+        border = "single",
         title = "{title} {live} {flags}",
         title_pos = "center",
         { win = "input", height = 1,     border = "bottom" },

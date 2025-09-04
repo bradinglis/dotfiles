@@ -11,17 +11,17 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   end,
 })
 
-vim.api.nvim_create_autocmd("User", {
-  pattern = "TelescopePreviewerLoaded",
-  callback = function(args)
-    -- if args.data.filetype == "markdown" then
-    --   vim.cmd("Markview attach")
-    --   vim.cmd("Markview disableHybrid")
-    -- end
-    vim.wo.wrap = true
-    vim.wo.linebreak = true
-  end,
-})
+-- vim.api.nvim_create_autocmd("User", {
+--   pattern = "TelescopePreviewerLoaded",
+--   callback = function(args)
+--     -- if args.data.filetype == "markdown" then
+--     --   vim.cmd("Markview attach")
+--     --   vim.cmd("Markview disableHybrid")
+--     -- end
+--     vim.wo.wrap = true
+--     vim.wo.linebreak = true
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd("FileType", {
   callback = function() vim.opt_local.formatoptions:remove("o") end,
