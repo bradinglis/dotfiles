@@ -11,7 +11,7 @@ local pick_all = function()
   local all_notes = require("vault.data").get_all_notes()
 
   local entries = {}
-  for _, entry in ipairs(all_notes) do
+  for i, entry in ipairs(all_notes) do
     table.insert(entries, {
       text = entry.title .. " " .. entry.author_string .. " " .. entry.id,
       ordinal = entry.title .. " " .. entry.author_string .. " " .. entry.id,
@@ -19,6 +19,7 @@ local pick_all = function()
       author = entry.author_string,
       tags = entry.tags,
       icon = entry.icon,
+      score_add = #all_notes - i,
       value = entry,
       file = entry.relative_path,
       id = entry.id,
@@ -37,7 +38,7 @@ local pick_all = function()
       ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }
       ret[#ret + 1] = { item.id, "Grey" }
       return ret
-    end
+    end,
   })
 
   snacks_picker.pick(pick_opts)

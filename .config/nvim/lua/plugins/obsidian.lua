@@ -174,7 +174,7 @@ return {
     priority = 49,
     opts = {
       preview = {
-        debounce = 10,
+        debounce = 1,
         max_buf_lines = 50,
         modes = { "n", "no", "i", "v", "c" },
         hybrid_modes = { "n", "i", "v" },

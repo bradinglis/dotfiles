@@ -8,13 +8,14 @@ local single_tag = function(tag)
   local tag_notes = vim.tbl_values(tags[tag])
 
   local entries = {}
-  for _, entry in ipairs(tag_notes) do
+  for i, entry in ipairs(tag_notes) do
     table.insert(entries, {
       text = entry.note.title .. " " .. entry.note.author_string .. " " .. entry.note.id,
       ordinal = entry.note.title .. " " .. entry.note.author_string .. " " .. entry.note.id,
       title = entry.note.title,
       author = entry.note.author_string,
       tags = entry.note.tags,
+      score_add = #tag_notes - i,
       icon = entry.note.icon,
       value = entry.note,
       file = entry.note.relative_path,

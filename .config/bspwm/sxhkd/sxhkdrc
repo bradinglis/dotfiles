@@ -23,10 +23,10 @@ super + x
 
 #Alacritty
 super + Return
-    alacritty
+    ghostty
 
 super + t
-    alacritty
+    ghostty
 
 #Chrome
 super + c
@@ -42,7 +42,7 @@ super + Escape
 
 #File-Manager
 super + shift + Return
-	alacritty -e ~/.config/bspwm/scripts/nnn.sh
+	ghostty -e ~/.config/bspwm/scripts/nnn.sh
 
 #dmenu
 super + shift + d

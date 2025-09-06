@@ -11,7 +11,7 @@ local pick_source = function()
   local source_notes = require("vault.data").get_source_notes()
 
   local entries = {}
-  for _, entry in ipairs(source_notes) do
+  for i, entry in ipairs(source_notes) do
     table.insert(entries, {
       text = entry.title .. " " .. entry.author_string .. " " .. entry.id,
       ordinal = entry.title .. " " .. entry.author_string .. " " .. entry.id,
@@ -19,6 +19,7 @@ local pick_source = function()
       author = entry.author_string,
       tags = entry.tags,
       icon = entry.icon,
+      score_add = #source_notes - i,
       value = entry,
       file = entry.relative_path,
       id = entry.id,

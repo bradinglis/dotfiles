@@ -11,7 +11,7 @@ local pick_note = function()
   local note_notes = require("vault.data").get_note_notes()
 
   local entries = {}
-  for _, entry in ipairs(note_notes) do
+  for i, entry in ipairs(note_notes) do
     table.insert(entries, {
       text = entry.title .. " " .. entry.author_string .. " " .. entry.id,
       ordinal = entry.title .. " " .. entry.author_string .. " " .. entry.id,
@@ -19,6 +19,7 @@ local pick_note = function()
       author = entry.author_string,
       tags = entry.tags,
       icon = entry.icon,
+      score_add = #note_notes - i,
       value = entry,
       file = entry.relative_path,
       id = entry.id,
