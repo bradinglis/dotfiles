@@ -1,21 +1,31 @@
 local globs = require('globals').getglobs()
 local colours = globs.colours
+local function get_icon(_, item)
+  if not item or not item.levels then
+    return ""
+  end
+
+  local output = "§"
+
+  local levels = item.levels
+  -- print(vim.inspect(item))
+
+  for l, level in ipairs(levels) do
+    if level ~= 0 and l ~= 1 then
+      output = output .. level .. (l ~= #levels and "." or "")
+    end
+  end
+
+  return output .. " "
+end
+
 return {
   "bullets-vim/bullets.vim",
-  {
-    "preservim/vim-pencil",
-    init = function()
-      vim.g["pencil#cursorwrap"] = 0
-      vim.g["pencil#wrapModeDefault"] = "soft"
-      vim.g["pencil#conceallevel"] = 2
-    end,
-  },
   {
     "bradinglis/obsidian.nvim",
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "preservim/vim-pencil",
       "bullets-vim/bullets.vim",
       'chenxin-yan/footnote.nvim',
     },
@@ -166,7 +176,6 @@ return {
       preview = {
         debounce = 10,
         max_buf_lines = 50,
-        draw_range = { vim.o.lines, vim.o.lines },
         modes = { "n", "no", "i", "v", "c" },
         hybrid_modes = { "n", "i", "v" },
         linewise_hybrid_mode = true,
@@ -233,7 +242,7 @@ return {
       },
       markdown = {
         list_items = {
-          enable = true,
+          enable = false,
           wrap = true,
           indent_size = 0,
           shift_width = 4,
@@ -264,33 +273,33 @@ return {
         headings = {
           heading_1 = {
             sign = "",
-            icon = "§ ",
-            icon_hl = "MarkviewHeading1",
+            icon = "",
+            icon_hl = "Red",
           },
           heading_2 = {
             sign = "",
-            icon = "§ ",
-            icon_hl = "MarkviewHeading2",
+            icon = get_icon,
+            icon_hl = "Orange",
           },
           heading_3 = {
             sign = "",
-            icon = "§ ",
-            icon_hl = "MarkviewHeading3",
+            icon = get_icon,
+            icon_hl = "Yellow",
           },
           heading_4 = {
             sign = "",
-            icon = "§ ",
-            icon_hl = "MarkviewHeading4",
+            icon = get_icon,
+            icon_hl = "Green",
           },
           heading_5 = {
             sign = "",
-            icon = "§ ",
-            icon_hl = "MarkviewHeading5",
+            icon = get_icon,
+            icon_hl = "Blue",
           },
           heading_6 = {
             sign = "",
-            icon = "§ ",
-            icon_hl = "MarkviewHeading6",
+            icon = get_icon,
+            icon_hl = "Purple",
           },
           setext_1 = {
             border = "",
