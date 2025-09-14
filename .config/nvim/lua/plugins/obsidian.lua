@@ -347,7 +347,7 @@ return {
           ["^%d+$"] = {
 
             icon = "",
-            hl = "MarkviewHyperlink"
+            hl = "Blue"
           }
 
         }
