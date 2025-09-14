@@ -13,7 +13,7 @@ local grep = function()
   local entries = {}
   for _, entry in ipairs(lines) do
     table.insert(entries, {
-      text = entry.note.title .. " " .. entry.text,
+      text = entry.note.id .. " " .. entry.note.title .. " " .. entry.text,
       search = entry.text,
       title = entry.note.title,
       icon = entry.note.icon,

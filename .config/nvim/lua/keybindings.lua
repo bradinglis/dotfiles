@@ -118,7 +118,7 @@ end
 
 local function delete_surround(surround)
   for c in surround:gmatch(".") do
-    vim.api.nvim_feedkeys("ds" .. c, "m", false)
+    vim.api.nvim_feedkeys("gsd" .. c, "m", false)
   end
 end
 

@@ -248,10 +248,9 @@ local function cursor_on_link()
         end
         local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
         for _, value in pairs(lines) do
-          for id, reference in string.gmatch(value, "%[([0-9]+)%]: (.+)") do
-            if id == ref then
-              return reference
-            end
+          local id, reference = string.match(value, "^%[([0-9]+)%]: (.+)")
+          if id == ref then
+            return reference
           end
         end
       end
