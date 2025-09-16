@@ -19,7 +19,6 @@ function source:get_completions(ctx, callback)
   if ctx.line:sub(1, 5) == "tags:" then
     local tags = require("vault.data").get_tags()
     for _, tag in ipairs(vim.tbl_keys(tags)) do
-      print(tag)
       local item = {
         label = tag,
         filterText = tag,
@@ -39,7 +38,6 @@ function source:get_completions(ctx, callback)
   elseif string.sub(text, 1, 1) == "#" then
     local tags = require("vault.data").get_tags()
     for _, tag in ipairs(vim.tbl_keys(tags)) do
-      print(tag)
       local item = {
         label = tag,
         filterText = "#" .. tag,

@@ -138,7 +138,6 @@ local refresh_notes = function()
     return
   end
   vim.g.notes_refreshing = true
-  -- print(vim.g.notes_refreshing)
 
   local t_all_notes = {}
   local t_note_notes = {}
@@ -152,7 +151,6 @@ local refresh_notes = function()
     function(x)
       for _, value in ipairs(x) do
         if value.metadata ~= nil and value.metadata.type ~= nil and (value.metadata.type == "source" or value.metadata.type == "note" or value.metadata.type == "author") then
-          -- print(value.id)
           handle_note(value, t_lines, t_tags, t_cmp)
           value.icon = ""
           value.author_string = ""
@@ -185,11 +183,9 @@ local refresh_notes = function()
       lines = t_lines
       tags = t_tags
       cmp = t_cmp
-      print("Finished")
       vim.g.notes_refreshing = false
     end,
     { search = { sort = true, sort_by = "modified", sort_reversed = true, fixed_strings = true, }, notes = { load_contents = true } })
-  -- print(vim.g.notes_refreshing)
 end
 
 return {
