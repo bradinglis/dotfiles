@@ -8,6 +8,7 @@ vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.md",
   callback = function()
     require('vault.data').refresh_notes()
+    -- require'vault.all_search'()
   end,
 })
 

@@ -11,17 +11,11 @@ return {
   settings = {
     ltex = {
       language = "en-AU",
-      -- completionEnabled = true,
+      completionEnabled = true,
       diagnosticSeverity = {
         MORFOLOGIK_RULE_EN_AU = "error",
         default = "warning"
       },
-      markdown = {
-        nodes = {
-          LinkRef = "ignore",
-          BlockQuote = "ignore",
-        }
-      }
     }
   }
 }

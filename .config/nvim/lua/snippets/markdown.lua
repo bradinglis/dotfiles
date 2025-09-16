@@ -26,3 +26,7 @@ ls.add_snippets("markdown", {
   s({ trig = ",x", wordTrig = false },    fmt("***{}***{}", { i(1), i(0) })),
 }, { type = "autosnippets" })
 
+
+ls.add_snippets("markdown", {
+  s({ trig = ",code" },                      fmt("```{}\n{}\n```\n{}", { i(1, "language"), i(2), i(0) })),
+}, { type = "snippets" })

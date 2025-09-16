@@ -4,18 +4,13 @@ local function get_icon(_, item)
   if not item or not item.levels then
     return ""
   end
-
   local output = "§"
-
   local levels = item.levels
-  -- print(vim.inspect(item))
-
   for l, level in ipairs(levels) do
     if level ~= 0 and l ~= 1 then
       output = output .. level .. (l ~= #levels and "." or "")
     end
   end
-
   return output .. " "
 end
 
@@ -44,7 +39,7 @@ return {
       },
       completion = {
         nvim_cmp = false,
-        blink = true,
+        blink = false,
         min_chars = 2,
         create_new = false,
       },

@@ -3,6 +3,7 @@ local util = require("vault.util")
 
 local pick_all = function()
   if not vim.wait(5000, function()
+        print(vim.g.notes_refreshing)
         return not vim.g.notes_refreshing
       end) then
     return
@@ -42,7 +43,6 @@ local pick_all = function()
   })
 
   snacks_picker.pick(pick_opts)
-
 end
 
 return pick_all

@@ -126,6 +126,22 @@ local function markdown()
   local vault_create = require 'vault.create'
   local vault_util = require 'vault.util'
 
+  vim.keymap.set("n", "j", function()
+    if vim.v.count > 0 then
+      return "j"
+    else
+      return "gj"
+    end
+  end, {buffer = true, expr = true})
+
+  vim.keymap.set("n", "k", function()
+    if vim.v.count > 0 then
+      return "k"
+    else
+      return "gk"
+    end
+  end, {buffer = true, expr = true})
+
   vim.api.nvim_create_user_command('PrintTest', vault_util.print_test, {})
   vim.api.nvim_create_user_command('NewSource', vault_create.new_source, {})
   vim.api.nvim_create_user_command('NewNote', vault_create.new_note, {})

@@ -43,7 +43,7 @@ vim.g["pencil#conceallevel"] = 2
 vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
 vim.g.mkdp_browser = 'Chrome'
 vim.g.mkdp_echo_preview_url = 1
-vim.g.notes_refreshing = false
+-- vim.g.notes_refreshing = false
 
 local colours = {
   blue = "#7fbbb3",
