@@ -154,6 +154,7 @@ local function find_frontmatter_tags(line)
 end
 
 local function frontmatter_highlighting(note)
+  note.frontmatter_end_line = note.frontmatter_end_line or -1
   local ns_id = vim.api.nvim_create_namespace("ObsidianBrad")
   local lines = vim.api.nvim_buf_get_lines(note.bufnr, 0, note.frontmatter_end_line, true)
   for i, line in ipairs(lines) do
@@ -192,6 +193,7 @@ local function frontmatter_highlighting(note)
 end
 
 local function tag_highlighting(note)
+  note.frontmatter_end_line = note.frontmatter_end_line or 0
   local ns_id = vim.api.nvim_create_namespace("ObsidianBrad")
   local lines = vim.api.nvim_buf_get_lines(note.bufnr, note.frontmatter_end_line, -1, true)
   for i, line in ipairs(lines) do
@@ -223,7 +225,7 @@ local function cursor_on_link()
 
   local in_frontmatter = false
   local note = api.current_note()
-  if note.frontmatter_end_line ~= nil then
+  if note and note.frontmatter_end_line ~= nil then
     if cur_row < note.frontmatter_end_line then
       in_frontmatter = true
     end
@@ -243,7 +245,7 @@ local function cursor_on_link()
       local m_start, m_end = unpack(link)
       if m_start <= cur_col and cur_col <= m_end then
         local ref
-        for text, id in current_line:sub(m_start, m_end):gmatch("%[([^%]]+)%]%[(%d+)%]") do
+        for _, id in current_line:sub(m_start, m_end):gmatch("%[([^%]]+)%]%[(%d+)%]") do
           ref = id
         end
         local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
@@ -259,7 +261,7 @@ local function cursor_on_link()
     for link in iter(wiki_links) do
       local m_start, m_end = unpack(link)
       if m_start <= cur_col and cur_col <= m_end then
-        for id, text in current_line:sub(m_start, m_end):gmatch("%[%[([^|]+)|([^%]]+)%]%]") do
+        for id, _ in current_line:sub(m_start, m_end):gmatch("%[%[([^|]+)|([^%]]+)%]%]") do
           return id
         end
       end
@@ -319,18 +321,33 @@ local function cursor_on_footnote()
   return nil
 end
 
-local function enter_command()
-  local tag = cursor_on_tag()
-  local link = cursor_on_link()
-  local footnote = cursor_on_footnote()
+local function cursor_check_line()
+  local current_line = vim.api.nvim_get_current_line()
+  if current_line:match("^%s*- %[.%]") then
+    return true
+  end
+  return false
+end
 
+local function enter_command()
+
+  local link = cursor_on_link()
+  if link then
+    return "<cmd>Obsidian quick_switch " .. link .. "<CR>"
+  end
+
+  local footnote = cursor_on_footnote()
   if footnote then
     return "<cmd>lua require('footnote').new_footnote()<CR>"
-  elseif tag then
+  end
+
+  local tag = cursor_on_tag()
+  if tag then
     return "<cmd>TagSearch " .. tag:sub(2, -1) .. "<CR>"
-  elseif link then
-    return "<cmd>Obsidian quick_switch " .. link .. "<CR>"
-  else
+  end
+
+  local checkbox = cursor_check_line()
+  if checkbox then
     return "<cmd>Obsidian toggle_checkbox<CR>"
   end
 end

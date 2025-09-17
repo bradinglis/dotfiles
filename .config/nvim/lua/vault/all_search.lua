@@ -3,7 +3,6 @@ local util = require("vault.util")
 
 local pick_all = function()
   if not vim.wait(5000, function()
-        print(vim.g.notes_refreshing)
         return not vim.g.notes_refreshing
       end) then
     return

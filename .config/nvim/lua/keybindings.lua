@@ -31,12 +31,12 @@ local function general()
   vim.keymap.set('n', '<leader>gb', snacks.picker.git_branches, { desc = 'git branches' })
   vim.keymap.set('n', '<leader>gl', snacks.picker.git_log, { desc = 'git log' })
   vim.keymap.set('n', '<leader>gs', snacks.picker.git_status, { desc = 'git status' })
-  vim.keymap.set('n', '<leader>gd', function () require("diffview").open() end, { desc = 'diffview open' })
-  vim.keymap.set('n', '<leader>gc', function () require("diffview").close() end, { desc = 'diffview close' })
+  vim.keymap.set('n', '<leader>gd', function() require("diffview").open() end, { desc = 'diffview open' })
+  vim.keymap.set('n', '<leader>gc', function() require("diffview").close() end, { desc = 'diffview close' })
 
   -- Functional
-  vim.keymap.set('n', '<leader>v', function () require("oil").toggle_float() end, { desc = 'file browser' })
-  vim.keymap.set('n', '<leader>z', function () require("zen-mode").toggle() end, { desc = 'zen mode' })
+  vim.keymap.set('n', '<leader>v', function() require("oil").toggle_float() end, { desc = 'file browser' })
+  vim.keymap.set('n', '<leader>z', function() require("zen-mode").toggle() end, { desc = 'zen mode' })
   vim.keymap.set('n', '<leader>o', vim.diagnostic.open_float, { desc = 'diagnostics' })
 
   -- Buffer Tab Navigation
@@ -94,6 +94,16 @@ local function lsp()
   vim.keymap.set('n', '<leader>fr', snacks.picker.lsp_references, { desc = 'lsp references' })
 end
 
+local function lsp_short()
+  local opts = { silent = true }
+  vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, { desc = 'lsp code action' })
+
+  vim.keymap.set('n', '<leader>fD', snacks.picker.diagnostics, { desc = 'lsp diagnostics' })
+  vim.keymap.set('n', '<leader>fd', snacks.picker.diagnostics_buffer, { desc = 'lsp diagnostics buffer' })
+  vim.keymap.set('n', '<leader>fw', snacks.picker.lsp_workspace_symbols, { desc = 'lsp workplace symbols' })
+  vim.keymap.set('n', '<leader>fr', snacks.picker.lsp_references, { desc = 'lsp references' })
+end
+
 local function quickfix_list()
   local opts = { silent = true, buffer = true }
   vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>zz<C-w>w', opts)
@@ -125,6 +135,7 @@ end
 local function markdown()
   local vault_create = require 'vault.create'
   local vault_util = require 'vault.util'
+  print("running :(")
 
   vim.keymap.set("n", "j", function()
     if vim.v.count > 0 then
@@ -132,7 +143,7 @@ local function markdown()
     else
       return "gj"
     end
-  end, {buffer = true, expr = true})
+  end, { buffer = true, expr = true })
 
   vim.keymap.set("n", "k", function()
     if vim.v.count > 0 then
@@ -140,7 +151,7 @@ local function markdown()
     else
       return "gk"
     end
-  end, {buffer = true, expr = true})
+  end, { buffer = true, expr = true })
 
   vim.api.nvim_create_user_command('PrintTest', vault_util.print_test, {})
   vim.api.nvim_create_user_command('NewSource', vault_create.new_source, {})
@@ -208,4 +219,10 @@ local function markdown()
   vim.keymap.set('i', '-^', '↑', { buffer = true })
 end
 
-return { general = general, markdown = markdown, lsp = lsp, quickfix_list = quickfix_list }
+return {
+  general = general,
+  markdown = markdown,
+  lsp = lsp,
+  lsp_short = lsp_short,
+  quickfix_list = quickfix_list
+}

@@ -77,8 +77,8 @@ return {
     },
     config = function(test, opts)
       vim.treesitter.language.register('c_sharp', 'csharp')
+      vim.treesitter.language.register('markdown', 'preview-markdown')
       require("nvim-treesitter.configs").setup(opts)
-      vim.treesitter.language.register('c_sharp', 'csharp')
       require 'nvim-treesitter.install'.prefer_git = true
     end,
     dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", 'ThePrimeagen/git-worktree.nvim', "bradinglis/markview.nvim" }

@@ -5,7 +5,7 @@ return {
     opts = {
       automatic_enable = {
         exclude = {
-          -- "ltex_plus"
+          -- "lua_ls"
         }
       }
     },
@@ -19,4 +19,16 @@ return {
       "p00f/clangd_extensions.nvim",
     },
   },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        -- See the configuration section for more details
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  -- { "folke/neodev.nvim", enabled = false }, -- make sure to uninstall or disable neodev.nvim
+  }
 }
