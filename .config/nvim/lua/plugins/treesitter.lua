@@ -77,7 +77,7 @@ return {
     },
     config = function(test, opts)
       vim.treesitter.language.register('c_sharp', 'csharp')
-      vim.treesitter.language.register('markdown', 'preview-markdown')
+      -- vim.treesitter.language.register('markdown', 'preview-markdown')
       require("nvim-treesitter.configs").setup(opts)
       require 'nvim-treesitter.install'.prefer_git = true
     end,
