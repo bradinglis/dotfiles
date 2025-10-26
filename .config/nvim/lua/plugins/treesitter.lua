@@ -81,7 +81,11 @@ return {
       require("nvim-treesitter.configs").setup(opts)
       require 'nvim-treesitter.install'.prefer_git = true
     end,
-    dependencies = { "nvim-treesitter/nvim-treesitter-textobjects", 'ThePrimeagen/git-worktree.nvim', "bradinglis/markview.nvim" }
+    dependencies = { 
+      "nvim-treesitter/nvim-treesitter-textobjects", 
+      'ThePrimeagen/git-worktree.nvim', 
+      -- "bradinglis/markview.nvim" 
+      }
   },
   -- {
   --   "nvim-treesitter/nvim-treesitter-textobjects",

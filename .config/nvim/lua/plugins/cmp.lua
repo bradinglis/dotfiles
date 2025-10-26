@@ -39,6 +39,9 @@ return {
         },
         documentation = { auto_show = true },
         accept = { auto_brackets = { enabled = true } },
+        trigger = {
+          show_on_blocked_trigger_characters = {}
+        }
       },
 
       snippets = {

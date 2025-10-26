@@ -1,6 +1,6 @@
 local globs = require('globals').getglobs()
 local colours = globs.colours
-local function get_icon(_, item)
+local function get_icon(x, item)
   if not item or not item.levels then
     return ""
   end
@@ -83,7 +83,7 @@ return {
           -- require("alts.alter")
           require('vault.data').refresh_notes()
         end,
-        enter_note = function(_, note)
+        enter_note = function(note)
           local util = require("vault.util")
           require("globals").set_hl()
           -- vim.keymap.del("n", "<CR>", { buffer = note.bufnr })
@@ -236,6 +236,9 @@ return {
         }
       },
       markdown = {
+        block_quotes = {
+          wrap = false
+        },
         list_items = {
           enable = false,
           wrap = true,
@@ -249,6 +252,7 @@ return {
             add_padding = false,
           }
         },
+        -- tables = require("markview.presets").tables.single,
         horizontal_rules = {
           enable = true,
 
@@ -263,12 +267,11 @@ return {
               hl = "Comment"
             }
           }
-          ---_
         },
         headings = {
           heading_1 = {
             sign = "",
-            icon = "",
+            icon = " ",
             icon_hl = "Red",
           },
           heading_2 = {

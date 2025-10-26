@@ -17,7 +17,7 @@ return {
       },
       markdown = {
         nodes = {
-          LinkRef = "dummy",
+          LinkRef = "ignore",
         }
       }
     }

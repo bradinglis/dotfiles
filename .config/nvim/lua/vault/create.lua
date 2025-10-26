@@ -70,7 +70,7 @@ local function new_source()
         viz = util.get_visual_selection()
       end
 
-      local link = api.format_link(note)
+      local link = "[[" .. input .. "|" .. longName .. "]]"
       local content = {}
 
       if viz then
@@ -90,15 +90,15 @@ local function new_source()
         author = author
       }
 
-      note:write()
+      note.title = longName
+
       table.insert(content, 1, "# " .. longName)
 
-      note:open({ sync = true })
-      note:write_to_buffer()
+      note:write():open({ sync = true })
 
       vim.api.nvim_buf_set_lines(0, -2, -1, false, content)
       vim.cmd.write()
-      ui.update(0)
+      -- ui.update(0)
     end)
   end)
 end
@@ -185,7 +185,7 @@ local function append_to_note()
       picker:close()
       local dest_note = item.value
 
-      local link = api.format_link(dest_note)
+      local link = "[[" .. dest_note.id .. "|" .. dest_note.title .. "]]"
 
       if current_note.metadata.type ~= "source" then
         return
@@ -236,10 +236,11 @@ local function new_note()
       viz = util.get_visual_selection()
     end
 
-    local link = api.format_link(note)
+    local link = "[[" .. note.id .. "|" .. input .. "]]"
     local content = {}
 
     note.metadata = { type = "note" }
+    note.title = input
 
     if viz then
       content = vim.split(viz.selection, "\n", { plain = true })
@@ -252,7 +253,7 @@ local function new_note()
         note.metadata.references = current_note.id
       elseif current_note.metadata.type == "note" then
         vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
-        local linkback = api.format_link(current_note)
+        local linkback = "[[" .. current_note.id .. "|" .. current_note.title .. "]]"
         table.insert(content, 1, linkback)
         table.insert(content, 2, "")
       end
@@ -266,10 +267,10 @@ local function new_note()
     table.insert(content, 1, "# " .. input)
 
     note:open({ sync = true })
-    note:write_to_buffer()
+
     vim.api.nvim_buf_set_lines(0, -2, -1, false, content)
     vim.cmd.write()
-    ui.update(0)
+    -- ui.update(0)
   end)
 end
 
@@ -291,17 +292,17 @@ local function new_author()
       local note = Note.new(id, { longName }, {}, dir)
 
       local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
-      local new_line = api.format_link(note)
+      local new_line = "[[" .. note.id .. "|" .. longName .. "]]"
       vim.api.nvim_buf_set_lines(0, cur_row, cur_row, false, { new_line })
       vim.cmd.write()
 
       note.metadata = { type = "author" }
+      note.title = longName
       note:write()
       note:open({ sync = true })
-      note:write_to_buffer()
+
       vim.api.nvim_buf_set_lines(0, -2, -1, false, { "# " .. longName })
       vim.cmd.write()
-      ui.update(0)
     end)
   end)
 end

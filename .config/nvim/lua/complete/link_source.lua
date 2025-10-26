@@ -6,7 +6,7 @@ function source.new(opts)
   return self
 end
 
-function source:get_trigger_characters() return { '[' } end
+function source:get_trigger_characters() return { '[', ' ' } end
 
 function source:enabled() return vim.bo.filetype == 'markdown' end
 
@@ -21,7 +21,7 @@ function source:get_completions(ctx, callback)
     for i, note in ipairs(notes) do
       local item = {
         label = note.title,
-        filterText = "[[" .. note.title .. "]]",
+        -- filterText = "[[" .. note.title .. "]]",
         kind = require('blink.cmp.types').CompletionItemKind.Reference,
         textEdit = {
           newText = "[[" .. note.id .. "|" .. note.title .. "]]",

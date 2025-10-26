@@ -13,9 +13,9 @@ local pick_all = function()
   local entries = {}
   for i, entry in ipairs(all_notes) do
     table.insert(entries, {
-      text = entry.title .. " " .. entry.author_string .. " " .. entry.id,
-      ordinal = entry.title .. " " .. entry.author_string .. " " .. entry.id,
-      title = entry.title,
+      text = (entry.title or "") .. " " .. entry.author_string .. " " .. entry.id,
+      ordinal = (entry.title or "") .. " " .. entry.author_string .. " " .. entry.id,
+      title = (entry.title or ""),
       author = entry.author_string,
       tags = entry.tags,
       icon = entry.icon,
@@ -23,7 +23,7 @@ local pick_all = function()
       value = entry,
       file = entry.relative_path,
       id = entry.id,
-      link = "[[" .. entry.id .. "|" .. entry.title .. "]]"
+      link = "[[" .. entry.id .. "|" .. (entry.title or "") .. "]]"
     })
   end
 
@@ -33,7 +33,7 @@ local pick_all = function()
     format = function(item, _)
       local ret = {}
       ret[#ret + 1] = { item.icon .. " ", "Fg" }
-      ret[#ret + 1] = { util.set_string_width(item.title, 40) .. " ", "markdownBoldItalic" }
+      ret[#ret + 1] = { util.set_string_width((item.title or ""), 40) .. " ", "markdownBoldItalic" }
       ret[#ret + 1] = { util.set_string_width(item.author, 20) .. " ", "markdownItalic" }
       ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }
       ret[#ret + 1] = { item.id, "Grey" }

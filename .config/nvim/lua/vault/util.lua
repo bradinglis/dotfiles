@@ -32,6 +32,10 @@ local picker_opts = {
       },
     },
   },
+  buffers = true,
+  previewers = {
+    file = { ft = "markdown"},
+  },
   actions = {
     put_link = function(picker)
       local link = picker:current().link
@@ -333,7 +337,12 @@ local function enter_command()
 
   local link = cursor_on_link()
   if link then
-    return "<cmd>Obsidian quick_switch " .. link .. "<CR>"
+    local path = table.foreach(require("vault.data").get_all_notes(), function (key, value)
+      if(value.id == link) then
+        return value.relative_path
+      end
+    end)
+    return ":e " .. path .. "<CR>"
   end
 
   local footnote = cursor_on_footnote()
@@ -409,11 +418,7 @@ local function references_to_links()
 end
 
 local function print_test()
-  local notes = require("vault.data").get_all_notes()
-  print(vim.inspect(notes[1]))
-  print(vim.inspect(vim.tbl_map(function(value)
-    return value.id
-  end, notes)))
+  vim.print(vim.inspect(api.current_note()))
 end
 
 return {

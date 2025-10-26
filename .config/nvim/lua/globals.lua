@@ -8,7 +8,6 @@ vim.opt.exrc = true
 vim.opt.secure = true
 
 vim.opt_global.diffopt:append("iwhiteall")
-
 vim.opt.undodir = vim.fn.stdpath('data') .. '/undo'
 vim.opt.backupdir = vim.fn.stdpath('data') .. '/backup'
 vim.g.mapleader = " "
@@ -40,7 +39,7 @@ vim.o.foldlevel = 99
 vim.g["pencil#cursorwrap"] = 0
 vim.g["pencil#wrapModeDefault"] = "soft"
 vim.g["pencil#conceallevel"] = 2
-vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'abc', 'rom', 'std-' }
+vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'std-' }
 vim.g.mkdp_browser = 'Chrome'
 vim.g.mkdp_echo_preview_url = 1
 -- vim.g.notes_refreshing = false
@@ -71,7 +70,9 @@ local function set_hl()
   vim.api.nvim_set_hl(0, "ObsidianBlockID", { italic = true, fg = colours.orange })
   vim.api.nvim_set_hl(0, "ObsidianHighlightText", { bg = colours.bgyellow })
   vim.api.nvim_set_hl(0, "markdownItalic", { italic = true, fg = colours.green })
+  vim.api.nvim_set_hl(0, "TSEmphasis", { italic = true, fg = colours.green })
   vim.api.nvim_set_hl(0, "markdownBold", { bold = true, fg = colours.yellow })
+  vim.api.nvim_set_hl(0, "TSStrong", { bold = true, fg = colours.yellow })
   vim.api.nvim_set_hl(0, "markdownBoldItalic", { italic = true, bold = true, fg = colours.red })
   vim.api.nvim_set_hl(0, "HydraTeal", { fg = colours.aqua })
   vim.api.nvim_set_hl(0, "HydraBlue", { fg = colours.blue })

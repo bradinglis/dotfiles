@@ -173,7 +173,7 @@ local function markdown()
     end
   end, { nargs = '?' })
 
-  vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end, { buffer = true, expr = true })
+  vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end, { silent = true, buffer = true, expr = true })
   -- vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
   vim.keymap.set('n', '<leader>rr', vault_util.links_to_reference, { buffer = true })
   vim.keymap.set('n', '<leader>rl', vault_util.references_to_links, { buffer = true })
