@@ -21,7 +21,7 @@ alias g="git"
 alias mkd="mkdir -pv"
 alias fd="fdfind"
 alias lg="lazygit"
-# export TERM=alacritty
+export EDITOR=nvim
 
 setopt GLOB_DOTS
 
@@ -111,6 +111,9 @@ alias trizenskip='trizen -S --skipinteg'
 
 #check vulnerabilities microcode
 alias microcode='grep . /sys/devices/system/cpu/vulnerabilities/*'
+
+alias pbcopy='clip.exe'
+alias pbpaste='powershell.exe Get-Clipboard'
 
 #youtube-dl
 alias yta-aac="youtube-dl --extract-audio --audio-format aac "

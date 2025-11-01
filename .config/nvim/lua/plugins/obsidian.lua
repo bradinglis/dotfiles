@@ -2,7 +2,7 @@ local globs = require('globals').getglobs()
 local colours = globs.colours
 local function get_icon(x, item)
   if not item or not item.levels then
-    return ""
+    return " "
   end
   local output = "§"
   local levels = item.levels
