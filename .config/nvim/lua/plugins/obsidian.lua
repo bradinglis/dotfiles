@@ -164,7 +164,7 @@ return {
     },
   },
   {
-    "bradinglis/markview.nvim",
+    "OXY2DEV/markview.nvim",
     lazy = false,
     priority = 49,
     opts = {
@@ -237,7 +237,7 @@ return {
       },
       markdown = {
         block_quotes = {
-          wrap = false
+          wrap = false,
         },
         list_items = {
           enable = false,
