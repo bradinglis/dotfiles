@@ -136,7 +136,13 @@ rm -r lazygit lazygit.tar.gz nodesource_setup.sh
 
 echo -e "${BOLD}Starting Shell${NONE}"
 sudo chsh -s /usr/bin/zsh $(whoami)
+
+explorer.exe ~/for-windows/
+echo -e "${BOLD}${GREEN}Success${NONE}"
+echo -e "${BOLD}${YELLOW}Please move 'wclip.exe' to the windows path${NONE}"
+
 zsh
 
 rm -- $0
+
 
