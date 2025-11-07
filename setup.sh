@@ -1,4 +1,4 @@
-#!/bin/sh
+
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 NONE='\033[00m'
@@ -29,6 +29,13 @@ echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
 sudo apt-get -y -qq install nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang
+
+mkdir -p ~/.local/bin
+ln -s /usr/bin/batcat ~/.local/bin/bat
+mkdir -p "$(bat --config-dir)/themes"
+curl https://raw.githubusercontent.com/neuromaancer/everforest_collection/main/bat/everforest-soft.tmTheme > "$(bat --config-dir)/themes/everforest-soft.tmTheme"
+batcat cache --build
+
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 

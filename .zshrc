@@ -12,7 +12,6 @@ fi
 setopt autocd
 bindkey -v
 
-
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
 autoload -Uz compinit && compinit
 alias v="nvim"
@@ -22,6 +21,11 @@ alias mkd="mkdir -pv"
 alias fd="fdfind"
 alias lg="lazygit"
 export EDITOR=nvim
+export VISUAL=nvim
+
+export BAT_THEME="everforest-soft"
+export COLORTERM="truecolor"
+
 
 setopt GLOB_DOTS
 
@@ -195,7 +199,6 @@ n ()
     # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
     #      NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
     export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    export VISUAL=nvim
 
     # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
     # stty start undef
