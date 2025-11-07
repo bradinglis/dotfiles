@@ -14,6 +14,12 @@ ITALIC='\033[3m'
 UNDERLINE='\033[4m'
 
 cd $HOME
+fullname="INPUT"
+read -p "Enter fullname [Git]: " fullname
+email="INPUT"
+read -p "Enter email [Git]: " email
+zettel="INPUT"
+read -p "Enter zettel repo: " fullname
 
 mkdir -p ~/.local/bin
 
@@ -31,7 +37,7 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
-sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
+sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
 
 ln -s /usr/bin/batcat ~/.local/bin/bat
 mkdir -p "$(bat --config-dir)/themes"
@@ -42,7 +48,8 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Setting up clipboard tools${NONE}"
-curl -L https://github.com/memoryInject/wsl-clipboard/releases/download/v0.1.0/wclip.exe -o ~/wclip.exe
+mkdir -p ~/for-windows
+curl -L https://github.com/memoryInject/wsl-clipboard/releases/download/v0.1.0/wclip.exe -o ~/for-windows/wclip.exe
 curl -L https://github.com/memoryInject/wsl-clipboard/releases/download/v0.1.0/wcopy -o ~/.local/bin/wcopy
 chmod +x ~/.local/bin/wcopy
 curl -L https://github.com/memoryInject/wsl-clipboard/releases/download/v0.1.0/wpaste -o ~/.local/bin/wpaste
@@ -54,7 +61,7 @@ echo -e "${BOLD}Setting up git credential mannager${NONE}"
 git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
 git config --global credential.https://dev.azure.com.useHttpPath true
 git config --global pull.rebase true
-git config --global user.name "Brad Inglis"
+git config --global user.name $fullname
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
@@ -74,23 +81,25 @@ echo -e ""
 
 echo -e "${BOLD}Sourcing dotfiles${NONE}"
 cd $HOME
+
 git clone https://github.com/bradinglis/dotfiles.git
-
-
 cd ./dotfiles
-git config user.email "brad.inglis@gmail.com"
+git config user.email $email
 stow .
+cp ./useful-other/clipboard.ahk ~/for-windows
 
-nvim --headless -E '+Lazy install' +MasonInstallAll +qall
+nvim --headless -E '+Lazy install' +qall
+nvim --headless -E +MasonInstallAll +qall
 
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 cd $HOME
+git clone $zettel
 
 rm -r lazygit lazygit.tar.gz nodesource_setup.sh
 
 echo -e "${BOLD}Starting Shell${NONE}"
-sudo chsh -s /usr/bin/zsh
+sudo chsh -s /usr/bin/zsh $(whoami)
 zsh
 

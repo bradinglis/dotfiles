@@ -7,7 +7,6 @@ return {
     event = { "BufReadPre", "VeryLazy" },
     lazy = false,
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
-
     opts = {
       ensure_installed = {
         'c',
@@ -22,6 +21,7 @@ return {
         'markdown',
         'markdown_inline',
       },
+      sync_install = true,
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = true,
