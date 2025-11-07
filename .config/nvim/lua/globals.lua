@@ -101,7 +101,7 @@ return {
     local notesdir = ''
 
     if hostname == 'AL6WZQHR3' then
-      notesdir = '~/notes'
+      notesdir = '~/zettel'
     elseif hostname == 'DESKTOP-6K7U30E' then
       notesdir = '~/zettel'
     elseif hostname == 'Brads-MBP' then
@@ -113,7 +113,7 @@ return {
     elseif hostname == 'bradpc' then
       notesdir = '~/zettel'
     else
-      notesdir = '~/test/zettel'
+      notesdir = '~/zettel'
       vim.g.clipboard = {
         name = 'win32yank-wsl',
         copy = {
