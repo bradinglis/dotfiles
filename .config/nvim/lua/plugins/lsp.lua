@@ -4,9 +4,9 @@ return {
     event = "VeryLazy",
     cmd = { "MasonInstallAll" },
     config = function(_, opts)
+      require("mason").setup()
       require("mason-lspconfig").setup(opts)
       vim.api.nvim_create_user_command("MasonInstallAll", function()
-        print("testing!")
         vim.cmd("LspInstall " .. table.concat(opts.ensure_installed, " "))
       end, {})
     end,

@@ -14,6 +14,7 @@ return {
         'vim',
         'vimdoc',
         'query',
+        'yaml',
         'jq',
         'json',
         'go',

@@ -38,12 +38,14 @@ fi
 zettel=""
 read -p "Enter zettel repo: " zettel
 
+sudo echo ""
+
 mkdir -p ~/.local/bin
 
 echo -e "${BOLD}Adding APT repositories${NONE}"
-sudo add-apt-repository -y ppa:neovim-ppa/unstable > /dev/null
+sudo add-apt-repository -y ppa:neovim-ppa/unstable
 curl -fsSL https://deb.nodesource.com/setup_current.x -o nodesource_setup.sh
-sudo -E bash nodesource_setup.sh &> /dev/null
+sudo -E bash nodesource_setup.sh 
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
@@ -118,6 +120,9 @@ stow .
 cp ./useful-other/clipboard.ahk ~/for-windows
 
 nvim --headless -E '+Lazy install' +qall
+
+sleep 5
+
 nvim --headless -E +MasonInstallAll +qall
 
 echo -e "${BOLD}${GREEN}Complete${NONE}"
@@ -141,8 +146,8 @@ explorer.exe ~/for-windows/
 echo -e "${BOLD}${GREEN}Success${NONE}"
 echo -e "${BOLD}${YELLOW}Please move 'wclip.exe' to the windows path${NONE}"
 
-zsh
+rm -- "$0"
 
-rm -- $0
+zsh
 
 
