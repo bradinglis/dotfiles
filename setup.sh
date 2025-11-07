@@ -35,6 +35,8 @@ echo -e ""
 echo -e "${BOLD}Setting up git credential mannager${NONE}"
 git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
 git config --global credential.https://dev.azure.com.useHttpPath true
+git config --global pull.rebase true
+git config --global user.name "Brad Inglis"
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
@@ -57,6 +59,7 @@ cd $HOME
 git clone https://github.com/bradinglis/dotfiles.git
 
 cd ./dotfiles
+git config user.email "brad.inglis@gmail.com"
 stow .
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
@@ -64,6 +67,6 @@ echo -e ""
 cd $HOME
 
 echo -e "${BOLD}Starting Shell${NONE}"
-chsh -s zsh
+chsh -s /usr/bin/zsh
 zsh
 
