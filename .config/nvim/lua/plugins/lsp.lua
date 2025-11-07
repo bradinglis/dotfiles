@@ -3,11 +3,12 @@ return {
     "mason-org/mason-lspconfig.nvim",
     event = "VeryLazy",
     opts = {
-      automatic_enable = {
-        exclude = {
-          -- "lua_ls"
-        }
-      }
+      -- automatic_enable = {
+      --   exclude = {
+      --     -- "lua_ls"
+      --   }
+      -- }
+      ensure_installed = { "lua_ls" },
     },
     dependencies = {
       { "mason-org/mason.nvim", opts = {

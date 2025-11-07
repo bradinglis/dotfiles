@@ -28,7 +28,7 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
-sudo apt-get -y -q install nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl
+sudo apt-get -y -qq install nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 

@@ -9,6 +9,19 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
 
     opts = {
+      ensure_installed = {
+        'c',
+        'lua',
+        'vim',
+        'vimdoc',
+        'query',
+        'jq',
+        'json',
+        'go',
+        'bash',
+        'markdown',
+        'markdown_inline',
+      },
       highlight = {
         enable = true,
         additional_vim_regex_highlighting = true,
