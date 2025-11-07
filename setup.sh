@@ -20,18 +20,18 @@ mkdir -p ~/.local/bin
 echo -e "${BOLD}Adding APT repositories${NONE}"
 sudo add-apt-repository -y ppa:neovim-ppa/unstable > /dev/null
 curl -fsSL https://deb.nodesource.com/setup_current.x -o nodesource_setup.sh
-sudo -E bash nodesource_setup.sh > /dev/null
+sudo -E bash nodesource_setup.sh &> /dev/null
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT update/upgrade${NONE}"
-sudo apt-get -y -qq update 
-sudo apt-get -y -qq upgrade
+sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq update 
+sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq upgrade
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
-sudo apt-get -y -qq install nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
+sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
 
 ln -s /usr/bin/batcat ~/.local/bin/bat
 mkdir -p "$(bat --config-dir)/themes"
@@ -93,4 +93,4 @@ rm -r lazygit lazygit.tar.gz nodesource_setup.sh
 echo -e "${BOLD}Starting Shell${NONE}"
 sudo chsh -s /usr/bin/zsh
 zsh
-rm -- $0
+
