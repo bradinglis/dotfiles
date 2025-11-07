@@ -14,12 +14,29 @@ ITALIC='\033[3m'
 UNDERLINE='\033[4m'
 
 cd $HOME
-fullname="INPUT"
-read -p "Enter fullname [Git]: " fullname
-email="INPUT"
-read -p "Enter email [Git]: " email
-zettel="INPUT"
-read -p "Enter zettel repo: " fullname
+fullname=""
+read -p "Enter fullname: " fullname
+
+gemail=""
+read -p "Enter global email: " gemail
+
+zemail=""
+read -p "Enter zettel email [blank does not set]: " zemail
+
+demail_prompt="Enter dotfiles email [$zemail]: "
+if [ -z "$zemail" ]; then
+  demail_prompt="Enter dotfiles email [blank does not set]: "
+fi
+
+demail=""
+read -p "$demail_prompt" demail
+
+if [ -z "$demail" ]; then
+  demail="$zemail"
+fi
+
+zettel=""
+read -p "Enter zettel repo: " zettel
 
 mkdir -p ~/.local/bin
 
@@ -61,7 +78,15 @@ echo -e "${BOLD}Setting up git credential mannager${NONE}"
 git config --global credential.helper "/mnt/c/Program\ Files/Git/mingw64/bin/git-credential-manager.exe"
 git config --global credential.https://dev.azure.com.useHttpPath true
 git config --global pull.rebase true
-git config --global user.name $fullname
+
+if [ -n "$fullname" ]; then
+  git config --global user.name $fullname
+fi 
+
+if [ -n "$gemail" ]; then
+  git config --global user.email $gemail
+fi 
+
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
@@ -84,7 +109,11 @@ cd $HOME
 
 git clone https://github.com/bradinglis/dotfiles.git
 cd ./dotfiles
-git config user.email $email
+
+if [ -n "$demail" ]; then
+  git config user.email $demail
+fi 
+
 stow .
 cp ./useful-other/clipboard.ahk ~/for-windows
 
@@ -95,11 +124,19 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 cd $HOME
-git clone $zettel
+git clone $zettel zettel
+cd zettel
+
+if [ -n "$zemail" ]; then
+  git config user.email $zemail
+fi 
+cd $HOME
 
 rm -r lazygit lazygit.tar.gz nodesource_setup.sh
 
 echo -e "${BOLD}Starting Shell${NONE}"
 sudo chsh -s /usr/bin/zsh $(whoami)
 zsh
+
+rm -- $0
 
