@@ -5,26 +5,25 @@ return {
     cmd = { "MasonInstallAll" },
     opts = function(_, opts)
       local ensure_installed = {
-        "clangd",
-        "lua_ls",
         "bashls",
+        "lua_ls",
+        "clangd",
       }
-
-      opts.ensure_installed = ensure_installed
 
       -- Create user command to synchronously install all Mason tools in `opts.ensure_installed`.
       vim.api.nvim_create_user_command("MasonInstallAll", function()
-        for _, tool in ipairs(opts.ensure_installed) do
-          vim.cmd("MasonInstall " .. tool)
-        end
+        vim.cmd("LspInstall " .. table.concat(ensure_installed, " "))
       end, {})
 
       return opts
     end,
     dependencies = {
-      { "mason-org/mason.nvim", opts = {
-        -- log_level = vim.log.levels.DEBUG
-      } },
+      {
+        "mason-org/mason.nvim",
+        opts = {
+          -- log_level = vim.log.levels.DEBUG
+        }
+      },
       "neovim/nvim-lspconfig",
       "barreiroleo/ltex-extra.nvim",
       "Hoffs/omnisharp-extended-lsp.nvim",
@@ -41,6 +40,6 @@ return {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
     },
-  -- { "folke/neodev.nvim", enabled = false }, -- make sure to uninstall or disable neodev.nvim
+    -- { "folke/neodev.nvim", enabled = false }, -- make sure to uninstall or disable neodev.nvim
   }
 }

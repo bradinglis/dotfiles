@@ -31,11 +31,12 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
-sudo apt-get -y -qq install nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip coreutils 
+sudo apt-get -y -qq install nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip coreutils
 
 ln -s /usr/bin/batcat ~/.local/bin/bat
 mkdir -p "$(bat --config-dir)/themes"
 curl https://raw.githubusercontent.com/neuromaancer/everforest_collection/main/bat/everforest-soft.tmTheme > "$(bat --config-dir)/themes/everforest-soft.tmTheme"
+
 batcat cache --build
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
@@ -90,7 +91,6 @@ cd $HOME
 rm -r lazygit lazygit.tar.gz nodesource_setup.sh
 
 echo -e "${BOLD}Starting Shell${NONE}"
-chsh -s /usr/bin/zsh
+sudo chsh -s /usr/bin/zsh
 zsh
-rm -r setup.sh 
-
+rm -- $0
