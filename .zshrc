@@ -22,6 +22,7 @@ alias fd="fdfind"
 alias lg="lazygit"
 export EDITOR=nvim
 export VISUAL=nvim
+export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 
 export BAT_THEME="everforest-soft"
 export COLORTERM="truecolor"
