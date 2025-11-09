@@ -59,8 +59,8 @@ echo -e "${BOLD}Starting APT package downloads${NONE}"
 sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
 
 ln -s /usr/bin/batcat ~/.local/bin/bat
-mkdir -p "$(bat --config-dir)/themes"
-curl https://raw.githubusercontent.com/neuromaancer/everforest_collection/main/bat/everforest-soft.tmTheme > "$(bat --config-dir)/themes/everforest-soft.tmTheme"
+mkdir -p "$(batcat --config-dir)/themes"
+curl https://raw.githubusercontent.com/neuromaancer/everforest_collection/main/bat/everforest-soft.tmTheme > "$(batcat --config-dir)/themes/everforest-soft.tmTheme"
 
 batcat cache --build
 echo -e "${BOLD}${GREEN}Complete${NONE}"
