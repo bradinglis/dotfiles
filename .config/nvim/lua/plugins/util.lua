@@ -117,25 +117,6 @@ return {
             },
           }
         },
-      --   config = function()
-      --     local orig_preview_file = Snacks.picker.preview.file
-      --     Snacks.picker.preview.file = function(ctx)
-      --       local retval = orig_preview_file(ctx)
-      --       if ctx.item.file and ctx.item.file:find("%.md$") then
-      --         local saved_ft = vim.bo[ctx.buf].filetype
-      --         vim.bo[ctx.buf].buftype = "nofile"
-      --         vim.bo[ctx.buf].filetype = "preview-markdown"
-      --         require("markview").render(ctx.buf, { enable = true, hybrid_mode = false})
-      --         require("vault.util").frontmatter_highlighting({ bufnr = ctx.buf })
-      --         require("vault.util").tag_highlighting({ bufnr = ctx.buf })
-      --         vim.schedule(function()
-      --           vim.bo[ctx.buf].filetype = saved_ft
-      --           vim.bo[ctx.buf].buftype = ""
-      --         end)
-      --       end
-      --       return retval
-      --     end
-      --   end,
       },
       notifier = { enabled = true },
       quickfile = { enabled = true },
@@ -144,6 +125,14 @@ return {
       statuscolumn = { enabled = false },
       words = { enabled = false },
       git = { enabled = true },
+      lazygit = {
+        theme = {},
+        win = {
+          wo = {
+            winhighlight = "NormalFloat:Normal",
+          }
+        },
+      },
     },
   },
   {
@@ -158,15 +147,28 @@ return {
     event = "VeryLazy",
     opts = {
       mappings = {
-        add = "gsa",          -- Add surrounding in Normal and Visual modes
-        delete = "gsd",       -- Delete surrounding
-        find = "gsf",         -- Find surrounding (to the right)
-        find_left = "gsF",    -- Find surrounding (to the left)
-        highlight = "gsh",    -- Highlight surrounding
-        replace = "gsr",      -- Replace surrounding
+        add = "gsa",            -- Add surrounding in Normal and Visual modes
+        delete = "gsd",         -- Delete surrounding
+        find = "gsf",           -- Find surrounding (to the right)
+        find_left = "gsF",      -- Find surrounding (to the left)
+        highlight = "gsh",      -- Highlight surrounding
+        replace = "gsr",        -- Replace surrounding
         update_n_lines = "gsn", -- Update `n_lines`
       },
     },
+  },
+  {
+    'yochem/jq-playground.nvim',
+    lazy = false,
+    init = function()
+      vim.api.nvim_create_user_command("JqPlaygroundRunQuery", "@<Plug>(JqPlaygroundRunQuery)",{})
+        -- "function() vim.cmd([[ execute "normal \<Plug>(JqPlaygroundRunQuery)" ]]) end, {})
+
+      vim.api.nvim_create_user_command("StartUpdates", function()
+        vim.api.nvim_create_autocmd({ 'InsertLeave' },
+          { buffer = vim.api.nvim_get_current_buf(), command = "JqPlaygroundRunQuery" })
+      end, {})
+    end
   }
 
 }

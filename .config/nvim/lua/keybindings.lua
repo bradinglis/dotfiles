@@ -135,7 +135,6 @@ end
 local function markdown()
   local vault_create = require 'vault.create'
   local vault_util = require 'vault.util'
-  print("running :(")
 
   vim.keymap.set("n", "j", function()
     if vim.v.count > 0 then
@@ -217,6 +216,9 @@ local function markdown()
   vim.keymap.set('i', '>>', '»', { buffer = true })
   vim.keymap.set('i', '-!', '↓', { buffer = true })
   vim.keymap.set('i', '-^', '↑', { buffer = true })
+
+  -- vim.keymap.del('i', '<CR>')
+  vim.keymap.set('i', '<CR>', '<Plug>(bullets-newline)', { buffer = true })
 end
 
 return {

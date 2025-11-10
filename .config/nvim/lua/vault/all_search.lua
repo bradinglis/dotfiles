@@ -33,8 +33,8 @@ local pick_all = function()
     format = function(item, _)
       local ret = {}
       ret[#ret + 1] = { item.icon .. " ", "Fg" }
-      ret[#ret + 1] = { util.set_string_width((item.title or ""), 40) .. " ", "markdownBoldItalic" }
-      ret[#ret + 1] = { util.set_string_width(item.author, 20) .. " ", "markdownItalic" }
+      ret[#ret + 1] = { util.set_string_width((item.title or ""), 50) .. " ", "markdownBold" }
+      ret[#ret + 1] = { util.set_string_width(item.author, 25) .. " ", "markdownItalic" }
       ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }
       ret[#ret + 1] = { item.id, "Grey" }
       return ret

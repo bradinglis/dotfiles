@@ -56,7 +56,7 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
-sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
+sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils jq
 
 ln -s /usr/bin/batcat ~/.local/bin/bat
 mkdir -p "$(batcat --config-dir)/themes"

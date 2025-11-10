@@ -15,7 +15,10 @@ local function get_icon(x, item)
 end
 
 return {
-  "bullets-vim/bullets.vim",
+  {
+    "bullets-vim/bullets.vim",
+    lazy = false
+  },
   {
     "bradinglis/obsidian.nvim",
     ft = "markdown",
@@ -96,48 +99,50 @@ return {
           end
         end,
       },
-      note_frontmatter_func = function(note)
-        local out = { id = note.id }
-        if not vim.tbl_isempty(note.aliases) then
-          out.aliases = note.aliases
-        end
-
-        if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
-          if note.metadata.type ~= nil then
-            out.type = note.metadata.type
+      frontmatter = {
+        func = function(note)
+          local out = { id = note.id }
+          if not vim.tbl_isempty(note.aliases) then
+            out.aliases = note.aliases
           end
 
-          if note.metadata.type == "source" then
-            if note.metadata.author == nil then
-              note.metadata.author = {}
-            end
-            out.author = note.metadata.author
-
-            if note.metadata.book ~= nil then
-              out.book = note.metadata.book
+          if note.metadata ~= nil and not vim.tbl_isempty(note.metadata) then
+            if note.metadata.type ~= nil then
+              out.type = note.metadata.type
             end
 
-            if note.metadata.parent ~= nil then
-              out.parent = note.metadata.parent
+            if note.metadata.type == "source" then
+              if note.metadata.author == nil then
+                note.metadata.author = {}
+              end
+              out.author = note.metadata.author
+
+              if note.metadata.book ~= nil then
+                out.book = note.metadata.book
+              end
+
+              if note.metadata.parent ~= nil then
+                out.parent = note.metadata.parent
+              end
+
+              if note.metadata.references == nil then
+                note.metadata.references = {}
+              end
+              out.references = note.metadata.references
             end
 
-            if note.metadata.references == nil then
-              note.metadata.references = {}
+            for k, v in pairs(note.metadata) do
+              if out[k] == nil then
+                out[k] = v
+              end
             end
-            out.references = note.metadata.references
           end
 
-          for k, v in pairs(note.metadata) do
-            if out[k] == nil then
-              out[k] = v
-            end
-          end
-        end
+          out.tags = note.tags
 
-        out.tags = note.tags
-
-        return out
-      end,
+          return out
+        end,
+      },
       ui = {
         enable = false,
         update_debounce = 1000,
@@ -169,8 +174,8 @@ return {
     priority = 49,
     opts = {
       preview = {
-        debounce = 1,
-        max_buf_lines = 50,
+        debounce = 5,
+        -- max_buf_lines = 50,
         modes = { "n", "no", "i", "v", "c" },
         hybrid_modes = { "n", "i", "v" },
         linewise_hybrid_mode = true,

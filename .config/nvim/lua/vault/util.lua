@@ -33,9 +33,6 @@ local picker_opts = {
     },
   },
   buffers = true,
-  previewers = {
-    file = { ft = "markdown"},
-  },
   actions = {
     put_link = function(picker)
       local link = picker:current().link
