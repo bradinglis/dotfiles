@@ -220,3 +220,5 @@ n ()
 unsetopt BEEP
 
 eval "$(oh-my-posh init zsh --config $HOME/.config/omp/theme.toml)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

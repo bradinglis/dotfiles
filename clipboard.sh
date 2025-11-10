@@ -3,14 +3,16 @@
 export EDITOR=nvim
 export VISUAL=nvim
 PATH="$HOME/.local/bin:$PATH"
+PATH="${PATH:+${PATH}:}/home/inglisb/.fzf/bin"
+export BAT_THEME="everforest-soft"
 
-alias pbcopy='xargs -0 -I % powershell.exe -NoProfile -Command "Set-Clipboard -Value @\"
-%\"@"'
+export CFILE=/tmp/clipboard
 
-script="$HOME/clipboard-scripts/$(fdfind . '$HOME/clipboard-scripts/' -t executable -x basename | fzf )"
+wpaste > $CFILE
 
-wpaste |
-  "$script" |
-  pbcopy
-  
+$HOME/transform.sh $CFILE
+
+cat $CFILE |
+  sed -z "s/\n$//g" |
+  wcopy
 
