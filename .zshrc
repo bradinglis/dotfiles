@@ -218,6 +218,7 @@ n ()
 }
 
 unsetopt BEEP
+export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 
 eval "$(oh-my-posh init zsh --config $HOME/.config/omp/theme.toml)"
 

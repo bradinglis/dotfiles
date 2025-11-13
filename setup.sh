@@ -56,7 +56,7 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
-sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils jq
+sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils jq
 
 ln -s /usr/bin/batcat ~/.local/bin/bat
 mkdir -p "$(batcat --config-dir)/themes"
@@ -100,9 +100,26 @@ sudo install lazygit -D -t /usr/local/bin/
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
  
+
+echo -e "${BOLD}Installing tree-sitter${NONE}"
+TREESITTER_VERSION=$(curl -s "https://api.github.com/repos/tree-sitter/tree-sitter/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+curl -Lo tree-sitter.gz "https://github.com/tree-sitter/tree-sitter/releases/download/v${TREESITTER_VERSION}/tree-sitter-linux-x64.gz"
+gunzip tree-sitter.gz
+chmod +x tree-sitter
+mv tree-sitter ~/.local/bin
+echo -e "${BOLD}${GREEN}Complete${NONE}"
+echo -e ""
+
 echo -e "${BOLD}Installing oh-my-posh${NONE}"
 curl -L https://github.com/JanDeDobbeleer/oh-my-posh/releases/latest/download/posh-linux-amd64 -o ~/.local/bin/oh-my-posh
 chmod +x ~/.local/bin/oh-my-posh
+echo -e "${BOLD}${GREEN}Complete${NONE}"
+echo -e ""
+
+echo -e "${BOLD}Installing fzf${NONE}"
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+chmod +x ~/.fzf/install
+~/.fzf/install
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 

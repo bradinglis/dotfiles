@@ -50,6 +50,7 @@ local function general()
 
   -- Cool Stuff
   vim.keymap.set("x", "<leader>p", [["_dP]])
+  vim.keymap.set("x", "<leader>s", [["ayGdgg"aP]])
 
   vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 
@@ -75,6 +76,7 @@ local function general()
   vim.keymap.set('n', 'z=', snacks.picker.spelling, opts)
 
   vim.keymap.set('i', '<C-Space>', '<Space>')
+  vim.keymap.set('n', '<leader>lf', require("conform").format, { desc = 'format' })
 end
 
 local function lsp()
@@ -82,7 +84,7 @@ local function lsp()
   vim.keymap.set('n', '<C-CR>', snacks.picker.lsp_definitions, opts)
   vim.keymap.set('n', 'gd', snacks.picker.lsp_definitions, { desc = 'lsp definition' })
   vim.keymap.set('n', 'gr', snacks.picker.lsp_references, { desc = 'lsp goto reference' })
-  vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = 'lsp format' })
+  -- vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format, { desc = 'lsp format' })
   vim.keymap.set('n', '<leader>lc', vim.lsp.buf.code_action, { desc = 'lsp code action' })
 
   -- vim.keymap.set('n', '<leader>fi', snacks.picker.lsp_incoming_calls, { buffer = true, desc = 'lsp incoming' })
