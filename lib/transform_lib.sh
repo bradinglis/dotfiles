@@ -1,4 +1,3 @@
-
 preview () {
   local in_file=$1
   shift
@@ -9,9 +8,11 @@ preview () {
   folder=$(echo "$selection" | cut -d'/' -f1)
 
   if [ "$ext" != "none" ]; then
-    bat_arg="-l $ext"
+    bat_arg="-l$ext"
   fi
 
+  echo $in_file
+  echo $ext
   if [ "$selection" = "Edit" ]; then
     echo "Edit selection in Neovim"
   elif [ "$selection" = "Code Format" ]; then
@@ -35,7 +36,7 @@ header () {
   folder=$(echo "$selection" | cut -d'/' -f1)
 
   if [ "$ext" != "none" ]; then
-    bat_arg="-l $ext"
+    bat_arg="-l$ext"
   fi
 
   if [ "$selection" = "Edit" ]; then
@@ -52,5 +53,4 @@ header () {
     echo ""
   fi
 }
-
 

@@ -6,6 +6,8 @@ local function general()
   local globs = require('globals').getglobs()
   local opts = { silent = true }
 
+  vim.keymap.set("n", "<leader>t", require("transforms").transform_buffer_file, {})
+  vim.keymap.set("x", "<leader>t", require("transforms").transform_selection, {})
   -- Common Locations
   vim.api.nvim_create_user_command('GotoNotes', function()
     vim.api.nvim_set_current_dir(globs.notesdir)
@@ -72,7 +74,7 @@ local function general()
 
   vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
-  vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
+  -- vim.keymap.set("t", "<Esc><Esc>", "<C-\\><C-n>")
   vim.keymap.set('n', 'z=', snacks.picker.spelling, opts)
 
   vim.keymap.set('i', '<C-Space>', '<Space>')

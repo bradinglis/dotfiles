@@ -1,2 +1,2 @@
 ﻿#UseHook
-#+c::run "wsl.exe --user inglisb -- ~/clipboard.sh"
+#+c::run "wsl.exe --user brad -- ~/clipboard.sh"

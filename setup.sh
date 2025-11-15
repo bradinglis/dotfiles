@@ -120,6 +120,7 @@ echo -e "${BOLD}Installing fzf${NONE}"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 chmod +x ~/.fzf/install
 ~/.fzf/install
+ln -s ~/.fzf/bin/fzf ~/.local/bin/fzf
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 

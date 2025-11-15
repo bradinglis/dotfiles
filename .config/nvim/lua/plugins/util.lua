@@ -1,5 +1,16 @@
 return {
   {
+    "numToStr/FTerm.nvim",
+    event = "VeryLazy",
+    opts = {
+      border = 'double',
+      dimensions = {
+        height = 0.9,
+        width = 0.9,
+      },
+    }
+  },
+  {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
@@ -161,8 +172,8 @@ return {
     'yochem/jq-playground.nvim',
     lazy = false,
     init = function()
-      vim.api.nvim_create_user_command("JqPlaygroundRunQuery", "@<Plug>(JqPlaygroundRunQuery)",{})
-        -- "function() vim.cmd([[ execute "normal \<Plug>(JqPlaygroundRunQuery)" ]]) end, {})
+      vim.api.nvim_create_user_command("JqPlaygroundRunQuery", "@<Plug>(JqPlaygroundRunQuery)", {})
+      -- "function() vim.cmd([[ execute "normal \<Plug>(JqPlaygroundRunQuery)" ]]) end, {})
 
       vim.api.nvim_create_user_command("StartUpdates", function()
         vim.api.nvim_create_autocmd({ 'InsertLeave' },

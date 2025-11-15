@@ -2,17 +2,19 @@
 
 source "$HOME"/.profile
 
-function html_copy () {
+html_copy () {
   if [ "$1" = "md" ]; then
     input=$(cat - | pandoc -f commonmark -t html)
   else
     input=$(cat -)
   fi
-
   powershell.exe -NoProfile -Command "Set-Clipboard -Value @\"
 $input
 \"@ -AsHtml"
 }
+
+echo "" > /tmp/ext
+echo "" > /tmp/interrupt
 
 lib="$HOME/lib/transform_lib.sh"
 
@@ -29,12 +31,24 @@ BOLD='\033[1m'
 ITALIC='\033[3m'
 UNDERLINE='\033[4m'
 
-in_file=$1
 out_file="/tmp/transform_output"
+
+in_file=$(readlink -f $1)
 ext=$2
 
-sed -i -z "s/\n\?$/\n/g" $in_file
+if [ -z "$ext" ]; then
+  base_filename=$(basename -- "$in_file")
+  file_extension="${base_filename##*.}"
+  if [ "$file_extension" != "$base_filename" ]
+if [ -z "$ext" ]; then
+  temp_ext="none"
+fi
 
+if [ -n "$ext" ]; then
+  bat_arg="-l$ext"
+fi
+
+sed -i -z "s/\n\?$/\n/g" $in_file
 
 cd "$HOME"/transforms/
 
@@ -46,23 +60,14 @@ in_lines=$(wc -l < $in_file)
 preview_lines=$((in_lines < (rows*4/10) ? in_lines : (rows*4/10)))
 bat_arg=""
 
-if [ -z "$ext" ]; then
-  attempt_ext="none"
-fi
 
-if [ -n "$ext" ]; then
-  bat_arg="-l $ext"
-fi
-
-header=$(bat -P -r 0:$preview_lines -n "$in_file" --color=always $bat_arg | perl -pe "s/^((?:(?>(?:\e\[.*?m)*).){$cols}).*/\$1\e[m/")
+header=$(bat -P -r 0:$preview_lines -n "$in_file" --color=always $bat_arg)
 
 # clear
 
-if [ "$ext" != "none" ]; then
+if [ -n "$ext" ]; then
   label_ext="[$ext] "
-  fzf_height=$((fzf_height-1))
 fi
-
 
 script="$(fdfind . -tf | 
   fzf --style minimal \
@@ -70,8 +75,8 @@ script="$(fdfind . -tf |
     --border=horizontal \
     --border-label=" Input $label_ext" \
     --layout=reverse \
-    --preview="source '$lib'; preview $in_file $attempt_ext '{}'" \
-    --bind "focus:transform-footer:source '$lib'; header $in_file $attempt_ext '{}'" \
+    --preview="source '$lib'; preview $in_file $temp_ext '{}'" \
+    --bind "focus:transform-footer:source '$lib'; header $in_file $temp_ext '{}'" \
     --preview-window=down,40% \
     --info=inline-right \
     --header="$header" \
@@ -92,8 +97,6 @@ echo "" > /tmp/interrupt
 if [ -n "$script" ]; then
   arr_script=(${script//\// })
 
-  echo "${arr_script[0]}"
-  echo "$"
   if [ "${arr_script[0]}" == "jq" ]; then
     ext="json"
     cat "$in_file" | jq -f $HOME/transforms/$script > "$out_file"
@@ -103,6 +106,9 @@ if [ -n "$script" ]; then
     mv "$out_file" "$in_file"
   elif [ "${arr_script[0]}" == "awk-sed" ]; then
     cat "$in_file" | bash "$script" > "$out_file"
+    mv "$out_file" "$in_file"
+  elif [ "$script" == "Code Format" ]; then
+    $HOME/transforms/"$script" "$in_file" "$ext" > "$out_file"
     mv "$out_file" "$in_file"
   else
     if [ -z "$ext" ]; then
@@ -127,12 +133,12 @@ if [ -n "$interrupt" ]; then
     echo "<no-copy>" > $in_file
   elif [ "$interrupt" == "filetype" ]; then
     read -r -p "Ext?: " ext
-    "$0" $in_file $ext
+    bash "$0" $in_file $ext
   elif [ "$interrupt" == "Edit" ]; then
     if [ -z "$ext" ]; then
       read -r -p "Ext?: " ext
     fi
     $HOME/transforms/Edit "$in_file" "$ext"
-    "$0" $in_file $ext
+    bash "$0" $in_file $ext
   fi
 fi

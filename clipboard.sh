@@ -4,7 +4,7 @@
 export EDITOR=nvim
 export VISUAL=nvim
 PATH="$HOME/.local/bin:$PATH"
-PATH="${PATH:+${PATH}:}/home/inglisb/.fzf/bin"
+PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
 export BAT_THEME="everforest-soft"
 
 export CFILE=/tmp/clipboard

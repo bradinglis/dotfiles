@@ -28,7 +28,7 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
-sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find fzf bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
+sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
 
 ln -s /usr/bin/batcat ~/.local/bin/bat
 mkdir -p "$(batcat --config-dir)/themes"
@@ -43,6 +43,13 @@ LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/re
 curl -Lo lazygit.tar.gz "https://github.com/jesseduffield/lazygit/releases/download/v${LAZYGIT_VERSION}/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
 tar xf lazygit.tar.gz lazygit
 sudo install lazygit -D -t /usr/local/bin/
+echo -e "${BOLD}${GREEN}Complete${NONE}"
+echo -e ""
+
+echo -e "${BOLD}Installing fzf${NONE}"
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+chmod +x ~/.fzf/install
+~/.fzf/install
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
