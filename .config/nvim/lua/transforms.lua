@@ -12,9 +12,19 @@ local function transform_buffer_file()
   require("snacks").terminal("bash $HOME/transform.sh " .. temp_file, {
     interactive = true,
     win = {
+      wo = {
+        cursorline = false,
+        winhighlight = "NormalFloat:Normal,FloatBorder:Grey",
+      },
+      border = "rounded",
+      backdrop = false,
       on_close = function()
         local new_content = vim.fn.readfile(temp_file)
-        vim.api.nvim_buf_set_lines(buffer, 0, -1, false, new_content)
+
+        local no_change = vim.deep_equal(content, new_content)
+        if not no_change then
+          vim.api.nvim_buf_set_lines(buffer, 0, -1, false, new_content)
+        end
         vim.fn.delete(temp_file)
       end
     }
@@ -71,14 +81,23 @@ local function transform_selection()
 
   local temp_file = '/tmp/transform-nvim' .. os.time() .. '.' .. ext
   vim.fn.writefile(text, temp_file)
+
   require("snacks").terminal("bash $HOME/transform.sh " .. temp_file, {
     interactive = true,
     win = {
+      wo = {
+        cursorline = false,
+        winhighlight = "NormalFloat:Normal,FloatBorder:Grey",
+      },
       on_close = function()
         local new_content = vim.fn.readfile(temp_file)
-        new_content[1] = prefix .. new_content[1]
-        new_content[#new_content] = new_content[#new_content] .. suffix
-        vim.api.nvim_buf_set_lines(buffer, start_row, end_row + 1, false, new_content)
+        local no_change = vim.deep_equal(text, new_content)
+        if not no_change then
+          new_content[1] = prefix .. new_content[1]
+          new_content[#new_content] = new_content[#new_content] .. suffix
+          vim.api.nvim_buf_set_lines(buffer, start_row, end_row + 1, false, new_content)
+        end
+
         vim.fn.delete(temp_file)
       end
     }

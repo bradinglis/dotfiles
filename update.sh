@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 SCRIPT_DIR=$(cd "$(dirname "$0")" && pwd)
 NONE='\033[00m'
@@ -15,7 +15,7 @@ UNDERLINE='\033[4m'
 
 cd $HOME
 echo -e "${BOLD}Adding APT repositories${NONE}"
-sudo add-apt-repository -y ppa:neovim-ppa/unstable
+# sudo add-apt-repository -y ppa:neovim-ppa/unstable
 curl -fsSL https://deb.nodesource.com/setup_current.x -o nodesource_setup.sh
 sudo -E bash nodesource_setup.sh 
 echo -e "${BOLD}${GREEN}Complete${NONE}"
@@ -28,9 +28,10 @@ echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
-sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find bat less nnn neovim stow zsh git pandoc curl clang zip unzip moreutils
+sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find bat less nnn stow zsh git pandoc curl clang zip unzip moreutils
 
-ln -s /usr/bin/batcat ~/.local/bin/bat
+ln -s $(which fdfind) ~/.local/bin/fd
+ln -s $(which batcat) ~/.local/bin/bat
 mkdir -p "$(batcat --config-dir)/themes"
 curl https://raw.githubusercontent.com/neuromaancer/everforest_collection/main/bat/everforest-soft.tmTheme > "$(batcat --config-dir)/themes/everforest-soft.tmTheme"
 
@@ -50,6 +51,22 @@ echo -e "${BOLD}Installing fzf${NONE}"
 git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 chmod +x ~/.fzf/install
 ~/.fzf/install
+echo -e "${BOLD}${GREEN}Complete${NONE}"
+echo -e ""
+
+echo -e "${BOLD}Installing tree-sitter${NONE}"
+TREESITTER_VERSION=$(curl -s "https://api.github.com/repos/tree-sitter/tree-sitter/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
+curl -Lo tree-sitter.gz "https://github.com/tree-sitter/tree-sitter/releases/download/v${TREESITTER_VERSION}/tree-sitter-linux-x64.gz"
+gunzip tree-sitter.gz
+chmod +x tree-sitter
+mv tree-sitter ~/.local/bin
+echo -e "${BOLD}${GREEN}Complete${NONE}"
+echo -e ""
+
+echo -e "${BOLD}Installing Neovim${NONE}"
+curl -Lo nvim "https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.appimage"
+chmod +x nvim
+mv nvim ~/.local/bin
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 

@@ -64,7 +64,7 @@ local function collect_backlinks(noteid)
     format = function(item, _)
       local ret = {}
       ret[#ret + 1] = { util.set_string_width(item.qual, 10) .. " ", "Fg" }
-      ret[#ret + 1] = { item.icon .. " ", "Fg" }
+      ret[#ret + 1] = { item.icon .. "  ", "Fg" }
       ret[#ret + 1] = { util.set_string_width(item.title, 40) .. " ", "markdownBoldItalic" }
       ret[#ret + 1] = { util.set_string_width(item.author, 20) .. " ", "markdownItalic" }
       ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }

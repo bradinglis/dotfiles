@@ -171,10 +171,11 @@ return {
   {
     "OXY2DEV/markview.nvim",
     lazy = false,
-    priority = 49,
+    -- priority = 49,
+    version = '*',
     opts = {
       preview = {
-        debounce = 5,
+        debounce = 1,
         -- max_buf_lines = 50,
         modes = { "n", "no", "i", "v", "c" },
         hybrid_modes = { "n", "i", "v" },
@@ -359,7 +360,7 @@ return {
   },
   {
     'chenxin-yan/footnote.nvim',
-    -- event = "VeryLazy",
+    event = "VeryLazy",
     opts = {
       keys = {
         new_footnote = '<C-f>',

@@ -1,7 +1,6 @@
 return {
   {
     'nvim-treesitter/nvim-treesitter',
-    version = false,
     branch = 'main',
     lazy = false,
     opts = {},

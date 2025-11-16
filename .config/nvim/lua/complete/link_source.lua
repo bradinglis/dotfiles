@@ -21,7 +21,7 @@ function source:get_completions(ctx, callback)
     for i, note in ipairs(notes) do
       local item = {
         label = note.title,
-        -- filterText = "[[" .. note.title .. "]]",
+        filterText = note.title .. " " .. note.id,
         kind = require('blink.cmp.types').CompletionItemKind.Reference,
         textEdit = {
           newText = "[[" .. note.id .. "|" .. note.title .. "]]",

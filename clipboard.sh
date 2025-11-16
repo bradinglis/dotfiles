@@ -5,7 +5,7 @@ export EDITOR=nvim
 export VISUAL=nvim
 PATH="$HOME/.local/bin:$PATH"
 PATH="${PATH:+${PATH}:}$HOME/.fzf/bin"
-export BAT_THEME="everforest-soft"
+export BAT_THEME="everforest2"
 
 export CFILE=/tmp/clipboard
 

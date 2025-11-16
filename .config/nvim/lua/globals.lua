@@ -2,6 +2,7 @@ vim.g.c_syntax_for_h = 1
 vim.opt.autoread = true
 vim.opt.autoread = true
 
+vim.opt.showmode = false
 vim.opt.scrolloff = 8
 vim.opt_global.formatoptions:remove("o")
 vim.opt.exrc = true
@@ -71,6 +72,7 @@ local function set_hl()
   vim.api.nvim_set_hl(0, "ObsidianHighlightText", { bg = colours.bgyellow })
   vim.api.nvim_set_hl(0, "markdownItalic", { italic = true, fg = colours.green })
   vim.api.nvim_set_hl(0, "TSEmphasis", { italic = true, fg = colours.green })
+  vim.api.nvim_set_hl(0, "@markup.italic", { italic = true, fg = colours.green })
   vim.api.nvim_set_hl(0, "markdownBold", { bold = true, fg = colours.red })
   vim.api.nvim_set_hl(0, "TSStrong", { bold = true, fg = colours.red })
   vim.api.nvim_set_hl(0, "markdownBoldItalic", { italic = true, bold = true, fg = colours.red })

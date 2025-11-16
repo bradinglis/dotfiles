@@ -11,8 +11,8 @@ preview () {
     bat_arg="-l$ext"
   fi
 
-  echo $in_file
-  echo $ext
+  # echo "preview"
+  # echo $ext
   if [ "$selection" = "Edit" ]; then
     echo "Edit selection in Neovim"
   elif [ "$selection" = "Code Format" ]; then
@@ -54,5 +54,5 @@ header () {
   fi
 }
 
-export -f header
-export -f preview
+# export -f header
+# export -f preview

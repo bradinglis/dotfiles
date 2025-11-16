@@ -44,6 +44,7 @@ if [ -z "$ext" ]; then
   fi
 fi
 
+temp_ext="$ext"
 if [ -z "$ext" ]; then
   temp_ext="none"
 fi

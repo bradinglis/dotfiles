@@ -174,7 +174,7 @@ local function append_to_note()
     },
     format = function(item, picker)
       local ret = {}
-      ret[#ret + 1] = { item.icon .. " ", "Fg" }
+      ret[#ret + 1] = { item.icon .. "  ", "Fg" }
       ret[#ret + 1] = { set_width(item.title, 40) .. " ", "markdownBoldItalic" }
       ret[#ret + 1] = { set_width(item.author, 20) .. " ", "markdownItalic" }
       ret[#ret + 1] = { set_width(table.concat(item.tags, " "), 20) .. " ", "ObsidianTag" }

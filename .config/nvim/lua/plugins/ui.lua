@@ -6,16 +6,19 @@ return {
       options = {
         theme = 'everforest',
         section_separators = { left = '', right = '' },
-        component_separators = { left = '|', right = '|' }
+        component_separators = { left = '|', right = '|' },
+        refresh = {
+          statusline = 500
+        }
       },
       extensions = { 'quickfix', 'nvim-tree' },
       sections = {
         lualine_a = { 'mode' },
         lualine_b = {
-          -- {
-          --   require("noice").api.status.mode.get,
-          --   cond = function() return require("noice").api.status.mode.has() end,
-          -- },
+          {
+            require("noice").api.status.mode.get,
+            cond = function() return require("noice").api.status.mode.has() end,
+          },
         },
         lualine_c = {
           {
