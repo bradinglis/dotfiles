@@ -39,7 +39,11 @@ ext=$2
 if [ -z "$ext" ]; then
   base_filename=$(basename -- "$in_file")
   file_extension="${base_filename##*.}"
-  if [ "$file_extension" != "$base_filename" ]
+  if [ "$file_extension" != "$base_filename" ]; then
+    ext=$file_extension
+  fi
+fi
+
 if [ -z "$ext" ]; then
   temp_ext="none"
 fi
@@ -69,7 +73,7 @@ if [ -n "$ext" ]; then
   label_ext="[$ext] "
 fi
 
-script="$(fdfind . -tf | 
+script="$(fd . -tf | 
   fzf --style minimal \
     --input-border=horizontal \
     --border=horizontal \
@@ -142,3 +146,4 @@ if [ -n "$interrupt" ]; then
     bash "$0" $in_file $ext
   fi
 fi
+

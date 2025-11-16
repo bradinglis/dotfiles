@@ -54,3 +54,5 @@ header () {
   fi
 }
 
+export -f header
+export -f preview
