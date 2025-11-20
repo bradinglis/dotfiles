@@ -116,6 +116,18 @@ local function find_wiki_links(line)
   return links
 end
 
+local function get_wiki_image()
+  local line = vim.api.nvim_get_current_line()
+  local links = {}
+  local pattern = "!%[%[(.*)%]%]"
+
+  local m_start, m_end = string.find(line, pattern)
+  links[#links + 1] = { m_start, m_end }
+  local file = line:sub(m_start, m_end):match("%[%[(.*)%]%]")
+  return file
+end
+
+
 local function find_footnote(line)
   local links = {}
   local pattern = "%[%^[^%]]+%]"
@@ -340,6 +352,12 @@ local function enter_command()
       end
     end)
     return ":e " .. path .. "<CR>"
+  else
+    local image = get_wiki_image()
+    if image then
+      print(image:gsub(" ", "\\ "))
+      vim.system({'explorer.exe', '.\\assets\\imgs\\' .. image })
+    end
   end
 
   local footnote = cursor_on_footnote()

@@ -169,17 +169,21 @@ return {
     },
   },
   {
-    'yochem/jq-playground.nvim',
-    lazy = false,
-    init = function()
-      vim.api.nvim_create_user_command("JqPlaygroundRunQuery", "@<Plug>(JqPlaygroundRunQuery)", {})
-      -- "function() vim.cmd([[ execute "normal \<Plug>(JqPlaygroundRunQuery)" ]]) end, {})
-
-      vim.api.nvim_create_user_command("StartUpdates", function()
-        vim.api.nvim_create_autocmd({ 'InsertLeave' },
-          { buffer = vim.api.nvim_get_current_buf(), command = "JqPlaygroundRunQuery" })
-      end, {})
-    end
+    'bradinglis/transforms.nvim',
+    lazy = false
   }
+  -- {
+  --   'yochem/jq-playground.nvim',
+  --   lazy = false,
+  --   init = function()
+  --     vim.api.nvim_create_user_command("JqPlaygroundRunQuery", "@<Plug>(JqPlaygroundRunQuery)", {})
+  --     -- "function() vim.cmd([[ execute "normal \<Plug>(JqPlaygroundRunQuery)" ]]) end, {})
+  --
+  --     vim.api.nvim_create_user_command("StartUpdates", function()
+  --       vim.api.nvim_create_autocmd({ 'InsertLeave' },
+  --         { buffer = vim.api.nvim_get_current_buf(), command = "JqPlaygroundRunQuery" })
+  --     end, {})
+  --   end
+  -- }
 
 }

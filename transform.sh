@@ -62,11 +62,18 @@ rows=$(tput lines)
 cols=$(tput cols)
 in_lines=$(wc -l < $in_file)
 
-preview_lines=$((in_lines < (rows*4/10) ? in_lines : (rows*4/10)))
+lines_left=$((rows - 13))
+input_preview=$((lines_left/2))
+
+if [ "$in_lines" -lt $input_preview ]; then
+  input_preview=$in_lines 
+fi
+
+output_preview=$((lines_left - input_preview))
+
 bat_arg=""
 
-
-header=$(bat -P -r 0:$preview_lines -n "$in_file" --color=always $bat_arg)
+header=$(bat -P -r 0:$input_preview -n "$in_file" --color=always $bat_arg)
 
 # clear
 
@@ -74,22 +81,23 @@ if [ -n "$ext" ]; then
   label_ext="[$ext] "
 fi
 
-script="$(fd . -tf | 
-  fzf --style minimal \
+export FZF_DEFAULT_COMMAND='fd . -tf'
+script="$(fzf --style minimal \
     --input-border=horizontal \
     --border=horizontal \
     --border-label=" Input $label_ext" \
     --layout=reverse \
     --preview="source '$lib'; preview $in_file $temp_ext '{}'" \
     --bind "focus:transform-footer:source '$lib'; header $in_file $temp_ext '{}'" \
-    --preview-window=down,40% \
+    --preview-window=down,$output_preview \
     --info=inline-right \
     --header="$header" \
     --header-first \
     --preview-label=" Output " \
     --bind="ctrl-f:execute(echo filetype > /tmp/interrupt)+abort" \
+    --bind="ctrl-t:execute(echo {} > /tmp/interrupt)+abort" \
     --bind="ctrl-a:execute(echo html_copy > /tmp/interrupt)+abort" \
-    --bind="ctrl-e:execute(echo Edit > /tmp/interrupt)+abort" \
+    --bind="ctrl-e:execute(echo edit > /tmp/interrupt)+abort" \
     --input-label="<C-f>: set filetype; <C-e>: edit" --input-label-pos=bottom \
 )" 
 
@@ -112,7 +120,7 @@ if [ -n "$script" ]; then
   elif [ "${arr_script[0]}" == "awk-sed" ]; then
     cat "$in_file" | bash "$script" > "$out_file"
     mv "$out_file" "$in_file"
-  elif [ "$script" == "Code Format" ]; then
+  elif [ "$script" == "format.sh" ]; then
     $HOME/transforms/"$script" "$in_file" "$ext" > "$out_file"
     mv "$out_file" "$in_file"
   else
@@ -139,11 +147,15 @@ if [ -n "$interrupt" ]; then
   elif [ "$interrupt" == "filetype" ]; then
     read -r -p "Ext?: " ext
     bash "$0" $in_file $ext
-  elif [ "$interrupt" == "Edit" ]; then
+  elif [ "$interrupt" == "edit" ]; then
     if [ -z "$ext" ]; then
       read -r -p "Ext?: " ext
     fi
-    $HOME/transforms/Edit "$in_file" "$ext"
+    $HOME/transforms/edit.sh "$in_file" "$ext"
+    bash "$0" $in_file $ext
+  else 
+    nvim -c "lua require('transforms.playground').init_playground(\"$in_file\",\"$interrupt\",\"$ext\")"
+
     bash "$0" $in_file $ext
   fi
 fi

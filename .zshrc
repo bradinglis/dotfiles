@@ -222,5 +222,5 @@ export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08
 
 eval "$(oh-my-posh init zsh --config $HOME/.config/omp/theme.toml)"
 
-export PATH="$(yarn global bin):$PATH"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# export PATH="$(yarn global bin):$PATH"
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -9,7 +9,7 @@ export BAT_THEME="everforest2"
 
 export CFILE=/tmp/clipboard
 
-wpaste > $CFILE
+win32yank -o > $CFILE
 rm -f /tmp/ext
 
 bash $HOME/transform.sh $CFILE

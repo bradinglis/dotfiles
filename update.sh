@@ -32,8 +32,6 @@ sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find b
 
 ln -s $(which fdfind) ~/.local/bin/fd
 ln -s $(which batcat) ~/.local/bin/bat
-mkdir -p "$(batcat --config-dir)/themes"
-curl https://raw.githubusercontent.com/neuromaancer/everforest_collection/main/bat/everforest-soft.tmTheme > "$(batcat --config-dir)/themes/everforest-soft.tmTheme"
 
 batcat cache --build
 echo -e "${BOLD}${GREEN}Complete${NONE}"

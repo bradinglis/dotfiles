@@ -13,9 +13,9 @@ preview () {
 
   # echo "preview"
   # echo $ext
-  if [ "$selection" = "Edit" ]; then
+  if [ "$selection" = "edit.sh" ]; then
     echo "Edit selection in Neovim"
-  elif [ "$selection" = "Code Format" ]; then
+  elif [ "$selection" = "format.sh" ]; then
     $HOME/transforms/"$selection" "$in_file" "$ext" | bat -n --color=always $bat_arg
   elif [ "$folder" = "jq" ]; then
     cat "$in_file" | jq -C -f $HOME/transforms/$selection
@@ -39,9 +39,9 @@ header () {
     bat_arg="-l$ext"
   fi
 
-  if [ "$selection" = "Edit" ]; then
+  if [ "$selection" = "edit.sh" ]; then
     echo "Edit"
-  elif [ "$selection" = "Code Format" ]; then
+  elif [ "$selection" = "format.sh" ]; then
     echo -e "Format for filetype \033[36m${ext}\033[00m"
   elif [ "$folder" = "jq" ]; then
     bat -l jq --color=always --wrap=never -p $HOME/transforms/"$selection" | sed -z 's/ \?\n/ /g' | sed 's/  \+//g'

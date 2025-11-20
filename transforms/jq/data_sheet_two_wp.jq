@@ -1,5 +1,5 @@
-[.data.operationsSchedule.operationsRequest.[] | 
-{(.id): {
+[.data.operationsSchedule.operationsRequest.[] |
+{
   "Sequence": .segmentRequirement[].segmentParameter.[] | select(.id == "Sequence") | .value.valueString,
   "Production Order": .id,
   "production orders": "1",
@@ -46,7 +46,9 @@
   "Grade": [.segmentRequirement[].materialRequirement[] | select(.materialUse == "Produced") | .materialRequirementProperty[] | select(.id == "Grade").value[] | select(.key == "Description") | .valueString] | join("\n"),
   "Location": [.segmentRequirement[].materialRequirement[].materialSubLot[].storageLocation.location] | join("\n"),
   "Pack Type Order": [([.segmentRequirement[].materialRequirement[].materialRequirementProperty[] | select(.id == "PackType")] | .[].value?.valueString? // "")] | join("\n"),
-  } | [.[] | tostring | "\""+.+"\""] | join("\t")
-}] | add | .[]
+}] | . as $prodorders |
+reduce (add | keys_unsorted | .[]) as $key 
+  ({}; . + ({($key): [$prodorders[].[$key]] | join("\n")})) | [.[] | tostring | "\""+.+"\""] | join("\t")
+
 
 
