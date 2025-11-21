@@ -44,9 +44,9 @@ header () {
   elif [ "$selection" = "format.sh" ]; then
     echo -e "Format for filetype \033[36m${ext}\033[00m"
   elif [ "$folder" = "jq" ]; then
-    bat -l jq --color=always --wrap=never -p $HOME/transforms/"$selection" | sed -z 's/ \?\n/ /g' | sed 's/  \+//g'
+    bat -ljq --color=always --wrap=never -p $HOME/transforms/"$selection" | sed -z 's/ \?\n/ /g' | sed 's/  \+//g'
   elif [ "$folder" = "sh" ]; then
-    bat -l sh --color=always --wrap=never -p $HOME/transforms/"$selection" | sed -z 's/ \?\n/ /g' | sed 's/  \+//g'
+    bat -lsh --color=always --wrap=never -p $HOME/transforms/"$selection" | sed -z 's/ \?\n/ /g' | sed 's/  \+//g'
   elif [ "$folder" = "awk-sed" ]; then
     cat "$in_file" | bash "$selection" | bat -n --color=always $bat_arg
   else

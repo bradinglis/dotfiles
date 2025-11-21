@@ -21,9 +21,7 @@ require("lazy").setup({
     { import = "plugins" }
   },
   install = { colorscheme = { "everforest" } },
-  checker = { enabled = true },
+  -- checker = { enabled = true },
   defaults = { lazy = true },
   rocks = { enabled = false },
-
-
 })

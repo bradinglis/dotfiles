@@ -4,7 +4,12 @@ source "$HOME"/.profile
 
 html_copy () {
   if [ "$1" = "md" ]; then
-    input=$(cat - | pandoc -f commonmark -t html)
+    input=$(cat - | pandoc -f commonmark -t html | sed "/id=\"cb[0-9]\+-[0-9]\+/ s/<\/span>$/&<br>/")
+  elif [ -n "$1" ]; then
+    md=$(echo "\`\`\`$1"
+    cat -
+    echo "\`\`\`")
+    input=$(echo "$md" | pandoc -f commonmark -t html | sed "/id=\"cb[0-9]\+-[0-9]\+/ s/<\/span>$/&<br>/")
   else
     input=$(cat -)
   fi
@@ -29,6 +34,7 @@ CYAN='\033[36m'
 WHITE='\033[37m'
 BOLD='\033[1m'
 ITALIC='\033[3m'
+HIGHLIGHT='\033[47m'
 UNDERLINE='\033[4m'
 
 out_file="/tmp/transform_output"
@@ -43,6 +49,7 @@ if [ -z "$ext" ]; then
     ext=$file_extension
   fi
 fi
+
 
 temp_ext="$ext"
 if [ -z "$ext" ]; then
@@ -71,7 +78,6 @@ fi
 
 output_preview=$((lines_left - input_preview))
 
-bat_arg=""
 
 header=$(bat -P -r 0:$input_preview -n "$in_file" --color=always $bat_arg)
 
@@ -81,10 +87,11 @@ if [ -n "$ext" ]; then
   label_ext="[$ext] "
 fi
 
-export FZF_DEFAULT_COMMAND='fd . -tf'
+export FZF_DEFAULT_COMMAND="find . -type f -printf '%T@ %p\n' | sort -k 1 -nr | sed 's/^[^ ]* \.\?\/\?//g'"
 script="$(fzf --style minimal \
     --input-border=horizontal \
     --border=horizontal \
+    --color="input-label:green,pointer:red,label:-1:bold,preview-label:-1:bold,current-fg:-1,current-hl:bright-cyan" \
     --border-label=" Input $label_ext" \
     --layout=reverse \
     --preview="source '$lib'; preview $in_file $temp_ext '{}'" \
@@ -98,7 +105,7 @@ script="$(fzf --style minimal \
     --bind="ctrl-t:execute(echo {} > /tmp/interrupt)+abort" \
     --bind="ctrl-a:execute(echo html_copy > /tmp/interrupt)+abort" \
     --bind="ctrl-e:execute(echo edit > /tmp/interrupt)+abort" \
-    --input-label="<C-f>: set filetype; <C-e>: edit" --input-label-pos=bottom \
+    --input-label=" <C-f>: filetype | <C-e>: edit input | <C-t>: edit transform | <C-a>: rich copy " --input-label-pos=bottom \
 )" 
 
 # clear

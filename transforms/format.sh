@@ -15,6 +15,9 @@ echo "$ext" > /tmp/ext
 
 if [ "$ext" = "json" ]; then
   cat "$in_file" | prettierd "something.$ext"
+else 
+  cat "$in_file"
 fi
+
 
 
