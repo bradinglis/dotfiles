@@ -9,7 +9,7 @@ local function transform_buffer_file()
 
   vim.fn.writefile(content, temp_file)
 
-  require("snacks").terminal("bash $HOME/transform.sh " .. temp_file, {
+  require("snacks").terminal("source ~/.profile; transform " .. temp_file, {
     interactive = true,
     win = {
       wo = {
@@ -82,7 +82,7 @@ local function transform_selection()
   local temp_file = '/tmp/transform-nvim' .. os.time() .. '.' .. ext
   vim.fn.writefile(text, temp_file)
 
-  require("snacks").terminal("bash $HOME/transform.sh " .. temp_file, {
+  require("snacks").terminal("source ~/.profile; transform " .. temp_file, {
     interactive = true,
     win = {
       wo = {

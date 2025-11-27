@@ -171,19 +171,28 @@ return {
   {
     'bradinglis/transforms.nvim',
     lazy = false
-  }
-  -- {
-  --   'yochem/jq-playground.nvim',
-  --   lazy = false,
-  --   init = function()
-  --     vim.api.nvim_create_user_command("JqPlaygroundRunQuery", "@<Plug>(JqPlaygroundRunQuery)", {})
-  --     -- "function() vim.cmd([[ execute "normal \<Plug>(JqPlaygroundRunQuery)" ]]) end, {})
-  --
-  --     vim.api.nvim_create_user_command("StartUpdates", function()
-  --       vim.api.nvim_create_autocmd({ 'InsertLeave' },
-  --         { buffer = vim.api.nvim_get_current_buf(), command = "JqPlaygroundRunQuery" })
-  --     end, {})
-  --   end
-  -- }
-
+  },
+{
+  "hat0uma/csvview.nvim",
+  opts = {
+    parser = { comments = { "#", "//" } },
+    view = {
+      display_mode = "border",
+    },
+    keymaps = {
+      -- Text objects for selecting fields
+      textobject_field_inner = { "if", mode = { "o", "x" } },
+      textobject_field_outer = { "af", mode = { "o", "x" } },
+      -- Excel-like navigation:
+      -- Use <Tab> and <S-Tab> to move horizontally between fields.
+      -- Use <Enter> and <S-Enter> to move vertically between rows and place the cursor at the end of the field.
+      -- Note: In terminals, you may need to enable CSI-u mode to use <S-Tab> and <S-Enter>.
+      jump_next_field_end = { "<C-l>", mode = { "n", "v" } },
+      jump_prev_field_end = { "<C-h>", mode = { "n", "v" } },
+      jump_next_row = { "<C-j>", mode = { "n", "v" } },
+      jump_prev_row = { "<C-k>", mode = { "n", "v" } },
+    },
+  },
+  cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+}
 }
