@@ -185,41 +185,23 @@ ex ()
   fi
 }
 
-n ()
-{
-    # Block nesting of nnn in subshells
-    [ "${NNNLVL:-0}" -eq 0 ] || {
-        echo "nnn is already running"
-        return
-    }
-
-    # The behaviour is set to cd on quit (nnn checks if NNN_TMPFILE is set)
-    # If NNN_TMPFILE is set to a custom path, it must be exported for nnn to
-    # see. To cd on quit only on ^G, remove the "export" and make sure not to
-    # use a custom path, i.e. set NNN_TMPFILE *exactly* as follows:
-    #      NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-    export NNN_TMPFILE="${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.lastd"
-
-    # Unmask ^Q (, ^V etc.) (if required, see `stty -a`) to Quit nnn
-    # stty start undef
-    # stty stop undef
-    # stty lwrap undef
-    # stty lnext undef
-
-    # The command builtin allows one to alias nnn to n, if desired, without
-    # making an infinitely recursive alias
-    command nnn -e -C -H
-
-    [ ! -f "$NNN_TMPFILE" ] || {
-        . "$NNN_TMPFILE"
-        rm -f -- "$NNN_TMPFILE" > /dev/null
-    }
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
 }
+
+alias n="y"
 
 unsetopt BEEP
 export MANPAGER="sh -c 'awk '\''{ gsub(/\x1B\[[0-9;]*m/, \"\", \$0); gsub(/.\x08/, \"\", \$0); print }'\'' | bat -p -lman'"
 
 eval "$(oh-my-posh init zsh --config $HOME/.config/omp/theme.toml)"
+# export FZF_DEFAULT_OPTS="--preview 'fzf-preview.sh {}' --style full --color='input-label:green,pointer:red,label:-1:bold,preview-label:-1:bold,current-fg:-1,current-hl:bright-cyan'"
+export _ZO_FZF_OPTS='--style full --layout=default --preview-window=right --color="input-label:green,pointer:red,label:-1:bold,preview-label:-1:bold,current-fg:-1,current-hl:bright-cyan"'
+export YAZI_ZOXIDE_OPTS='--style full --border=none --layout=default --preview-window=right --color="input-label:green,pointer:red,label:-1:bold,preview-label:-1:bold,current-fg:-1,current-hl:bright-cyan"'
 
 eval "$(zoxide init zsh --cmd j)"
 

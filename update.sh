@@ -15,7 +15,6 @@ UNDERLINE='\033[4m'
 
 cd $HOME
 echo -e "${BOLD}Adding APT repositories${NONE}"
-# sudo add-apt-repository -y ppa:neovim-ppa/unstable
 curl -fsSL https://deb.nodesource.com/setup_current.x -o nodesource_setup.sh
 sudo -E bash nodesource_setup.sh 
 echo -e "${BOLD}${GREEN}Complete${NONE}"
@@ -58,6 +57,18 @@ curl -Lo tree-sitter.gz "https://github.com/tree-sitter/tree-sitter/releases/dow
 gunzip tree-sitter.gz
 chmod +x tree-sitter
 mv tree-sitter ~/.local/bin
+echo -e "${BOLD}${GREEN}Complete${NONE}"
+echo -e ""
+
+
+echo -e "${BOLD}Installing yazi${NONE}"
+curl -Lo yazi.zip "https://github.com/sxyazi/yazi/releases/download/nightly/yazi-x86_64-unknown-linux-gnu.zip"
+unzip yazi.zip
+chmod +x yazi/ya yazi/yazi
+mv yazi/ya ~/.local/bin
+mv yazi/yazi ~/.local/bin
+rm yazi.zip
+rm -r yazi
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 

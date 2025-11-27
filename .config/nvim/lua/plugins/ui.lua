@@ -16,7 +16,7 @@ return {
         lualine_a = { 'mode' },
         lualine_b = {
           {
-            require("noice").api.status.mode.get,
+            function() return require("noice").api.status.mode.get() end,
             cond = function() return require("noice").api.status.mode.has() end,
           },
         },
@@ -55,7 +55,10 @@ return {
         lualine_y = { 'diagnostics', 'diff', 'branch' },
       }
     },
-    dependencies = { "folke/noice.nvim", 'nvim-tree/nvim-web-devicons', "letieu/harpoon-lualine" }
+    dependencies = { 
+      "folke/noice.nvim",
+      'nvim-tree/nvim-web-devicons',
+      "letieu/harpoon-lualine" }
   },
   {
     "neanias/everforest-nvim",
@@ -150,8 +153,3 @@ return {
     },
   }
 }
-
--- require('lualine').hide({
---   place = { 'tabline', 'winbar' }, -- The segment this change applies to.
---   unhide = false,                  -- whether to re-enable lualine again/
--- })

@@ -33,7 +33,18 @@ local function general()
   vim.keymap.set('n', '<leader>gb', snacks.picker.git_branches, { desc = 'git branches' })
   vim.keymap.set('n', '<leader>gl', snacks.picker.git_log, { desc = 'git log' })
   vim.keymap.set('n', '<leader>gs', snacks.picker.git_status, { desc = 'git status' })
-  vim.keymap.set('n', '<leader>gd', function() require("diffview").open() end, { desc = 'diffview open' })
+  vim.keymap.set('n', '<leader>gd', function()
+    require("snacks").picker.git_branches({
+      confirm = function(picker, item, _)
+        picker:close()
+        if item then
+          -- vim.print(vim.inspect(item))
+          require("diffview").open(item.branch)
+        end
+      end,
+    })
+    -- require("diffview").open()
+  end, { desc = 'diffview open' })
   vim.keymap.set('n', '<leader>gc', function() require("diffview").close() end, { desc = 'diffview close' })
 
   -- Functional
@@ -176,7 +187,8 @@ local function markdown()
     end
   end, { nargs = '?' })
 
-  vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end, { silent = true, buffer = true, expr = true })
+  vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end,
+    { silent = true, buffer = true, expr = true })
   -- vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
   vim.keymap.set('n', '<leader>rr', vault_util.links_to_reference, { buffer = true })
   vim.keymap.set('n', '<leader>rl', vault_util.references_to_links, { buffer = true })

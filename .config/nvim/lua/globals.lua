@@ -2,6 +2,23 @@ vim.g.c_syntax_for_h = 1
 vim.opt.autoread = true
 vim.opt.autoread = true
 
+local parsers = {
+  'c',
+  'lua',
+  'vim',
+  'vimdoc',
+  'query',
+  'yaml',
+  'jq',
+  'json',
+  'sed',
+  'awk',
+  'toml',
+  'go',
+  'bash',
+  'markdown',
+  'markdown_inline',
+}
 vim.opt.showmode = false
 vim.opt.scrolloff = 8
 vim.opt_global.formatoptions:remove("o")
@@ -98,6 +115,7 @@ end
 
 return {
   set_hl = set_hl,
+  parsers = parsers,
   getglobs = function()
     local hostname = vim.fn.hostname()
     local notesdir = ''

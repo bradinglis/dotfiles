@@ -1,7 +1,7 @@
 --keeping
 vim.loader.enable()
 
-require('globals')
+local g = require('globals')
 
 require('config.lazy')
 require("globals").set_hl()
@@ -16,3 +16,11 @@ require('autocmd')
 require('keybindings').general()
 require('config.snippets')
 
+vim.api.nvim_create_autocmd('FileType', {
+  callback = function(ev)
+    if (not vim.tbl_contains(g.parsers, ev.match)) then
+      return
+    end
+    vim.treesitter.start(ev.buf)
+  end,
+})
