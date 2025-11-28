@@ -181,6 +181,9 @@ return {
         hybrid_modes = { "n", "i", "v" },
         linewise_hybrid_mode = true,
       },
+      latex = {
+        enable = true
+      },
       yaml = {
         properties = {
           default = {
