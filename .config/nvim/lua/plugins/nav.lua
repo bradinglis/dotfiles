@@ -2,7 +2,7 @@ return {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    event = "VeryLazy",
+    -- event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       settings = {
@@ -17,6 +17,20 @@ return {
             require("harpoon"):list():add()
           end,
           desc = "Harpoon File",
+        },
+        {
+          "<leader>hba",
+          function()
+            require("harpoon"):list():clear()
+            for _, value in ipairs(vim.api.nvim_list_bufs()) do
+              local pos = {1, 0}
+              if value ~= -1 then
+                pos = vim.api.nvim_win_get_cursor(0)
+              end
+              require("harpoon"):list():add({ value = vim.api.nvim_buf_get_name(value), context = { row = pos[1], col = pos[2] } })
+            end
+          end,
+          desc = "Harpoon Add All Buffers",
         },
         {
           "<C-e>",
@@ -43,6 +57,9 @@ return {
   {
     "stevearc/oil.nvim",
     event = "VeryLazy",
+    keys = {
+      { '<leader>v', function() require("oil").toggle_float() end, mode = 'n', desc = 'file browser' },
+    },
     config = true
   },
   {

@@ -55,7 +55,7 @@ return {
         lualine_y = { 'diagnostics', 'diff', 'branch' },
       }
     },
-    dependencies = { 
+    dependencies = {
       "folke/noice.nvim",
       'nvim-tree/nvim-web-devicons',
       "letieu/harpoon-lualine" }
@@ -74,7 +74,45 @@ return {
     event = "VeryLazy",
     config = true
   },
-  "sindrets/diffview.nvim",
+  {
+    "sindrets/diffview.nvim",
+    keys = {
+      {
+        '<leader>gdb',
+        function()
+          require("snacks").picker.git_branches({
+            confirm = function(picker, item, _)
+              picker:close()
+              if item then
+                require("diffview").open(item.branch)
+              end
+            end,
+          })
+        end,
+        mode = 'n',
+        desc = 'diffview open branches'
+      },
+      {
+        '<leader>gdc',
+        function()
+          require("snacks").picker.git_log({
+            confirm = function(picker, item, _)
+              picker:close()
+              if item then
+                require("diffview").open(item.commit)
+              end
+            end,
+          })
+        end,
+        mode = 'n',
+        desc = 'diffview open commits'
+      },
+      { '<leader>gc', function() require("diffview").close() end, mode = 'n', desc = 'diffview close' },
+    },
+    dependencies = {
+      "noice.nvim",
+    }
+  },
   {
     "folke/zen-mode.nvim",
     opts = {

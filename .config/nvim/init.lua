@@ -7,8 +7,8 @@ require('config.lazy')
 require("globals").set_hl()
 
 vim.lsp.config('clangd', {
-  capabilities = require("lsp.capabilities"),
-  on_attach = require("lsp.on_attach"),
+  capabilities = function() require("lsp.capabilities")() end,
+  on_attach = function() require("lsp.on_attach")() end,
   root_markers = { '.clangd', 'compile_flags.txt' },
 })
 
@@ -24,3 +24,4 @@ vim.api.nvim_create_autocmd('FileType', {
     vim.treesitter.start(ev.buf)
   end,
 })
+
