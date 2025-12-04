@@ -2,7 +2,6 @@ return {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    -- event = "VeryLazy",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {
       settings = {
@@ -61,20 +60,5 @@ return {
       { '<leader>v', function() require("oil").toggle_float() end, mode = 'n', desc = 'file browser' },
     },
     config = true
-  },
-  {
-    "chentoast/marks.nvim",
-    event = "VeryLazy",
-    opts = {},
-  },
-  {
-    "letieu/harpoon-lualine",
-    event = "VeryLazy",
-    dependencies = {
-      {
-        "ThePrimeagen/harpoon",
-        branch = "harpoon2",
-      }
-    },
-  },
+  }
 }

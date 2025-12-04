@@ -17,17 +17,15 @@ end
 return {
   {
     "bullets-vim/bullets.vim",
-    lazy = false
   },
   {
     "bradinglis/obsidian.nvim",
     ft = "markdown",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "bullets-vim/bullets.vim",
       'chenxin-yan/footnote.nvim',
+      "bullets-vim/bullets.vim",
     },
-
     opts = {
       legacy_commands = false,
       sort_by = "modified",
@@ -352,11 +350,9 @@ return {
             icon = "",
           },
           ["^%d+$"] = {
-
             icon = "",
             hl = "Blue"
           }
-
         }
       }
     },

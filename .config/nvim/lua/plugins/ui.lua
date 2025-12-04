@@ -110,28 +110,7 @@ return {
       { '<leader>gc', function() require("diffview").close() end, mode = 'n', desc = 'diffview close' },
     },
     dependencies = {
-      "noice.nvim",
-    }
-  },
-  {
-    "folke/zen-mode.nvim",
-    opts = {
-      plugins = {
-        tmux = { enabled = true },
-      },
-      window = {
-        backdrop = 1,
-        width = 0.7,
-        height = 1,
-        options = {
-          signcolumn = "no",      -- disable signcolumn
-          number = false,         -- disable number column
-          relativenumber = false, -- disable relative numbers
-          cursorline = false,     -- disable cursorline
-          cursorcolumn = false,   -- disable cursor column
-          foldcolumn = "0",       -- disable fold column
-        },
-      }
+      "snacks.nvim",
     }
   },
   {
@@ -141,27 +120,28 @@ return {
       cmdline = {
         view = "cmdline"
       },
+      notify = {
+        enabled = true,
+        view = "notify"
+      },
       messages = {
         -- NOTE: If you enable messages, then the cmdline is enabled automatically.
         -- This is a current Neovim limitation.
         enabled = true,              -- enables the Noice messages UI
-        view = "mini",               -- default view for messages
-        view_error = "mini",         -- view for errors
-        view_warn = "mini",          -- view for warnings
+        view = "notify",     -- default view for messages
+        view_error = "notify",       -- view for errors
+        view_warn = "notify",        -- view for warnings
         view_history = "messages",   -- view for :messages
-        view_search = "virtualtext", -- view for search count messages. Set to `false` to disable
+        view_search = "mini", -- view for search count messages. Set to `false` to disable
       },
       views = {
-        mini = {
-          position = {
-            row = 0
-          }
+        messages = {
+          format = "details",
+          view = "split",
+          enter = true,
         }
       },
       lsp = {
-        progress = {
-          enabled = false
-        },
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -171,23 +151,45 @@ return {
       },
     },
     dependencies = {
-      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
       "MunifTanjim/nui.nvim",
-      -- OPTIONAL:
-      --   `nvim-notify` is only needed, if you want to use the notification view.
-      --   If not available, we use `mini` as the fallback
-      "rcarriga/nvim-notify",
     }
   },
   {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    keys = {
-      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
-      { "S",     mode = { "n", "x", "o" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
-      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
-      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
-      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+    "hat0uma/csvview.nvim",
+    opts = {
+      parser = { comments = { "#", "//" } },
+      view = {
+        display_mode = "border",
+      },
+      keymaps = {
+        -- Text objects for selecting fields
+        textobject_field_inner = { "if", mode = { "o", "x" } },
+        textobject_field_outer = { "af", mode = { "o", "x" } },
+        -- Excel-like navigation:
+        -- Use <Tab> and <S-Tab> to move horizontally between fields.
+        -- Use <Enter> and <S-Enter> to move vertically between rows and place the cursor at the end of the field.
+        -- Note: In terminals, you may need to enable CSI-u mode to use <S-Tab> and <S-Enter>.
+        jump_next_field_end = { "<C-l>", mode = { "n", "v" } },
+        jump_prev_field_end = { "<C-h>", mode = { "n", "v" } },
+        jump_next_row = { "<C-j>", mode = { "n", "v" } },
+        jump_prev_row = { "<C-k>", mode = { "n", "v" } },
+      },
     },
-  }
+    cmd = { "CsvViewEnable", "CsvViewDisable", "CsvViewToggle" },
+  },
+  {
+    "chentoast/marks.nvim",
+    event = "VeryLazy",
+    opts = {},
+  },
+  {
+    "letieu/harpoon-lualine",
+    event = "VeryLazy",
+    dependencies = {
+      {
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+      }
+    },
+  },
 }

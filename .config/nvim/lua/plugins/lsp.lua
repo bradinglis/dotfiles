@@ -32,14 +32,12 @@ return {
   },
   {
     'stevearc/conform.nvim',
+    keys = {
+      { '<leader>lf', function () require("conform").format() end, mode = 'n', desc = 'format' },
+    },
     opts = {
       formatters_by_ft = {
         lua = { lsp_format="prefer" },
-        -- Conform will run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        -- You can customize some of the format options for the filetype (:help conform.format)
-        -- rust = { "rustfmt", lsp_format = "fallback" },
-        -- Conform will run the first available formatter
         graphql = { "prettierd", "prettier", stop_after_first = true },
         json = { "prettierd", "prettier", stop_after_first = true },
         javascript = { "prettierd", "prettier", stop_after_first = true },
@@ -56,6 +54,5 @@ return {
         { path = "${3rd}/luv/library", words = { "vim%.uv" } },
       },
     },
-    -- { "folke/neodev.nvim", enabled = false }, -- make sure to uninstall or disable neodev.nvim
   }
 }

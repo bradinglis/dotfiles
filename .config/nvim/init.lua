@@ -2,9 +2,8 @@
 vim.loader.enable()
 
 local g = require('globals')
-
 require('config.lazy')
-require("globals").set_hl()
+g.set_hl()
 
 vim.lsp.config('clangd', {
   capabilities = function() require("lsp.capabilities")() end,
@@ -13,7 +12,7 @@ vim.lsp.config('clangd', {
 })
 
 require('autocmd')
-require('keybindings').general()
+require('keybindings')
 require('config.snippets')
 
 vim.api.nvim_create_autocmd('FileType', {
