@@ -9,7 +9,7 @@ return {
     end,
     dependencies = {
       'ThePrimeagen/git-worktree.nvim',
-      "OXY2DEV/markview.nvim",
+      -- "OXY2DEV/markview.nvim",
     }
   },
 }

@@ -13,12 +13,14 @@ local parsers = {
   'json',
   'awk',
   'latex',
+  'comment',
   'toml',
   'go',
   'bash',
   'markdown',
   'markdown_inline',
 }
+
 vim.opt.showmode = false
 vim.opt.scrolloff = 8
 vim.opt_global.formatoptions:remove("o")
@@ -48,8 +50,8 @@ vim.opt.undofile = true
 vim.opt.incsearch = true
 vim.opt.splitbelow = true
 vim.opt.splitright = true
-vim.opt.conceallevel = 2
-vim.opt.concealcursor = ""
+-- vim.opt.conceallevel = 2
+-- vim.opt.concealcursor = ""
 vim.opt.inccommand = "split"
 vim.opt.showtabline = 0
 vim.o.foldlevel = 99
@@ -58,20 +60,6 @@ vim.g["pencil#cursorwrap"] = 0
 vim.g["pencil#wrapModeDefault"] = "soft"
 vim.g["pencil#conceallevel"] = 2
 vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'std-' }
-vim.g.bullets_set_mappings = 0
-vim.g.bullets_custom_mappings = {
-  { 'inoremap', '<C-cr>',    '<cr>' },
-  { 'nmap',     'o',         '<Plug>(bullets-newline)' },
-  { 'vmap',     'gN',        '<Plug>(bullets-renumber)' },
-  { 'nmap',     'gN',        '<Plug>(bullets-renumber)' },
-  { 'nmap',     '<leader>x', '<Plug>(bullets-toggle-checkbox)' },
-  { 'imap',     '<C-t>',     '<Plug>(bullets-demote)' },
-  { 'nmap',     '>>',        '<Plug>(bullets-demote)' },
-  { 'vmap',     '>',         '<Plug>(bullets-demote)' },
-  { 'imap',     '<C-d>',     '<Plug>(bullets-promote)' },
-  { 'nmap',     '<<',        '<Plug>(bullets-promote)' },
-  { 'vmap',     '<',         '<Plug>(bullets-promote)' },
-}
 vim.g.mkdp_browser = 'Chrome'
 vim.g.mkdp_echo_preview_url = 1
 -- vim.g.notes_refreshing = false

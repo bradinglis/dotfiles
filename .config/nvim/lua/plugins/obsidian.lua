@@ -1,6 +1,6 @@
 local globs = require('globals').getglobs()
 local colours = globs.colours
-local function get_icon(x, item)
+local function get_icon(_, item)
   if not item or not item.levels then
     return " "
   end
@@ -17,6 +17,38 @@ end
 return {
   {
     "bullets-vim/bullets.vim",
+    keys = {
+      {
+        "<cr>",
+        function()
+          local enter = vim.api.nvim_eval("v:lua.require'nvim-autopairs'.completion_confirm()")
+          if enter == "\r" then
+            return vim.api.nvim_replace_termcodes("<Plug>(bullets-newline)", true, true, true)
+          else
+            return enter
+          end
+        end
+        ,
+        mode = "i",
+        ft = "markdown",
+        replace_keycodes = false,
+        expr = true,
+        noremap = true,
+        buffer = true
+      },
+
+      { "<C-cr>",    "<cr>",                            mode = "i", ft = "markdown" },
+      { "o",         "<Plug>(bullets-newline)",         mode = "n", ft = "markdown" },
+      { "gN",        "<Plug>(bullets-renumber)",        mode = "v", ft = "markdown" },
+      { "gN",        "<Plug>(bullets-renumber)",        mode = "n", ft = "markdown" },
+      { "<leader>x", "<Plug>(bullets-toggle-checkbox)", mode = "n", ft = "markdown" },
+      { "<C-t>",     "<Plug>(bullets-demote)",          mode = "i", ft = "markdown" },
+      { ">>",        "<Plug>(bullets-demote)",          mode = "n", ft = "markdown" },
+      { ">",         "<Plug>(bullets-demote)",          mode = "v", ft = "markdown" },
+      { "<C-d>",     "<Plug>(bullets-promote)",         mode = "i", ft = "markdown" },
+      { "<<",        "<Plug>(bullets-promote)",         mode = "n", ft = "markdown" },
+      { "<",         "<Plug>(bullets-promote)",         mode = "v", ft = "markdown" },
+    }
   },
   {
     "bradinglis/obsidian.nvim",
@@ -25,13 +57,11 @@ return {
       "nvim-lua/plenary.nvim",
       'chenxin-yan/footnote.nvim',
       "bullets-vim/bullets.vim",
+      "OXY2DEV/markview.nvim"
     },
     opts = {
       legacy_commands = false,
       sort_by = "modified",
-      sort_reversed = true,
-      search_max_lines = 1000,
-      fixed_strings = true,
       workspaces = {
         {
           name = "notes",
@@ -89,8 +119,8 @@ return {
           require("globals").set_hl()
           -- vim.keymap.del("n", "<CR>", { buffer = note.bufnr })
           vim.keymap.set('n', '<CR>', function() return util.enter_command() end, { buffer = true, expr = true })
-          vim.opt.conceallevel = 2
-          vim.opt.concealcursor = ""
+          -- vim.opt.conceallevel = 2
+          -- vim.opt.concealcursor = ""
           if note.has_frontmatter then
             util.frontmatter_highlighting(note)
             util.tag_highlighting(note)
@@ -168,9 +198,10 @@ return {
   },
   {
     "OXY2DEV/markview.nvim",
-    lazy = false,
-    -- priority = 49,
-    version = '*',
+    -- lazy = false,
+    priority = 49,
+    event = "BufEnter *.md",
+    -- version = '*',
     opts = {
       preview = {
         debounce = 1,

@@ -4,18 +4,47 @@ return {
     priority = 1000,
     lazy = false,
     keys = {
-      { '<leader>ff',       function() require("snacks").picker.smart() end,        mode = 'n', desc = "files" },
-      { '<leader>fx',       function() require("snacks").picker.files() end,        mode = 'n', desc = "files" },
-      { '<leader>fg',       function() require("snacks").picker.grep() end,         mode = 'n', desc = "grep" },
-      { '<leader>fb',       function() require("snacks").picker.buffers() end,      mode = 'n', desc = "buffers" },
-      { '<leader>f<Enter>', function() require("snacks").explorer() end,            mode = 'n', desc = 'explorer' },
-      { 'z=',               function() require("snacks").picker.spelling() end,     mode = 'n', desc = "spelling" },
-      { '<leader>gb',       function() require("snacks").picker.git_branches() end, mode = 'n', desc = 'git branches' },
-      { '<leader>gl',       function() require("snacks").picker.git_log() end,      mode = 'n', desc = 'git log' },
-      { '<leader>gs',       function() require("snacks").picker.git_status() end,   mode = 'n', desc = 'git status' },
-      { '<leader>gu',       function() require("snacks").lazygit() end,             mode = 'n', desc = 'lazygit' },
+      { '<leader><enter>',  function() require("snacks").picker.smart() end,              mode = 'n', desc = "smart picker" },
+      { "<leader>/",        function() require("snacks").picker.grep() end,               mode = 'n', desc = "grep" },
+      { '<leader>ff',       function() require("snacks").picker.files() end,              mode = 'n', desc = "files" },
+      { '<leader>fg',       function() require("snacks").picker.grep() end,               mode = 'n', desc = "grep" },
+      { '<leader>fb',       function() require("snacks").picker.buffers() end,            mode = 'n', desc = "buffers" },
+      { '<leader>f<Enter>', function() require("snacks").explorer() end,                  mode = 'n', desc = 'explorer' },
+      { 'z=',               function() require("snacks").picker.spelling() end,           mode = 'n', desc = "spelling" },
+      { '<leader>gb',       function() require("snacks").picker.git_branches() end,       mode = 'n', desc = 'git branches' },
+      { "<leader>gL",       function() require("snacks").picker.git_log_line() end,       mode = 'n', desc = "git log line" },
+      { "<leader>gf",       function() require("snacks").picker.git_log_file() end,       mode = 'n', desc = "git log file" },
 
-      { '<leader>z',        function() require("snacks").zen() end,                 mode = 'n', desc = 'lazygit' },
+      { '<leader>gl',       function() require("snacks").picker.git_log() end,            mode = 'n', desc = 'git log' },
+      { '<leader>gs',       function() require("snacks").picker.git_status() end,         mode = 'n', desc = 'git status' },
+      { '<leader>gu',       function() require("snacks").lazygit() end,                   mode = 'n', desc = 'lazygit' },
+
+      { "<leader>n",        function() require("snacks").picker.notifications() end,      mode = 'n', desc = "Notification History" },
+      { '<leader>s"',       function() require("snacks").picker.registers() end,          mode = 'n', desc = "registers" },
+      { '<leader>s/',       function() require("snacks").picker.search_history() end,     mode = 'n', desc = "search history" },
+      { "<leader>sa",       function() require("snacks").picker.autocmds() end,           mode = 'n', desc = "autocmds" },
+      { "<leader>sb",       function() require("snacks").picker.lines() end,              mode = 'n', desc = "buffer lines" },
+      { "<leader>sc",       function() require("snacks").picker.command_history() end,    mode = 'n', desc = "command history" },
+      { "<leader>sC",       function() require("snacks").picker.commands() end,           mode = 'n', desc = "commands" },
+      { "<leader>sd",       function() require("snacks").picker.diagnostics() end,        mode = 'n', desc = "diagnostics" },
+      { "<leader>sD",       function() require("snacks").picker.diagnostics_buffer() end, mode = 'n', desc = "buffer diagnostics" },
+      { "<leader>sh",       function() require("snacks").picker.help() end,               mode = 'n', desc = "help pages" },
+      { "<leader>sH",       function() require("snacks").picker.highlights() end,         mode = 'n', desc = "highlights" },
+      { "<leader>si",       function() require("snacks").picker.icons() end,              mode = 'n', desc = "icons" },
+      { "<leader>sj",       function() require("snacks").picker.jumps() end,              mode = 'n', desc = "jumps" },
+      { "<leader>sk",       function() require("snacks").picker.keymaps() end,            mode = 'n', desc = "keymaps" },
+      { "<leader>sl",       function() require("snacks").picker.loclist() end,            mode = 'n', desc = "location list" },
+      { "<leader>sm",       function() require("snacks").picker.marks() end,              mode = 'n', desc = "marks" },
+      { "<leader>sM",       function() require("snacks").picker.man() end,                mode = 'n', desc = "man pages" },
+      { "<leader>sp",       function() require("snacks").picker.lazy() end,               mode = 'n', desc = "search for plugin spec" },
+      { "<leader>sq",       function() require("snacks").picker.qflist() end,             mode = 'n', desc = "quickfix list" },
+      { "<leader>sR",       function() require("snacks").picker.resume() end,             mode = 'n', desc = "resume" },
+      { "<leader>su",       function() require("snacks").picker.undo() end,               mode = 'n', desc = "undo history" },
+      { "<leader>uC",       function() require("snacks").picker.colorschemes() end,       mode = 'n', desc = "colorschemes" },
+      { '<leader>z',        function() require("snacks").zen() end,                       mode = 'n', desc = 'lazygit' },
+      { "<leader>t",        require("transforms").transform_buffer_file,                  mode = "n", desc = "transform file" },
+      { "<leader>t",        require("transforms").transform_selection,                    mode = "x", desc = "transform selection" },
+
     },
     opts = {
       bigfile = { enabled = false },
@@ -173,8 +202,43 @@ return {
   {
     'bradinglis/transforms.nvim',
     keys = {
-      { "<leader>t", require("transforms").transform_buffer_file, mode = "n", desc = "transform file" },
-      { "<leader>t", require("transforms").transform_selection,   mode = "x", desc = "transform selection" },
+      {
+        '<leader>p',
+        function()
+          require("snacks").picker.files({
+            cwd = os.getenv("TRANSFORMS_REPO"),
+            confirm = function(picker, item, _)
+              picker:close()
+              if item then
+                local parts = vim.split(item.file, '/')
+                opts = {}
+                if parts[1] == "jq" then
+                  opts.command = { "jq" }
+                elseif parts[1] == "jq-r" then
+                  opts.command = { "jq", "-r" }
+                elseif parts[1] == "sh" then
+                  opts.command = { "bash", "-c" }
+                elseif parts[1] == "awk" then
+                  opts.command = { "awk" }
+                elseif parts[1] == "awk-csv" then
+                  opts.command = { "awk", "--csv" }
+                elseif parts[1] == "sed" then
+                  opts.command = { "sed", "-r" }
+                elseif parts[1] == "sed-z" then
+                  opts.command = { "sed", "-rz" }
+                end
+                if parts[3] ~= nil then
+                  opts.output_lang = parts[2]
+                end
+
+                require('transforms.playground').init_playground(vim.api.nvim_buf_get_name(0), item._path, opts)
+              end
+            end,
+          })
+        end,
+        mode = "n",
+        desc = "open transformation playground"
+      },
     },
   },
   {
@@ -187,5 +251,14 @@ return {
       { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
       { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
     },
+  },
+  {
+    "chrisgrieser/nvim-spider",
+    keys = {
+		{ "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
+		{ "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+		{ "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
+		{ "cw", "c<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+	},
   },
 }
