@@ -242,6 +242,14 @@ return {
     },
   },
   {
+    "philippdrebes/jsonpath.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    keys = {
+      { "<leader>js", function() require("jsonpath").show_json_path() end, mode = "n", desc = "Show JSON Path" },
+      { "<leader>jy", function() require("jsonpath").yank_json_path() end, mode = "n", desc = "Yank JSON Path" },
+    },
+  },
+  {
     "folke/flash.nvim",
     event = "VeryLazy",
     keys = {
@@ -255,10 +263,10 @@ return {
   {
     "chrisgrieser/nvim-spider",
     keys = {
-		{ "w", "<cmd>lua require('spider').motion('w')<CR>", mode = { "n", "o", "x" } },
-		{ "e", "<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
-		{ "b", "<cmd>lua require('spider').motion('b')<CR>", mode = { "n", "o", "x" } },
-		{ "cw", "c<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
-	},
+      { "w",  "<cmd>lua require('spider').motion('w')<CR>",  mode = { "n", "o", "x" } },
+      { "e",  "<cmd>lua require('spider').motion('e')<CR>",  mode = { "n", "o", "x" } },
+      { "b",  "<cmd>lua require('spider').motion('b')<CR>",  mode = { "n", "o", "x" } },
+      { "cw", "c<cmd>lua require('spider').motion('e')<CR>", mode = { "n", "o", "x" } },
+    },
   },
 }

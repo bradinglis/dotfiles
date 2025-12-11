@@ -49,7 +49,7 @@ return {
       },
 
       sources = {
-        default = { 'lazydev', 'lsp', 'path', 'snippets', 'notes', 'tags', 'refs' },
+        default = { 'lazydev', 'lsp', 'path', 'snippets', 'notes', 'tags', 'refs', 'jq_keys', 'jq_values' },
         providers = {
           lazydev = {
             name = "LazyDev",
@@ -64,6 +64,16 @@ return {
           notes = {
             name = "Notes",
             module = "complete.link_source",
+            opts = {},
+          },
+          jq_keys = {
+            name = "Jq Keys",
+            module = "complete.jq_key_source",
+            opts = {},
+          },
+          jq_values = {
+            name = "Jq Values",
+            module = "complete.jq_value_source",
             opts = {},
           },
           tags = {
