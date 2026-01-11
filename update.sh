@@ -14,11 +14,6 @@ ITALIC='\033[3m'
 UNDERLINE='\033[4m'
 
 cd $HOME
-echo -e "${BOLD}Adding APT repositories${NONE}"
-curl -fsSL https://deb.nodesource.com/setup_current.x -o nodesource_setup.sh
-sudo -E bash nodesource_setup.sh 
-echo -e "${BOLD}${GREEN}Complete${NONE}"
-echo -e ""
 
 echo -e "${BOLD}Starting APT update/upgrade${NONE}"
 sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq update 
@@ -28,13 +23,6 @@ echo -e ""
 
 echo -e "${BOLD}Starting APT package downloads${NONE}"
 sudo apt-get -y -o Dpkg::Progress-Fancy="1" -qq install ripgrep nodejs fd-find bat less nnn stow zsh git pandoc curl clang zip unzip moreutils
-
-ln -s $(which fdfind) ~/.local/bin/fd
-ln -s $(which batcat) ~/.local/bin/bat
-
-batcat cache --build
-echo -e "${BOLD}${GREEN}Complete${NONE}"
-echo -e ""
 
 echo -e "${BOLD}Installing lazygit${NONE}"
 LAZYGIT_VERSION=$(curl -s "https://api.github.com/repos/jesseduffield/lazygit/releases/latest" | \grep -Po '"tag_name": *"v\K[^"]*')
@@ -64,11 +52,11 @@ echo -e ""
 echo -e "${BOLD}Installing yazi${NONE}"
 curl -Lo yazi.zip "https://github.com/sxyazi/yazi/releases/download/nightly/yazi-x86_64-unknown-linux-gnu.zip"
 unzip yazi.zip
-chmod +x yazi/ya yazi/yazi
-mv yazi/ya ~/.local/bin
-mv yazi/yazi ~/.local/bin
+chmod +x yazi-x86_64-unknown-linux-gnu/ya yazi-x86_64-unknown-linux-gnu/yazi
+mv yazi-x86_64-unknown-linux-gnu/ya ~/.local/bin
+mv yazi-x86_64-unknown-linux-gnu/yazi ~/.local/bin
 rm yazi.zip
-rm -r yazi
+rm -r yazi-x86_64-unknown-linux-gnu
 echo -e "${BOLD}${GREEN}Complete${NONE}"
 echo -e ""
 
@@ -81,4 +69,4 @@ echo -e ""
 
 cd $HOME
 
-rm -r lazygit lazygit.tar.gz nodesource_setup.sh
+rm -r lazygit lazygit.tar.gz
