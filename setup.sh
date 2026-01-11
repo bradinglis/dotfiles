@@ -44,6 +44,8 @@ mkdir -p ~/.local/bin
 
 echo -e "${BOLD}Adding APT repositories${NONE}"
 sudo add-apt-repository -y ppa:neovim-ppa/unstable
+wget -qO- https://apt.fury.io/nushell/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/fury-nushell.gpg
+echo "deb [signed-by=/etc/apt/keyrings/fury-nushell.gpg] https://apt.fury.io/nushell/ /" | sudo tee /etc/apt/sources.list.d/fury-nushell.list
 curl -fsSL https://deb.nodesource.com/setup_current.x -o nodesource_setup.sh
 sudo -E bash nodesource_setup.sh 
 echo -e "${BOLD}${GREEN}Complete${NONE}"
