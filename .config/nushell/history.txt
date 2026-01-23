@@ -1,0 +1,1298 @@
+exit
+nvim $nu.config-path
+exit
+$HOME
+$env.HOME
+nvim $nu.config-path
+exit
+$env
+$env.HOME
+nvim $nu.config-path
+type env
+print env
+print $env
+print $env.HOME
+print $env.HOME/something
+print '$env.HOME'/something
+print "$env.HOME"/something
+print $env.HOME + "/something"
+print $env.HOME"/something"
+print $env.HOME "/something"
+print ($env.HOME | append  "/something")
+print $'$env.HOME/something"'
+print $'$env.HOME/something'
+print $'($env.HOME)/something'
+nvim
+nvim $nu.config-path
+exit
+ls
+n
+yazi
+nvim
+lg
+lazygit
+v
+nvim $nu.config-path
+nvim
+ts
+exit
+open rts.json
+open rts.json | select "DataArea"
+open rts.json | where "DataArea"
+open rts.json | where DataArea
+open rts.json | select "DataArea.OperationsResponse"
+open rts.json | select "DataArea" "OperationsResponse"
+open rts.json | select "DataArea"
+open rts.json | select "OperationsResponse<\n>"
+open rts.json | select "OperationsResponse"
+open rts.json | get "DataArea" | get "OperationsResponse"
+open rts.json | get "DataArea" | get "OperationsResponse" | get SegmentResponse
+open rts.json | get "DataArea" | get "OperationsResponse" | get SegmentResponse | inspect
+open rts.json | DataArea
+open rts.json | get DataArea.OperationsResponse.SegmentResponse
+open rts.json | get DataArea.OperationsResponse.SegmentResponse | describe
+open rts.json | get DataArea.OperationsResponse.SegmentResponse | sopen
+open rts.json | get DataArea.OperationsResponse.SegmentResponse | open
+open rts.json | get DataArea.OperationsResponse.SegmentResponse | describe
+open rts.json | describe
+open rts.json | describe -d
+open rts.json | describe
+open rts.json | describe-d
+open rts.json | describe -d
+open rts.json | describe -d | explore
+open rts.json | describe -d 
+open rts.json | describe -d | explore
+open rts.json | describe -d | explore -i
+open rts.json | describe -d 
+open rts.json | get DataArea | describe -d 
+open rts.json | get DataArea.OperationsResponse | describe -d 
+open rts.json | get DataArea.OperationsResponse
+open rts.json | get DataArea.OperationsResponse | describe
+open rts.json | get DataArea.OperationsResponse.SegmentResponse | describe
+open rts.json | get DataArea.OperationsResponse.SegmentResponse 
+open rts.json | get DataArea.OperationsResponse.SegmentResponse | describe -d
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.OpSegmentResponse | describe -d
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.OpSegmentResponse.MaterialActual | describe -d
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.OpSegmentResponse.ID | describe -d
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.OpSegmentResponse.[].MaterialActual | describe -d
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.OpSegmentResponse.0.MaterialActual | describe -d
+open rts.json | get DataArea
+open rts.json | get DataArea.OperationsResponse
+open rts.json | get DataArea.OperationsResponse | to json
+open rts.json | get DataArea.OperationsResponse | jq ". | keys"
+open rts.json | get DataArea.OperationsResponse | to json | jq ". | keys"
+open rts.json | get DataArea.OperationsResponse | to json | jq ". | keys" | from json
+open rts.json | get DataArea.OperationsResponse | keys
+open rts.json | get DataArea.OperationsResponse <\n>
+open rts.json | get DataArea.OperationsResponse | flatten<\n>
+open rts.json | get DataArea | flatten<\n>
+open rts.json | get DataArea.OperationsResponse<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentRespon<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse | describe<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual | describe<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual | describe -d<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual.OpMaterialActual<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual.OpMaterialActual.MaterialActualProperty<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual.OpMaterialActual.MaterialActualProperty | flatten<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual.OpMaterialActual.MaterialActualProperty.OpMaterialActualProperty | flatten<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual.OpMaterialActual.MaterialActualProperty.0.OpMaterialActualProperty | flatten<\n>
+open rts.json | get DataArea.OperationsResponse.SegmentResponse.0.OpSegmentResponse.MaterialActual.OpMaterialActual.MaterialActualProperty.0.OpMaterialActualProperty<\n>
+explore
+ls
+cd master-tag-validation/
+ls
+rm *.csv
+ls
+open `Master Tags-Pre Load Validations (test)-2025-12-01.xlsx`
+open `Master Tags-Pre Load Validations (test)-2025-12-01.xlsx` | describe
+open `Master Tags-Pre Load Validations (test)-2025-12-01.xlsx` | select Item Batches (SSC)
+cp `Master Tags-Pre Load Validations (test)-2025-12-01.xlsx` test.xlsx
+ls
+explorer.exe .
+open test.xlsx
+explore 
+v check_values.nu
+nvim rts.json
+cd master-tag-validation/
+open test.xlsx
+open test.xlsx | describe
+ls
+./check_values.nu
+check_values.nu
+chmod +x check_values.nu
+check_values.nu
+./check_values.nu
+nu check_values.nu
+explorer.exe .
+nu check_values.nu
+explore nu check_values.nu
+nu check_values.nu | explore
+nu check_values.nu 
+update.LASTCHILDTAGID_BSL
+nu check_values.nu 
+ls
+nu check_values.nu 
+"55" | into int
+"55N" | into int
+1 < 0
+nul < 0
+null < 0
+1 < null
+nu check_values.nu 
+print null
+nu check_values.nu 
+nvim output.json
+open output.json
+mv output.json data.json
+nvim data.json
+explore data.json
+open data.json | explore
+open data.csv
+open data.csv | each $"(id)"
+open data.csv | each {|x| $"(x.id)"}
+open data.csv | each {|x| $"(x.ID)"}
+open data.csv | each {|x| $"($x.ID)"}
+open data.csv | each {|x| $"($x.ID)\n"}
+open data.csv | each {|x| $"### ($x.Title) ($x.ID)"}
+open data.csv | each {|x| $"### ($x.Title) #($x.ID)\n\n ($x.Description)"}
+open data.csv | each {|x| $"### ($x.Title) #($x.ID)\n\n ($x.Description)"} | to text | save data.md
+nvim data.md
+open data.csv | each {|x| $"### ($x.Title) #($x.ID)\n\n ($x.Description | pandoc -f html -t markdown)"} | to text | save data.md
+open data.csv | each {|x| $"### ($x.Title) #($x.ID)\n\n ($x.Description | pandoc -f html -t markdown)"} | to text
+open data.csv | each {|x| $"### ($x.Title) #($x.ID)\n\n ($x.Description | pandoc -f html -t plain)"} | to text
+open data.csv | each {|x| $"### ($x.Title) #($x.ID)\n\n ($x.Description | pandoc -f html -t plain)"} | to text | save data.md
+open data.csv | each {|x| $"### ($x.Title) #($x.ID)\n\n ($x.Description | pandoc -f html -t plain)"} | to text | save -f data.md
+v data.md
+nvim data.md
+v
+nvim
+n
+yazi
+ls
+exit
+open table.csv
+open table.rsv
+open table.tsv
+mv table.csv table.tsv
+open table.tsv
+open table.tsv | to md
+open table.tsv | to md | pandoc -f md -o test.docx
+open table.tsv | to md | pandoc -f markdown -o test.docx
+explorer.test.docx
+explorer.exe test.docx
+open table.tsv | to md | pandoc -f markdown+hard_line_breaks -o test.docx
+explorer.exe test.docx
+open table.tsv
+open table.tsv | to md -p
+open table.tsv | to md -e
+open table.tsv | to md -a
+open table.tsv | to md -p
+open table.tsv --noheaders | to md -p
+open table.tsv | from tsv --noheaders to md -p
+open table.tsv | from tsv --noheaders | to md -p
+open table.tsv as tsv --noheaders | to md -p
+open table.tsv | from tsv --noheaders | to md -p
+open table.tsv --raw | from tsv --noheaders | to md -p
+open table.tsv --raw | from tsv --noheaders | to md -p | pandoc -f markdown+hard_line_breaks 
+open table.tsv --raw | from tsv --noheaders | to md -p | pandoc -f markdown+hard_line_breaks -o test.docx
+explorer.exe test.docx
+open table.tsv --raw | from tsv --noheaders | to md -p | pandoc -f markdown
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | each {|y| print $y }}
+open table.tsv --raw | from tsv --noheaders | each {|x| print $x}
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | pandoc -f md -t html}
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | pandoc -f markdown -t html}
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html)}}
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html }}
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html }
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}}
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to tsv
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to tsv --headerless
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to tsv --no-header
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to tsv --no-headers
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to tsv --noheaders
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to tsv --noheaders | wcopy
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to tsv --noheaders | to html
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html -r
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html -r | wcopy
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html -r | from html
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html -r | query web 
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to xml -r
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to xml
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} 
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html -r
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to csv | save table.csv
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to csv | save tabls.xlsx
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to csv | save -f table.xlsx
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html -r | save table.html
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown+hard_line_breaks -t html), "column1": ($in.column1 | pandoc -f markdown+hard_line_breaks -t html )}} | to html -r | save table.html
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown+hard_line_breaks -t html), "column1": ($in.column1 | pandoc -f markdown+hard_line_breaks -t html )}} | to html -r 
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown+hard_line_breaks -t html), "column1": ($in.column1 | pandoc -f markdown+hard_line_breaks -t html )}} | to html -r | save -f table.html
+nvim bookmarklet.S
+nvim bookmarklet.js
+open wp_data.csv | explore
+v extract_ado_data.nu
+nu extract_ado_data.nu
+nu extract_ado_data.nu | wcopy
+cp `/mnt/c/Users/inglisb/Downloads/data (2).csv` ep_data.csv
+nvim ep_data.csv
+nvim extract_ado_data.nu
+nu extract_ado_data.nu | wcopy
+cp `/mnt/c/Users/inglisb/Downloads/data (3).csv` ep_data.csv
+nvim ep_data.csv
+nvim extract_ado_data.nu
+nu extract_ado_data.nu | wcopy
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html -r
+open table.tsv --raw | from tsv --noheaders | each {|x| $x | { "column0": ($in.column0 | pandoc -f markdown -t html), "column1": ($in.column1 | pandoc -f markdown -t html )}} | to html -r| save test.html
+explorer.exe test.html
+nvim extract_ado_data.nu
+nu create_excel.nu | save -f test.html
+explorer.exe test.html
+nu create_excel.nu | save -f test.html
+v table.tsv
+nvim table.tsv
+nu create_excel.nu | save -f test.html
+ls *.n
+ls *.nu
+nvim extract_ado_data.nu
+ls
+n
+yazi
+nu create_excel.nu | save -f test.html
+nvim test.html
+nu create_excel.nu | save -f test.html
+nvim test.tsv
+nvim table.tsv
+open table.tsv
+nvim table.tsv
+nu create_excel.nu | save -f test.html
+nu create_excel.nu | wcopy
+nvim test.hml
+nvim test.html
+nu create_excel.nu | save -f test.html
+nvim test.html
+nu create_excel.nu | save -f test.html
+v test.hml
+nvim test.html
+nu create_excel.nu | wcopy
+open ~/zettel/notes/acacia-ridge-uat-plan.md | create_excel
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_excel.nu
+k
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_excel.nu
+open ~/zettel/notes/rhize-uat-plan.md | nu create_excel.nu
+open ~/zettel/notes/ep-uat-plan.md | nu create_excel.nu
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_excel.nu
+v test.html
+nvim test.html
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_excel.nu
+v test.html
+nvim test.html
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_excel.nu
+nvim test.html
+"something <br> else" | str replace "<br>" ""
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_excel.nu
+open ~/zettel/notes/rhize-uat-plan.md | nu create_excel.nu
+open ~/zettel/notes/ep-uat-plan.md | nu create_excel.nu
+v test.html
+nvim test.html
+open ~/zettel/notes/ep-uat-plan.md | nu create_excel.nu
+nvim create_excel.nu
+nu create_commands.nu
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_commands.nu
+open ~/zettel/notes/acacia-ridge-uat-plan.md
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_commands.nu
+open ~/zettel/notes/acacia-ridge-uat-plan.md | split row "\n"
+open ~/zettel/notes/acacia-ridge-uat-plan.md | split row "\n" | each {|x| $"blah (x)"}
+open ~/zettel/notes/acacia-ridge-uat-plan.md | split row "\n" | each {|x| $"blah ($x)"}
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_commands.nu
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_commands.nu
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main
+k
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main
+nu --lsp
+nvim create_commands.nu
+v
+nvim
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main
+k
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main
+k
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main | select text
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main | select text23
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main | select text
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main | select text
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+k
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace ".*" "hi"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace "\.*" "hi"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace "." "hi"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -g "." "hi"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace "*" "hi"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace "...." "hi"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "...." "hi"
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r ".*" "hi"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r ".*#" "hi"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r ".*#" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "## .*#" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "## .*##" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "## .*#" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "## .* #" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "## .* \#" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "### .* \#" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "### .* #" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "### (.*) #" ""
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "### (.*) #" "${1}"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "### (.*) #......" "${1}"
+"### PA19 — End-to-end production — Automatic — Prod Order 3 #421740" | str replace -r "### (.*) #.*" "${1}"
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+nvim create_commands.nu
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+nvim create_commands.nu
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+nvim create_commands.nu
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+nvim create_commands.nu
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+nvim create_commands.nu
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+nvim create_commands.nu
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main 
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main | to json
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main | to json | write /mnt/c/Users/inglisb/test.json
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main | to json | save /mnt/c/Users/inglisb/test.json
+source create_commands.nu; open ~/zettel/notes/acacia-ridge-uat-plan.md | main | to json | save -f /mnt/c/Users/inglisb/test.json
+ls
+nvim create_document.nu 
+source create_document.nu; open ~/zettel/notes/wpcsc-uat-plan.md | main 
+nvim create_document.nu
+source create_document.nu; open ~/zettel/notes/wpcsc-uat-plan.md | main 
+"#400000" | str replace -r -a "#([0-9]+++++)" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define\?planId=378776\&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]+++++)" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define\?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]+++++)" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]+)" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]+)\n" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]++)" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]++++)" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]+++)" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]++)" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]{6})" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]{5})" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+"#400000" | str replace -r -a "#([0-9]{6})" "([Task #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/${1}) — [Suite #${1}](https://banz-au.visualstudio.com/Avenir%20SSC/_testPlans/define?planId=378776&suiteId=${1}))"
+source create_document.nu; open ~/zettel/notes/wpcsc-uat-plan.md | main 
+nvim create_document.nu
+source create_commands.nu; open ~/zettel/notes/wpcsc-uat-plan.md | main | to json | save -f /mnt/c/Users/inglisb/test.json
+nvim create_commands.nu
+source create_commands.nu; open ~/zettel/notes/wpcsc-uat-plan.md | main | to json | save -f /mnt/c/Users/inglisb/test.json
+source create_commands.nu
+nvim create_commands.nu
+source create_commands.nu
+source create_commands.nu; open ~/zettel/notes/wpcsc-uat-plan.md | create_json | to json | save -f /mnt/c/Users/inglisb/test.json
+nvim /mnt/c/Users/inglisb/test.json
+open ~/zettel/notes/acacia-ridge-uat-plan.md | nu create_excel.nu
+open ~/zettel/notes/wpcsc-uat-plan.md | nu create_excel.nu
+nvim create_excel.nu
+open ~/zettel/notes/wpcsc-uat-plan.md | nu create_excel.nu
+nvim create_excel.nu
+open ~/zettel/notes/wpcsc-uat-plan.md | nu create_excel.nu
+source create_document.nu; open ~/zettel/notes/wpcsc-uat-plan.md | main 
+http get https://dev.azure.com/banz-au/Avenir%20SSC/_apis/workitems/421079
+nvim _token.txt
+source ado_api.nu
+http patch
+http patch --help
+source ado_api.nu
+update_workitem_title 421314 "PA01 — User Management"
+source ado_api.nu
+update_workitem_title 421314 "PA01 — User Management"
+get_workitem 420753
+source ado_api.nu
+update_workitem {"id": 045660, "title": "test"}
+update_workitem {"id": 045660, "title": "test", "description": "Testing" }
+update_workitem {"id": 045660, "description": "Testing" }
+get_workitem 420753
+source ado_api.nu
+update_workitem {"id": 045660, "description": "Testing" }
+update_workitems [{"id": 045660, "description": "Testing" }]
+source ado_api.nu
+update_workitems [{"id": 045660, "description": "Testing" }]
+source ado_api.nu
+update_workitems [{"id": 045660, "description": "Testing" }]
+nvim ado_api.nu
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+source ado_api.nu00
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ~/uat-plans/scripts/create_commands.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ~/uat-plans/scripts/create_commands.nu
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ~/uat-plans/scripts/create_commands.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+exit
+source ado_api.nu
+source ~/uat-plans/scripts/create_commands.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+get_workitem 420753
+source ado_api.nu
+get_testsuite 378776 420753
+source ado_api.nu
+get_testsuite 378776 420753
+source ado_api.nu
+get_testsuite 378776 420753
+source ado_api.nu
+get_testsuite 378776 420753
+source ado_api.nu
+get_testsuite 378776 420753
+source ado_api.nu
+get_testsuite 378776 420753
+get_testsuite 378776 421314
+source ado_api.nu
+get_testsuite 378776 420753
+source ado_api.nu
+update_testsuite 378776 421314 "PA01 — User Management"
+source ado_api.nu
+update_testsuite 378776 421314 "PA01 — User Management"
+source ado_api.nu
+update_testsuite 378776 421314 "PA01 — User Management"
+source ado_api.nu
+update_testsuite 378776 421314 "PA01 — User Management"
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+nvim ~/uat-plans/acacia-ridge-uat-plan.md
+nvim ~/uat-plans/test.md
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+exit
+source ado_api.nu
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+$in
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+exit
+source ado_api.nu
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+get_workitem 420753
+exit
+source ado_api.nu
+get_workitem 420753
+source ado_api.nu
+get_workitem 420753
+:q
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+ls
+nvim ~/uat-plans/test.md
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+nvim ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+exit
+source -h
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+nvim ado_api.nu
+source ado_api.nu
+nvim ado_api.nu
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+ext
+exi
+exit
+source ado_api.nu
+run_for_file ~/uat-plans/test.md
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+mv ado_api.nu ~/uat-plans/scripts/
+open ~/test.tsv 
+open ~/uat-plans/acacia-ridge-uat-plan.md
+open ~/uat-plans/acacia-ridge-uat-plan.md | nu create_excel.nu
+open ~/uat-plans/acacia-ridge-uat-plan.md | nu ~/uat-plans/scripts/create_excel.nu
+source create_excel.nu
+cd uat-plans
+cd scripts/uat-plans
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu1
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+nvim acacia-ridge-uat-plan.md
+"- **Production Orders**:<\n>    - PA03, PA04<\n>- **Execution notes**: <\n>    - Verify based on D365 operators report<\n>" | str replace -r '- \*\*.*\n' ''
+"- **Production Orders**:<\n>    - PA03, PA04<\n>- **Execution notes**: <\n>    - Verify based on D365 operators report<\n>" | str replace -r '- \*\*.*\n' '' | split row -n 2 "- **Execution notes**"
+"- **Production Orders**:<\n>    - PA03, PA04<\n>- **Execution notes**: <\n>    - Verify based on D365 operators report<\n>" | str replace -r '- \*\*.*\n' '' | split row -n 2 "- **Execution notes**:\n"
+"- **Production Orders**:<\n>    - PA03, PA04<\n>- **Execution notes**: <\n>    - Verify based on D365 operators report<\n>" | str replace -r '- \*\*.*\n' '' | split row -n 2 "- **Execution notes**:"
+"- **Production Orders**:<\n>    - PA03, PA04<\n>- **Execution notes**: <\n>    - Verify based on D365 operators report<\n>" | str replace -r '- \*\*.*\n' '' | split rowl -n 2 "- **Execution notes**:"
+"- **Production Orders**:<\n>    - PA03, PA04<\n>- **Execution notes**: <\n>    - Verify based on D365 operators report<\n>" | str replace -r '- \*\*.*\n' '' | split row -n 2 -r "- \*\*.*\n"
+"- **Production Orders**:<\n>    - PA03, PA04<\n>- **Execution notes**: <\n>    - Verify based on D365 operators report<\n>" | str replace -r '- \*\*.*\n' '' | split row -n 2 -r '- \*\*.*\n'
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html 
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html 
+open acacia-ridge-uat-plan.md | make_html | wcopy
+open acacia-ridge-uat-plan.md | make_html 
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+open acacia-ridge-uat-plan.md | make_html | wcopy
+source scripts/create_excel.nu
+run_all
+source scripts/create_excel.nu
+run_all
+source scripts/create_excel.nu
+run_all
+mkdir tables
+run_all
+ls html
+ls tables
+run_all
+ls
+ls tables
+open tables/ar.html
+n
+yazi
+source scripts/create_excel.nu
+run_all
+yazi
+source scripts/create_excel.nu
+yazi
+run_all
+yazi
+source scripts/create_excel.nu
+run_all
+yazi
+source scripts/create_excel.nu
+run_all
+yazi
+source scripts/create_excel.nu
+run_all
+n
+yazi
+source scripts/create_excel.nu
+run_all
+yazi
+source scripts/create_excel.nu
+run_all
+yazi
+source scripts/create_excel.nu
+run_all
+yazi
+source scripts/ado_api.nu
+exit
+source scripts/ado_api.nu
+source uat-scripts/scripts/ado_api.nu
+source uat-plans/scripts/ado_api.nu
+yazi
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source uat-plans/scripts/ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source uat-plans/scripts/ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source uat-plans/scripts/ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+source uat-plans/scripts/ado_api.nu
+run_for_file ~/uat-plans/acacia-ridge-uat-plan.md
+get_testsuite 378776 420139
+source uat-plans/scripts/ado_api.nu
+get_testsuites 378776
+get_testsuites 378776 | explore
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+get_testsuites 378776 | explore
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+get_testsuites 378776 | explore
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+get_testsuites 378776 | explore
+get_testsuites 378776 | where parent?.id? == 420139
+(get_testsuites 378776) | where parent?.id? == 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+get_data 378776 420152
+get_testsuites 378776 | get value | where parent?.id? == 420139
+get_testsuites 378776 | get value | where parent?.id == 420139
+get_testsuites 378776 | get value | where parent.id == 420139
+get_testsuites 378776 | get value | where {} == 420139
+get_testsuites 378776 | get value | where {|x| $x.parent?.id? == 420139}
+get_testsuites 378776 | get value | each {|x| $x.parent?.id?}
+get_testsuites 378776 | get value | where {|x| $x.parent?.id? == 41922}
+get_testsuites 378776 | get value | where {|x| $x.parent?.id? == "41922"}
+get_testsuites 378776 | get value | where {|x| $x.parent?.id? == "421922"}
+get_testsuites 378776 | get value | where {|x| $x.parent?.id? == 421922}
+get_testsuites 378776 | get value | where {|x| $x.parent?.id? == "421922"}
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+get_data 378776 420139
+get_data 378776 420139 | explore
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420152
+get_data 378776 420139 | explore
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+"test # something" | str substring 0..(str index-of "#")
+"test # something" | str substring 0..($in | str index-of "#")
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+:w
+n
+yazi
+get_data 378776 420139
+"this<\n><\n><\n>" | str trim
+"this" | str trim
+"this " | str trim
+"this\n\n" | str trim
+"\nthis\n\n" | str trim
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+source ~/uat-plans/scripts/ado_api.nu
+get_testsuites 378776 420152 | explore
+source ~/uat-plans/scripts/ado_api.nu
+get_testsuites 378776 420152 | explore
+source ~/uat-plans/scripts/ado_api.nu
+get_testsuites 378776 420152 | explore
+source ~/uat-plans/scripts/ado_api.nu
+get_testsuites 378776 420152 | explore
+get_testsuites 378776 420139
+source ~/uat-plans/scripts/ado_api.nu
+get_data 378776 420139
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420139
+get_data 378776 420022
+get_workitem 421314
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420022
+v
+nvim
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420022
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420022
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420022
+source uat-plans/scripts/create_document.nu 
+get_data 378776 421314 | save ~/uat-plans/inventory-uat-plan.md
+get_data 378776 419913 | save ~/uat-plans/inventory-uat-plan.md
+"<div>Receive 1310 Toll Purchase Order using the mobile device&nbsp; </div><div>Options </div><div><ol><li>Customer Owned coil into 1310 warehouse </li><li>Aluminum into EP&nbsp; </li> </ol>Check Labels.&nbsp; </div><div>Invoice Toll PO manually </div>" | pandoc -f html -t markdown
+"<div>Receive 1310 Toll Purchase Order using the mobile device&nbsp; </div><div>Options </div><div><ol><li>Customer Owned coil into 1310 warehouse </li><li>Aluminum into EP&nbsp; </li> </ol>Check Labels.&nbsp; </div><div>Invoice Toll PO manually </div>" | pandoc -f html -t markdown-raw_html
+"<div>Receive 1310 Toll Purchase Order using the mobile device&nbsp; </div><div>Options </div><div><ol><li>Customer Owned coil into 1310 warehouse </li><li>Aluminum into EP&nbsp; </li> </ol>Check Labels.&nbsp; </div><div>Invoice Toll PO manually </div>" | pandoc -f html -t markdown_strict
+get_data 378776 419913 | save -f ~/uat-plans/inventory-uat-plan.md
+source uat-plans/scripts/create_document.nu 
+get_data 378776 419913 | save ~/uat-plans/inventory-uat-plan.md
+get_data 378776 419913 | save -f ~/uat-plans/inventory-uat-plan.md
+ls
+yazi
+source uat-plans/scripts/create_document.nu 
+get_data 378776 419913 | save -f ~/uat-plans/inventory-uat-plan.md
+source uat-plans/scripts/create_document.nu 
+get_data 378776 419913 | save -f ~/uat-plans/inventory-uat-plan.md
+source uat-plans/scripts/create_document.nu 
+get_data 378776 419913 | save -f ~/uat-plans/inventory-uat-plan.md
+edit ~/uat-plans/inventory-uat-plan.md
+nvim ~/uat-plans/inventory-uat-plan.md
+get_data 378776 419913 | save -f ~/uat-plans/inventory-uat-plan.md
+source uat-plans/scripts/create_document.nu 
+get_data 378776 419913 | save -f ~/uat-plans/inventory-uat-plan.md
+source uat-plans/scripts/create_document.nu 
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+cd uat-plans/
+ls
+nvim acacia-ridge-uat-plan.md
+source ~/uat-plans/scripts/master_run.nu
+run_all
+mkdir  /home/inglisb/uat-plans/docs
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+get_workitem 421799
+get_workitem 420757
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+exit
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/ado_api.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+exi
+exit
+source ~/uat-plans/scripts/ado_api.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+cd uat-plans/
+nvim acacia-ridge-uat-plan.md
+get_testsuites 378776 420139
+get_testsuites 378776 419833
+source ~/uat-plans/scripts/ado_api.nu
+get_testcases 378776 419833
+get_testcases 378776 419833 | get value
+get_testcases 378776 419833 | get value | get testCase
+get_testcases 378776 419833 | get value | get testCase.id
+get_testcases 378776 419833 | get value.testCase.id
+get_testcases 378776 421069 | get value
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/ado_api.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source -r ~/uat-plans/scripts/create_document.nu
+source --hel
+source --help
+source ~/uat-plans/scripts/ado_api.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source -r ~/uat-plans/scripts/create_document.nu
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+exit
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+exit
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/create_document.nu
+get_data 378776 420022 | save -f ~/uat-plans/ar-uat-plan-test.md
+run_all
+source ~/uat-plans/scripts/create_document.nu
+source ~/uat-plans/scripts/master_run.nu
+run_all
+yazi
+source ~/uat-plans/scripts/master_run.nu
+run_all
+n
+exit
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+yazi
+source ~/uat-plans/scripts/master_run.nu
+yazi
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+yazi
+source ~/uat-plans/scripts/master_run.nu
+run_all
+yazi
+run_all
+source ~/uat-plans/scripts/master_run.nu
+run_all
+nvim ~/uat-plans/scripts/master_run.nu
+source ~/uat-plans/scripts/master_run.nu
+nvim ~/uat-plans/scripts/master_run.nu
+source ~/uat-plans/scripts/master_run.nu
+run_all
+source ~/uat-plans/scripts/master_run.nu
+nvim ~/uat-plans/scripts/master_run.nu
+source ~/uat-plans/scripts/master_run.nu
+run_all
+nvim ~/uat-plans/scripts/master_run.nu
+source ~/uat-plans/scripts/master_run.nu
+run_all
+nvim ~/uat-plans/scripts/master_run.nu
+explorer.exe uat-plans
+source ~/uat-plans/scripts/master_run.nu
+nvim ~/uat-plans/scripts/master_run.nu
+source ~/uat-plans/scripts/master_run.nu
+run_all
+nvim ~/uat-plans/scripts/master_run.nu
+source ~/uat-plans/scripts/master_run.nu
+run_all
+nvim ~/uat-plans/scripts/master_run.nu
+source ~/uat-plans/scripts/master_run.nu
+run_all
+n
+yazi
+cd dotfiles/
+lazygit
+yazi
+lazygi
