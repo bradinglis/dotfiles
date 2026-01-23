@@ -12,6 +12,7 @@ end
 _G.bt = function()
   require("snacks").debug.backtrace()
 end
+
 if vim.fn.has("nvim-0.11") == 1 then
   vim._print = function(_, ...)
     dd(...)
@@ -27,4 +28,7 @@ g.set_hl()
 require('autocmd')
 require('keybindings')
 require('config.snippets')
+
+vim.lsp.enable("nushell")
+
 

@@ -1,7 +1,7 @@
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = "*.md",
   callback = function()
-    dd(require("obsidian.api").current_note())
+    -- dd(require("obsidian.api").current_note())
   end
 })
 

@@ -56,6 +56,39 @@ vim.keymap.set({ "n", "v" }, "<leader>d", [["_d]])
 
 vim.keymap.set('i', '<C-Space>', '<Space>')
 
+vim.keymap.set('n', '<leader>fT', function()
+  require("snacks").picker.files({
+    cwd = os.getenv("TRANSFORMS_REPO"),
+    confirm = function(picker, item, _)
+      picker:close()
+      if item then
+        local parts = vim.split(item.file, '/')
+        opts = {}
+        if parts[1] == "jq" then
+          opts.command = { "jq" }
+        elseif parts[1] == "jq-r" then
+          opts.command = { "jq", "-r" }
+        elseif parts[1] == "sh" then
+          opts.command = { "bash", "-c" }
+        elseif parts[1] == "awk" then
+          opts.command = { "awk" }
+        elseif parts[1] == "awk-csv" then
+          opts.command = { "awk", "--csv" }
+        elseif parts[1] == "sed" then
+          opts.command = { "sed", "-r" }
+        elseif parts[1] == "sed-z" then
+          opts.command = { "sed", "-rz" }
+        end
+        if parts[3] ~= nil then
+          opts.output_lang = parts[2]
+        end
+
+        require('transforms.playground').init_playground(vim.api.nvim_buf_get_name(0), item._path, opts)
+      end
+    end,
+  })
+end)
+
 vim.keymap.set('n', '<leader>ft', function()
   require("snacks").picker.files({
     cwd = os.getenv("TRANSFORMS_REPO"),

@@ -10,6 +10,10 @@ if [ -d "$HOME/.local/share/nvim/mason/bin" ] ; then
     PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 fi
 
+if [ -d "/usr/local/go/bin" ] ; then
+    PATH="/usr/local/go/bin:$PATH"
+fi
+
 if [ -d "$HOME/.metamorphosis/bin" ] ; then
     PATH="$HOME/.metamorphosis/bin:$PATH"
 fi

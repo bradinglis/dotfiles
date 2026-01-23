@@ -16,6 +16,7 @@ local parsers = {
   'comment',
   'toml',
   'go',
+  'nu',
   'bash',
   'markdown',
   'markdown_inline',

@@ -40,6 +40,7 @@ return {
         lua = { lsp_format="prefer" },
         graphql = { "prettierd", "prettier", stop_after_first = true },
         json = { "prettierd", "prettier", stop_after_first = true },
+        go = { lsp_format="prefer"},
         javascript = { "prettierd", "prettier", stop_after_first = true },
       },
     },

@@ -308,7 +308,7 @@ local function cursor_on_tag()
   end
 
   for match in
-  iter(search.find_matches(current_line, { search.RefTypes.Tag }))
+    iter(search.find_matches(current_line, { search.RefTypes.Tag }))
   do
     local open, close, _ = unpack(match)
     if open <= cur_col and cur_col <= close then
@@ -332,6 +332,12 @@ local function cursor_on_footnote()
   end
 
   return nil
+end
+
+local function cursor_ado_tag()
+  local current_line = vim.api.nvim_get_current_line()
+  local ado = current_line:match("#([0-9]+)")
+  return ado
 end
 
 local function cursor_check_line()
@@ -374,7 +380,23 @@ local function enter_command()
   if checkbox then
     return "<cmd>Obsidian toggle_checkbox<CR>"
   end
+
+  local ado = cursor_ado_tag()
+  if ado then
+    return "lua vim.fn.system({\"xdg-open\", \"https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/\"" .. ado .. "})"
+  end
+
 end
+
+local function goto_ado ()
+  local ado = cursor_ado_tag()
+
+  if ado then
+    vim.fn.system({"xdg-open", "https://banz-au.visualstudio.com/Avenir%20SSC/_workitems/edit/" .. ado })
+  end
+
+end
+
 
 local function links_to_reference()
   local links = {}
@@ -438,6 +460,7 @@ end
 
 return {
   enter_command = enter_command,
+  goto_ado = goto_ado,
   links_to_reference = links_to_reference,
   references_to_links = references_to_links,
   frontmatter_highlighting = frontmatter_highlighting,

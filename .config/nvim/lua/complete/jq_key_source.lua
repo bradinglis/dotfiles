@@ -1,11 +1,12 @@
 local source = {}
 
 local function flatten(current_node, query_node, source_text, i)
-  if i > 10 then
+  if i > 30 then
     vim.print("looped!!")
     return "blah"
   end
   if current_node:parent() == nil or current_node:type() == "programbody" or current_node:type() == "program" then
+    dd(source_text)
     return source_text
   end
 
@@ -40,16 +41,16 @@ local function flatten(current_node, query_node, source_text, i)
     return flatten(current_parent, query_node, source_text, i + 1)
   end
 
+  dd(source_text)
+
   return source_text
 end
 
 local function clean_tree(current_node, source_text, i)
-  if i > 10 then
+  if i > 30 then
     vim.print("looped!!")
     return false, nil
   end
-  dd(current_node:type())
-  dd(current_node:range())
 
   if current_node:type() == "query" or current_node:type() == "objectval" then
     return true, flatten(current_node, current_node, source_text, 0)
@@ -66,7 +67,6 @@ local function clean_tree(current_node, source_text, i)
       source_text = string.sub(source_text, 0, start) .. string.sub(source_text, _end + 1)
       local tree = vim.treesitter.get_string_parser(source_text, "jq"):parse(true)[1]
       current_node = tree:root():descendant_for_range(start_row, start_col-1, start_row, start_col-1)
-      dd(source_text)
       return clean_tree(current_node, source_text, i+1)
     else
       return clean_tree(current_node:parent():parent(), source_text, i+1)

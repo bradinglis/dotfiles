@@ -20,6 +20,7 @@ end
 vim.wo.wrap = true
 vim.wo.linebreak = true
 vim.wo.breakindent = true
+vim.opt_local.shiftwidth = 2
 vim.o.breakat = " ^!-+;:,./?"
 local vault_create = require 'vault.create'
 local vault_util = require 'vault.util'
@@ -59,8 +60,9 @@ vim.api.nvim_create_user_command('TagSearch', function(args)
   end
 end, { nargs = '?' })
 
-vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end,
-  { silent = true, buffer = true, expr = true })
+vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end, { silent = true, buffer = true, expr = true })
+
+vim.keymap.set('n', 'ga', function() return vault_util.goto_ado() end, { silent = true, buffer = true, expr = true })
 -- vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
 vim.keymap.set('n', '<leader>rr', vault_util.links_to_reference, { buffer = true })
 vim.keymap.set('n', '<leader>rl', vault_util.references_to_links, { buffer = true })
