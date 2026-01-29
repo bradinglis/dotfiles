@@ -43,7 +43,6 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.autoindent = true
 vim.opt.smartindent = true
-vim.opt.background = "dark"
 vim.opt.expandtab = true
 vim.opt.wrap = false
 vim.opt.backup = true
@@ -64,19 +63,44 @@ vim.g.bullets_outline_levels = { 'ROM', 'ABC', 'num', 'std-' }
 vim.g.mkdp_browser = 'Chrome'
 vim.g.mkdp_echo_preview_url = 1
 -- vim.g.notes_refreshing = false
+local dark = true
+local colours = {}
 
-local colours = {
-  blue = "#7fbbb3",
-  green = "#a7c080",
-  bggreen = "#425047",
-  yellow = "#dbbc7f",
-  bgyellow = "#4d4c43",
-  red = "#e67e80",
-  orange = "#e69875",
-  purple = "#d699b7",
-  aqua = "#83c092",
-  bgall = "#343F44",
-}
+if dark then
+  vim.opt.background = "dark"
+  colours = {
+    blue = "#7fbbb3",
+    green = "#a7c080",
+    bggreen = "#425047",
+    yellow = "#dbbc7f",
+    bgyellow = "#4d4c43",
+    red = "#e67e80",
+    orange = "#e69875",
+    purple = "#d699b7",
+    aqua = "#83c092",
+    bgall = "#343F44",
+  }
+else
+  vim.opt.background = "light"
+  colours = {
+    background = "#fdf6e3",
+    black      = "#5c6a72",
+    blue       = "#3a94c5",
+    cyan       = "#35a77c",
+    foreground = "#5c6a72",
+    green      = "#8da101",
+    purple     = "#df69ba",
+    red        = "#f85552",
+    yellow     = "#dfa000",
+    orange     = "#f57D26",
+    white      = "#e0dcc7",
+    bggreen    = "#F0F1D2",
+    bgyellow   = "#FAEDCD",
+    aqua       = "#35A77C",
+    bgall      = "#F4F0D9",
+  }
+end
+
 
 local function set_hl()
   vim.api.nvim_set_hl(0, "ObsidianTodo", { bold = true, fg = colours.yellow })

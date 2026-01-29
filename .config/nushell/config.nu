@@ -17,3 +17,6 @@
 # options using:
 #     config nu --doc | nu-highlight | less -R
 oh-my-posh init nu --config $'($env.HOME)/.config/omp/theme.toml'
+source $"($nu.home-path)/.cargo/env.nu"
+
+

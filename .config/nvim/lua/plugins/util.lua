@@ -285,4 +285,12 @@ return {
     ft = { "go", 'gomod' },
     build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
   },
+  {
+    'mrcjkb/rustaceanvim',
+    version = '^7', -- Recommended
+    lazy = false, -- This plugin is already lazy
+    server = {
+      on_attach = require("lsp.on_attach")()
+    }
+  }
 }
