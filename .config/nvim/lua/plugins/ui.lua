@@ -127,12 +127,12 @@ return {
       messages = {
         -- NOTE: If you enable messages, then the cmdline is enabled automatically.
         -- This is a current Neovim limitation.
-        enabled = true,              -- enables the Noice messages UI
-        view = "notify",     -- default view for messages
-        view_error = "notify",       -- view for errors
-        view_warn = "notify",        -- view for warnings
-        view_history = "messages",   -- view for :messages
-        view_search = "mini", -- view for search count messages. Set to `false` to disable
+        enabled = true,            -- enables the Noice messages UI
+        view = "notify",           -- default view for messages
+        view_error = "notify",     -- view for errors
+        view_warn = "notify",      -- view for warnings
+        view_history = "messages", -- view for :messages
+        view_search = "mini",      -- view for search count messages. Set to `false` to disable
       },
       views = {
         messages = {
@@ -149,6 +149,19 @@ return {
           ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
         },
       },
+      routes = {
+        {
+          filter = {
+            event = "lsp",
+            kind = "progress",
+            cond = function(message)
+              local client = vim.tbl_get(message.opts, "progress", "client")
+              return client == "ltex_plus"
+            end,
+          },
+          opts = { skip = true }, -- 'skip = true' prevents the message from being displayed by Noice
+        },
+      }
     },
     dependencies = {
       "MunifTanjim/nui.nvim",

@@ -25,7 +25,7 @@ vim.o.breakat = " ^!-+;:,./?"
 local vault_create = require 'vault.create'
 local vault_util = require 'vault.util'
 
-vim.keymap.set("n", "j", function()
+vim.keymap.set({"n", "x"}, "j", function()
   if vim.v.count > 0 then
     return "j"
   else
@@ -33,7 +33,7 @@ vim.keymap.set("n", "j", function()
   end
 end, { buffer = true, expr = true })
 
-vim.keymap.set("n", "k", function()
+vim.keymap.set({"n", "x"}, "k", function()
   if vim.v.count > 0 then
     return "k"
   else

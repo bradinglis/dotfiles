@@ -110,8 +110,8 @@ return {
         end
       end,
       callbacks = {
-        pre_write_note = function()
-        end,
+        -- pre_write_note = function()
+        -- end,
         post_setup = function()
           -- require("alts.alter")
           require('vault.data').refresh_notes()
@@ -130,7 +130,6 @@ return {
         end,
       },
       frontmatter = {
-        enabled = false,
         func = function(note)
           local out = { id = note.id }
           if not vim.tbl_isempty(note.aliases) then
@@ -382,9 +381,13 @@ return {
           enable = true,
           default = {
             icon = "",
+            hl_group = "MarkviewSuperscript"
           },
           ["^%d+$"] = {
+            -- virtual = true,
             icon = "",
+            padding_right = "]",
+            padding_left = "[",
             hl = "Blue"
           }
         }

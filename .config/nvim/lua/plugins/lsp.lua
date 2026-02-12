@@ -11,6 +11,11 @@ return {
       end, {})
     end,
     opts = {
+       automatic_enable = {
+        exclude = {
+            "ltex_plus"
+        }
+    },
       ensure_installed = {
         "bashls",
         "lua_ls",
