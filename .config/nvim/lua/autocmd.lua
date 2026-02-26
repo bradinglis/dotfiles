@@ -21,6 +21,19 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+vim.api.nvim_create_autocmd("User", {
+    pattern = "TSUpdate",
+    callback = function()
+      dd("huh")
+        require("nvim-treesitter.parsers").comment = {
+            install_info = {
+                url = "https://github.com/OXY2DEV/tree-sitter-comment",
+                queries = "queries/",
+            },
+        }
+    end
+})
+
 vim.api.nvim_create_autocmd("FileType", {
   callback = function() vim.opt_local.formatoptions:remove("o") end,
 })

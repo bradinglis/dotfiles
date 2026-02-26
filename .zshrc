@@ -203,7 +203,14 @@ export FZF_DEFAULT_OPTS="--preview 'fzf-preview.sh {}' --style full --color='inp
 export _ZO_FZF_OPTS='--style full --layout=default --preview-window=right --color="input-label:green,pointer:red,label:-1:bold,preview-label:-1:bold,current-fg:-1,current-hl:bright-cyan"'
 export YAZI_ZOXIDE_OPTS='--style full --border=none --layout=default --preview-window=right --color="input-label:green,pointer:red,label:-1:bold,preview-label:-1:bold,current-fg:-1,current-hl:bright-cyan"'
 
-eval "$(zoxide init zsh --cmd j)"
+eval "$(zoxide init nu --cmd j)"
 
 # export PATH="$(yarn global bin):$PATH"
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# bun completions
+[ -s "/home/inglisb/.bun/_bun" ] && source "/home/inglisb/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"

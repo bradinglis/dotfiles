@@ -16,3 +16,29 @@
 #
 # You can remove these comments if you want or leave
 # them for future reference.
+
+use std/util "path add"
+
+path add $"($nu.home-path)/bin"
+path add $"($nu.home-path)/.local/bin"
+path add $"($nu.home-path)/.local/share/nvim/mason/bin"
+path add $"($nu.home-path)/.metamorphosis/bin"
+path add $"($nu.home-path)/.fzf/bin"
+path add $"/usr/local/go/bin"
+path add $"($nu.home-path)/.ghcup/bin"
+path add $"($nu.home-path)/.cabal/bin"
+path add $"($nu.home-path)/.elan/bin"
+
+
+
+$env.EDITOR = "nvim"
+$env.VISUAL = "nvim"
+$env.BAT_THEME = "everforest2"
+$env.COLORTERM = "truecolor"
+
+$env.TRANSFORMS_REPO = "$HOME/transforms"
+$env.TRANSFORMS_LIB = "$HOME/.metamorphosis/lib"
+
+
+zoxide init nushell | save -f ~/.zoxide.nu
+source $"($nu.home-path)/.cargo/env.nu"

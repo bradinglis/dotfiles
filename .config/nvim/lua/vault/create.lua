@@ -307,9 +307,33 @@ local function new_author()
   end)
 end
 
+local function prompt_query()
+  local data = require("vault.data").get_all_notes()
+
+  vim.ui.input({ prompt = "Enter query" }, function(query_string)
+    local output = {}
+
+    local result = {}
+    vim.system({ "qmd", "vsearch", "--json", query_string }, { text = true }, function(o)
+      output = vim.json.decode(o.stdout)
+      for _, value in ipairs(output) do
+        for _, doc in ipairs(data) do
+          if doc.docid == value.docid then
+            table.insert(result, vim.tbl_extend("force", doc, { search_line = tonumber(string.match(value.snippet, "@@ %-([0-9]*)")), search_score = value.score }))
+            break
+          end
+        end
+      end
+    end):wait()
+    require("vault.all_search").pick_from_all(result)
+  end)
+end
+
+
 return {
   new_author = new_author,
   new_source = new_source,
   new_note = new_note,
   append_to_note = append_to_note,
+  prompt_query = prompt_query,
 }

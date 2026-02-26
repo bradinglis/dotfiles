@@ -65,7 +65,7 @@ return {
       workspaces = {
         {
           name = "notes",
-          path = globs.notesdir,
+          path = "~/testing/zettel/",
         },
       },
       completion = {
@@ -130,6 +130,7 @@ return {
         end,
       },
       frontmatter = {
+        enabled = true,
         func = function(note)
           local out = { id = note.id }
           if not vim.tbl_isempty(note.aliases) then

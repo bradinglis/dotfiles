@@ -49,7 +49,7 @@ vim.api.nvim_create_user_command('FindBacklinks', require('vault.backlinks').bac
 vim.api.nvim_create_user_command('SourceSearch', require 'vault.source_search', {})
 vim.api.nvim_create_user_command('AuthorSearch', require 'vault.author_search', {})
 vim.api.nvim_create_user_command('NoteSearch', require 'vault.note_search', {})
-vim.api.nvim_create_user_command('AllSearch', require 'vault.all_search', {})
+vim.api.nvim_create_user_command('AllSearch', require('vault.all_search').pick_all, {})
 vim.api.nvim_create_user_command('RefreshNotes', require 'vault.data'.refresh_notes, {})
 
 vim.api.nvim_create_user_command('TagSearch', function(args)
@@ -74,7 +74,7 @@ vim.keymap.set('n', '<leader>ft', vim.cmd.TagSearch, { desc = 'find tags', buffe
 vim.keymap.set('n', '<leader>fn', require 'vault.note_search', { desc = 'find note', buffer = true })
 vim.keymap.set('n', '<leader>fs', require 'vault.source_search', { desc = 'find source', buffer = true })
 vim.keymap.set('n', '<leader>fa', require 'vault.author_search', { desc = 'find author', buffer = true })
-vim.keymap.set('n', '<leader>ff', require 'vault.all_search', { desc = 'find all notes', buffer = true })
+vim.keymap.set('n', '<leader>ff', require 'vault.all_search'.pick_all, { desc = 'find all notes', buffer = true })
 vim.keymap.set('n', '<leader>fx', require 'vault.all_search_new', { desc = 'find all notes', buffer = true })
 
 -- wk.add({ { "<leader>n", group = "new", icon = { cat = "filetype", name = "markdown" } } })
@@ -100,6 +100,8 @@ vim.keymap.set('n', '<leader>r', function()
   vim.opt.conceallevel = 2
   vim.opt.concealcursor = ""
 end, { buffer = true })
+
+vim.keymap.set('n', '<leader>fq', vault_create.prompt_query )
 
 vim.keymap.set('i', '--', '—', { buffer = true })
 vim.keymap.set('i', '->', '→', { buffer = true })

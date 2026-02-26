@@ -9,6 +9,7 @@ local source_notes = {}
 local lines = {}
 local tags = {}
 local cmp = {}
+local qmd_id_lookup = {}
 
 local get_lines = function()
   if lines == {} then
@@ -74,7 +75,7 @@ local get_cmp = function()
   end
 end
 
-local handle_tag = function(tag, note,  t_tags, line)
+local handle_tag = function(tag, note, t_tags, line)
   if line == nil then
     line = 1
   end
@@ -93,7 +94,13 @@ local handle_body = function(note, t_lines, t_tags)
     local endline = note.frontmatter_end_line or 0
     if (num > (endline)) then
       if #line > 1 then
-        table.insert(t_lines, { note = { id = note.id, path = note.path.filename, title = note.title, icon = note.icon}, text = line, num = num })
+        table.insert(t_lines,
+          {
+            note = { id = note.id, path = note.path.filename, title = note.title, icon = note.icon },
+            text = line,
+            num =
+                num
+          })
       end
 
       for link in line:gmatch("%[%[[%w-_.',]*[|%]]") do
@@ -102,7 +109,7 @@ local handle_body = function(note, t_lines, t_tags)
       for tag in line:gmatch("#[%w-]+") do
         tag = tag:sub(2, -1)
         table.insert(note.body_tags, { tag, num })
-        handle_tag(tag, note,  t_tags, num)
+        handle_tag(tag, note, t_tags, num)
       end
 
       local id, reference = line:match("^%[([0-9]+)%]: (.+)")
@@ -121,7 +128,6 @@ local handle_body = function(note, t_lines, t_tags)
 end
 
 local handle_note = function(note, t_lines, t_tags, t_cmp)
-
   note["relative_path"] = Path.vault_relative_path(note.path)
   note["links"] = {}
   note["body_tags"] = {}
@@ -183,7 +189,28 @@ local refresh_notes = function()
       lines = t_lines
       tags = t_tags
       cmp = t_cmp
-      vim.g.notes_refreshing = false
+
+      vim.system({ "qmd", "search", "--files", "--all", "md" }, { text = true }, function(o)
+
+        local stdout = string.gsub(o.stdout, "qmd://[^\n]*/", ""):gsub(".md", ""):gsub("-", "")
+        local qmd_lines = vim.split(stdout, "\n")
+        local lookup = {}
+
+        for _, line in pairs(qmd_lines) do
+          -- dd(line)
+          if line ~= "" then
+            local sep = vim.split(line, ",0.00,")
+            lookup[sep[2]] = sep[1]
+          end
+        end
+
+        all_notes = vim.tbl_map(function(note)
+          local id_changed = note.id:gsub("[-_]", "")
+          note.docid = lookup[id_changed]
+          return note
+        end, t_all_notes)
+        vim.g.notes_refreshing = false
+      end)
     end,
     { search = { sort = true, sort_by = "modified", sort_reversed = true, fixed_strings = true, }, notes = { load_contents = true } })
 end
@@ -198,5 +225,4 @@ return {
   get_lines = get_lines,
   get_cmp = get_cmp,
   refresh_notes = refresh_notes,
-
 }

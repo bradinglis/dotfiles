@@ -27,3 +27,5 @@ export COLORTERM=truecolor
 
 export TRANSFORMS_REPO="$HOME/transforms"
 export TRANSFORMS_LIB="$HOME/.metamorphosis/lib"
+
+export PATH="$HOME/.elan/bin:$PATH"

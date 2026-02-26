@@ -11,6 +11,7 @@ local parsers = {
   'yaml',
   'jq',
   'json',
+  'graphql',
   'awk',
   'latex',
   'comment',
@@ -32,7 +33,7 @@ vim.opt_global.diffopt:append("iwhiteall")
 vim.opt.undodir = vim.fn.stdpath('data') .. '/undo'
 vim.opt.backupdir = vim.fn.stdpath('data') .. '/backup'
 vim.g.mapleader = " "
-vim.g.maplocalleader = " "
+vim.g.maplocalleader = "  "
 vim.opt.relativenumber = true
 vim.opt.number = true
 vim.opt.errorbells = false

@@ -292,5 +292,18 @@ return {
     server = {
       on_attach = require("lsp.on_attach")()
     }
+  },
+  {
+  'mrcjkb/haskell-tools.nvim',
+    version = '^7', -- Recommended
+    lazy = false, -- This plugin is already lazy
+    hls = {
+      on_attach = require("lsp.on_attach")(),
+      capabilities = require("lsp.capabilities")
+    }
+  },
+  {
+    "FourierTransformer/ftcsv",
+    lazy = false
   }
 }

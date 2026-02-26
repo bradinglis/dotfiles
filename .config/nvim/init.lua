@@ -31,4 +31,3 @@ require('config.snippets')
 
 vim.lsp.enable({ "nushell", "ltex_plus" })
 
-
