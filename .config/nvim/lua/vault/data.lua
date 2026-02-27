@@ -226,6 +226,31 @@ local refresh_notes = function()
     { search = { sort = true, sort_by = "modified", sort_reversed = true, fixed_strings = true, }, notes = { load_contents = true } })
 end
 
+local function get_children()
+  local sources = get_source_notes()
+
+  local to_remove = {}
+
+  for _, value in pairs(sources) do
+    for _, parent in pairs(value.metadata["source-parents"] or {}) do
+      to_remove[parent] = true
+    end
+  end
+
+  dd(#sources)
+
+
+  local res = vim.tbl_map(function(v)
+    return v.id
+  end, vim.tbl_filter(function(v)
+    return (not (to_remove[v.id] or false))
+  end, sources))
+
+  dd(#res)
+  dd(res)
+
+end
+
 return {
   get_notes = get_notes,
   get_all_notes = get_all_notes,
@@ -236,4 +261,6 @@ return {
   get_lines = get_lines,
   get_cmp = get_cmp,
   refresh_notes = refresh_notes,
+  get_children = get_children,
+
 }

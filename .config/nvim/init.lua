@@ -1,5 +1,4 @@
--- keeping
-vim.loader.enable()
+-- keeping vim.loader.enable()
 
 -- TODO: fork obsidian and consolidate config etc there.
 -- TODO: make globals handling cleaner -- probably don't need the functions and can cover stuff with environment variables.

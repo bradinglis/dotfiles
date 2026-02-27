@@ -138,9 +138,11 @@ local function get_file_contents(file_path)
 end
 
 
+vim.keymap.set('n', '<leader>fc', require("vault.data").get_children)
+
 vim.keymap.set('n', '<leader>fm', function()
   local current_buf = vim.api.nvim_get_current_buf()
-  local current_id = vim.split(vim.fs.basename(vim.api.nvim_buf_get_name(current_buf)), ".")[1]
+  local current_id = vim.split(vim.fs.basename(vim.api.nvim_buf_get_name(current_buf)), "%.")[1]
 
   -- finder to boox .txt notes
   -- selected.txt -> run below and append to current_buf. Delete file.
@@ -200,12 +202,10 @@ vim.keymap.set('n', '<leader>fm', function()
       end, chunks)
 
       local possible_pdf = string.sub(item._path, 1, -4) .. "pdf"
-      dd(possible_pdf)
-      dd(vim.fn.filereadable(possible_pdf))
       if vim.fn.filereadable(possible_pdf) == 1 then
-        if vim.fn.filecopy(possible_pdf, globs.notesdir .. "/annotated/" .. current_id .. ".pdf") == 1 then
+        if vim.fn.filecopy(possible_pdf, vim.fs.normalize(globs.notesdir .. "/annotated/" .. current_id .. ".pdf")) == 1 then
           vim.fn.delete(possible_pdf)
-          table.insert(chunks, 1, { "[[" .. current_id ".pdf|Annotated PDF]]", "" })
+          table.insert(chunks, 1, { "[[" .. current_id .. ".pdf|Annotated PDF]]", "" })
         else
           dd("failure to copy")
           return
