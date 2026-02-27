@@ -50,6 +50,11 @@ local function new_source()
     print("Invalid current note type")
   end
 
+  local viz
+  if vim.endswith(vim.fn.mode():lower(), "v") then
+    viz = api.get_visual_selection()
+  end
+
   vim.ui.input({ prompt = "Enter source name: " }, function(longName)
     if not longName or longName == "" then
       print("Aborted")
@@ -64,11 +69,6 @@ local function new_source()
       local new_note_dir = dir .. input .. ".md"
 
       local note = Note.new(input, { longName }, current_note.tags, new_note_dir)
-
-      local viz
-      if vim.endswith(vim.fn.mode():lower(), "v") then
-        viz = util.get_visual_selection()
-      end
 
       local link = "[[" .. input .. "|" .. longName .. "]]"
       local content = {}
@@ -106,7 +106,7 @@ end
 local function append_to_note()
   local viz
   if vim.endswith(vim.fn.mode():lower(), "v") then
-    viz = util.get_visual_selection()
+    viz = api.get_visual_selection()
   end
   if not viz then
     return
@@ -233,7 +233,7 @@ local function new_note()
 
     local viz
     if vim.endswith(vim.fn.mode():lower(), "v") then
-      viz = util.get_visual_selection()
+      viz = api.get_visual_selection()
     end
 
     local link = "[[" .. note.id .. "|" .. input .. "]]"
@@ -314,12 +314,15 @@ local function prompt_query()
     local output = {}
 
     local result = {}
-    vim.system({ "qmd", "vsearch", "--json", query_string }, { text = true }, function(o)
-      output = vim.json.decode(o.stdout)
+    vim.system({ "qmd", "query", "--json", query_string }, { text = true }, function(o)
+
+      local s_out = "[" .. vim.split(o.stdout,"%[\n")[2]
+      output = vim.json.decode(s_out)
+
       for _, value in ipairs(output) do
         for _, doc in ipairs(data) do
           if doc.docid == value.docid then
-            table.insert(result, vim.tbl_extend("force", doc, { search_line = tonumber(string.match(value.snippet, "@@ %-([0-9]*)")), search_score = value.score }))
+            table.insert(result, vim.tbl_extend("force", doc, { search_line = tonumber(string.match(value.snippet, "@@ %-([0-9]*)")) + 1, search_score = value.score }))
             break
           end
         end

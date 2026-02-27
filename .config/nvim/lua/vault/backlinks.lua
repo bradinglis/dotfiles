@@ -86,4 +86,16 @@ local function main()
   end
 end
 
-return { backlink_search = main }
+local function no_backlinks() 
+  local notes = require("vault.data").get_source_notes()
+  for _, value in ipairs(notes) do
+    if vim.tbl_isempty(find_references(value.id)) then
+      dd(value)
+    end
+  end
+end
+
+return { 
+  backlink_search = main,
+  no_backlinks = no_backlinks 
+}
