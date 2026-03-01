@@ -57,9 +57,14 @@ local all_tags = function()
       text = entry .. vim.tbl_count(tags[entry]),
       number = vim.tbl_count(tags[entry]),
       notes = table.concat(vim.tbl_keys(tags[entry]), " "),
+      score_add = vim.tbl_count(tags[entry]),
       tag = entry,
     })
   end
+  table.sort(entries, function(a, b)
+    return a.number < b.number
+  end)
+
   local pick_opts = {
     title = "Tags",
     items = entries,
@@ -95,7 +100,6 @@ local all_tags = function()
     end,
   }
   snacks_picker.pick(pick_opts)
-
 end
 
 return {
