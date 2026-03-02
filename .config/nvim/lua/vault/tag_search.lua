@@ -1,8 +1,8 @@
 local snacks_picker = require "snacks.picker"
 local util = require("vault.util")
+local search = require "obsidian.search"
 
 local single_tag = function(tag)
-  local notes = require("vault.data").get_notes()
   local tags = require("vault.data").get_tags()
 
   local tag_notes = vim.tbl_values(tags[tag])
@@ -35,7 +35,7 @@ local single_tag = function(tag)
       ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }
       ret[#ret + 1] = { item.id, "Grey" }
       return ret
-    end
+    end,
   })
 
   snacks_picker.pick(pick_opts)
@@ -90,10 +90,45 @@ local all_tags = function()
     format = function(item, _)
       local ret = {}
       ret[#ret + 1] = { util.set_string_width("[" .. item.number .. "] ", 5) .. " ", "Fg" }
-      ret[#ret + 1] = { util.set_string_width(item.tag, 20) .. " ", "ObsidianTag" }
+      ret[#ret + 1] = { util.set_string_width(item.tag, 40) .. " ", "ObsidianTag" }
       ret[#ret + 1] = { item.notes, "Grey" }
       return ret
     end,
+    win = {
+      input = {
+        keys = {
+          ["<C-r>"] = { "rename_tag", mode = { "n", "i" }, desc = "Rename Tag" },
+          ["<C-d>"] = { "delete_tag", mode = { "n", "i" }, desc = "Delete Tag" },
+        },
+      },
+    },
+    actions = {
+      delete_tag = function(picker)
+        local tag = picker:current().tag
+        local tag_notes = vim.tbl_values(tags[tag])
+          for _, note in ipairs(tag_notes) do
+            local obs_note = search.resolve_note(note.note.id)[1];
+            obs_note.tags = vim.tbl_filter(function(x) return x ~= tag end, obs_note.tags)
+            obs_note:write()
+          end
+          picker:close()
+          require("vault.data").refresh_notes()
+      end,
+      rename_tag = function(picker)
+        local tag = picker:current().tag
+        local tag_notes = vim.tbl_values(tags[tag])
+        vim.ui.input({ prompt = "Rename tag '" .. tag .. "'" }, function(new_tag)
+          for _, note in ipairs(tag_notes) do
+            local obs_note = search.resolve_note(note.note.id)[1];
+            obs_note.tags = vim.tbl_filter(function(x) return x ~= tag end, obs_note.tags)
+            obs_note:add_tag(new_tag)
+            obs_note:write()
+          end
+          picker:close()
+          require("vault.data").refresh_notes()
+        end)
+      end,
+    },
     confirm = function(picker, item)
       picker:close()
       single_tag(item.tag)

@@ -172,10 +172,11 @@ vim.keymap.set('n', '<leader>fm', function()
           chunks[#chunks].annotation = (chunks[#chunks].annotation .. " " .. value) or value
         elseif chunks[#chunks].text ~= nil then
           chunks[#chunks].text = chunks[#chunks].text .. " " .. value
-        else
+        elseif chunks[#chunks].page ~= nil then
           chunks[#chunks].text = value
         end
       end
+      dd(chunks)
 
       chunks = vim.tbl_map(function(chunk)
         local res = {}
@@ -201,7 +202,9 @@ vim.keymap.set('n', '<leader>fm', function()
         return res
       end, chunks)
 
-      local possible_pdf = string.sub(item._path, 1, -4) .. "pdf"
+      local name = vim.split(item._path, "-annotation")[1]
+
+      local possible_pdf = name .. ".pdf"
       if vim.fn.filereadable(possible_pdf) == 1 then
         if vim.fn.filecopy(possible_pdf, vim.fs.normalize(globs.notesdir .. "/annotated/" .. current_id .. ".pdf")) == 1 then
           vim.fn.delete(possible_pdf)
@@ -212,6 +215,19 @@ vim.keymap.set('n', '<leader>fm', function()
         end
       else
         dd("no pdf")
+      end
+
+      local possible_epub = name .. ".epub"
+      if vim.fn.filereadable(possible_epub) == 1 then
+        if vim.fn.filecopy(possible_epub, vim.fs.normalize(globs.notesdir .. "/annotated/" .. current_id .. ".epub")) == 1 then
+          vim.fn.delete(possible_epub)
+          table.insert(chunks, 1, { "[[" .. current_id .. ".epub|Annotated EPUB]]", "" })
+        else
+          dd("failure to copy")
+          return
+        end
+      else
+        dd("no epub")
       end
 
       content = vim.iter(chunks):flatten():totable()

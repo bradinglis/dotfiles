@@ -149,7 +149,7 @@ return {
     local notesdir = ''
 
     if hostname == 'AL6WZQHR3' then
-      notesdir = '~/zettel'
+      notesdir = '~/testing/zettel'
     elseif hostname == 'DESKTOP-6K7U30E' then
       notesdir = '~/zettel'
     elseif hostname == 'Brads-MBP' then

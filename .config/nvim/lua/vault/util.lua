@@ -455,7 +455,10 @@ local function references_to_links()
 end
 
 local function print_test()
-  vim.print(vim.inspect(api.current_note()))
+  local note = api.current_note()
+
+  note.tags = table.insert(note.tags, "hi")
+
 end
 
 return {

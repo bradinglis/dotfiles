@@ -190,38 +190,39 @@ local refresh_notes = function()
       tags = t_tags
       cmp = t_cmp
 
-      vim.system({ "qmd", "search", "--files", "--all", "md" }, { text = true }, function(o)
-        local stdout = string.gsub(o.stdout, "qmd://[^\n]*/", ""):gsub(".md", ""):gsub("-", "")
-        local qmd_lines = vim.split(stdout, "\n")
-        local lookup = {}
-
-        for _, line in pairs(qmd_lines) do
-          if line ~= "" then
-            local sep = vim.split(line, ",0.00,")
-            lookup[sep[2]] = sep[1]
-          end
-        end
-
-        all_notes = vim.tbl_map(function(note)
-          local id_changed = note.id:gsub("[-_]", "")
-          note.docid = lookup[id_changed]
-          return note
-        end, t_all_notes)
-
-        local with_lengths = vim.iter(all_notes):map(function(notei)
-              return {
-                note = notei.id,
-                length = string.len(table.concat(notei.contents, "\n"):gsub("  ", " "))
-              }
-            end)
-            :totable()
-
-        table.sort(with_lengths, function(a, b) return a.length > b.length end)
-
-        dd(with_lengths)
-
-        vim.g.notes_refreshing = false
-      end)
+      -- vim.system({ "qmd", "search", "--files", "--all", "md" }, { text = true }, function(o)
+      --   local stdout = string.gsub(o.stdout, "qmd://[^\n]*/", ""):gsub(".md", ""):gsub("-", "")
+      --   local qmd_lines = vim.split(stdout, "\n")
+      --   local lookup = {}
+      --
+      --   for _, line in pairs(qmd_lines) do
+      --     if line ~= "" then
+      --       local sep = vim.split(line, ",0.00,")
+      --       lookup[sep[2]] = sep[1]
+      --     end
+      --   end
+      --
+      --   all_notes = vim.tbl_map(function(note)
+      --     local id_changed = note.id:gsub("[-_]", "")
+      --     note.docid = lookup[id_changed]
+      --     return note
+      --   end, t_all_notes)
+      --
+      --   local with_lengths = vim.iter(all_notes):map(function(notei)
+      --         return {
+      --           note = notei.id,
+      --           length = string.len(table.concat(notei.contents, "\n"):gsub("  ", " "))
+      --         }
+      --       end)
+      --       :totable()
+      --
+      --   table.sort(with_lengths, function(a, b) return a.length > b.length end)
+      --
+      --   dd(with_lengths)
+      --
+      --   vim.g.notes_refreshing = false
+      -- end)
+      vim.g.notes_refreshing = false
     end,
     { search = { sort = true, sort_by = "modified", sort_reversed = true, fixed_strings = true, }, notes = { load_contents = true } })
 end

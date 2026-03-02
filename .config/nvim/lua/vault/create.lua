@@ -75,7 +75,11 @@ local function new_source()
 
       if viz then
         content = vim.split(viz.selection, "\n", { plain = true })
-        vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
+        if viz.cecol == 0 then
+          vim.api.nvim_buf_set_text(0, viz.csrow - 1, 0, viz.cerow - 1, 1, { link })
+        else
+          vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
+        end
       else
         local cur_row, _ = unpack(vim.api.nvim_win_get_cursor(0))
         vim.api.nvim_buf_set_lines(0, cur_row - 1, cur_row - 1, false, { link })
@@ -191,7 +195,7 @@ local function append_to_note()
         return
       end
 
-      vim.api.nvim_buf_set_text(0, viz.cerow - 1, viz.cecol, viz.cerow - 1, viz.cecol, { " — " .. link })
+      -- vim.api.nvim_buf_set_text(0, viz.cerow - 1, viz.cecol, viz.cerow - 1, viz.cecol, { " — " .. link })
 
       dest_note.metadata.references[#dest_note.metadata.references + 1] = current_note.id
 
@@ -217,6 +221,10 @@ end
 
 local function new_note()
   local current_note = util.current_note()
+  local viz
+  if vim.endswith(vim.fn.mode():lower(), "v") then
+    viz = api.get_visual_selection()
+  end
 
   vim.ui.input({ prompt = "Enter note name: " }, function(input)
     if input == nil or input == "" then
@@ -231,10 +239,6 @@ local function new_note()
     local note = Note.new(id, { input }, {}, dir)
 
 
-    local viz
-    if vim.endswith(vim.fn.mode():lower(), "v") then
-      viz = api.get_visual_selection()
-    end
 
     local link = "[[" .. note.id .. "|" .. input .. "]]"
     local content = {}
@@ -246,16 +250,16 @@ local function new_note()
       content = vim.split(viz.selection, "\n", { plain = true })
 
       if current_note.metadata.type == "source" then
-        vim.api.nvim_buf_set_text(0, viz.cerow - 1, viz.cecol, viz.cerow - 1, viz.cecol, { " — " .. link })
+        vim.api.nvim_buf_set_text(0, viz.cerow - 1, -1, viz.cerow - 1, -1, { " — " .. link })
 
-        local block_line = vim.api.nvim_buf_get_lines(0, viz.csrow - 1, viz.csrow, true)
-        local block = { id = id, line = viz.cerow - 1, block = block_line[1] }
+        -- local block_line = vim.api.nvim_buf_get_lines(0, viz.csrow - 1, viz.csrow, true)
+        -- local block = { id = id, line = viz.cerow - 1, block = block_line[1] }
         note.metadata.references = current_note.id
-      elseif current_note.metadata.type == "note" then
-        vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
-        local linkback = "[[" .. current_note.id .. "|" .. current_note.title .. "]]"
-        table.insert(content, 1, linkback)
-        table.insert(content, 2, "")
+      -- elseif current_note.metadata.type == "note" then
+        -- vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
+        -- local linkback = "[[" .. current_note.id .. "|" .. current_note.title .. "]]"
+        -- table.insert(content, 1, linkback)
+        -- table.insert(content, 2, "")
       end
     end
 
