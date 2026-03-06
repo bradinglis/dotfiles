@@ -27,7 +27,7 @@ function source:get_completions(ctx, callback)
           newText = tag,
           range = {
             start = { line = ctx.bounds.line_number - 1, character = ctx.bounds.start_col - 1 },
-            ['end'] = { line = ctx.bounds.line_number - 1, character = ctx.bounds.start_col + ctx.bounds.length + 1 },
+            ['end'] = { line = ctx.bounds.line_number - 1, character = ctx.bounds.start_col + ctx.bounds.length - 1},
           },
         },
         insertTextFormat = vim.lsp.protocol.InsertTextFormat.PlainText,
@@ -46,7 +46,7 @@ function source:get_completions(ctx, callback)
           newText = "#" .. tag,
           range = {
             start = { line = ctx.bounds.line_number - 1, character = ctx.bounds.start_col - 2 },
-            ['end'] = { line = ctx.bounds.line_number - 1, character = ctx.bounds.start_col + ctx.bounds.length + 1 },
+            ['end'] = { line = ctx.bounds.line_number - 1, character = ctx.bounds.start_col + ctx.bounds.length - 1 },
           },
         },
         insertTextFormat = vim.lsp.protocol.InsertTextFormat.PlainText,

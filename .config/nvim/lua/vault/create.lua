@@ -1,6 +1,7 @@
 local util = require "obsidian.util"
 local ui = require "obsidian.ui"
 local api = require "obsidian.api"
+local vault_util = require "vault.util"
 local globs = require "globals"
 local Note = require "obsidian.note"
 local glob_dir = globs.getglobs().notesdir
@@ -52,7 +53,7 @@ local function new_source()
 
   local viz
   if vim.endswith(vim.fn.mode():lower(), "v") then
-    viz = api.get_visual_selection()
+    viz = vault_util.get_visual_selection()
   end
 
   vim.ui.input({ prompt = "Enter source name: " }, function(longName)
@@ -75,8 +76,8 @@ local function new_source()
 
       if viz then
         content = vim.split(viz.selection, "\n", { plain = true })
-        if viz.cecol == 0 then
-          vim.api.nvim_buf_set_text(0, viz.csrow - 1, 0, viz.cerow - 1, 1, { link })
+        if viz.cecol == 999 or viz.cscol == 999 then
+          vim.api.nvim_buf_set_lines(0, viz.csrow - 1, viz.cerow, false, { link })
         else
           vim.api.nvim_buf_set_text(0, viz.csrow - 1, viz.cscol - 1, viz.cerow - 1, viz.cecol, { link })
         end
@@ -110,7 +111,7 @@ end
 local function append_to_note()
   local viz
   if vim.endswith(vim.fn.mode():lower(), "v") then
-    viz = api.get_visual_selection()
+    viz = vault_util.get_visual_selection()
   end
   if not viz then
     return
@@ -177,13 +178,13 @@ local function append_to_note()
       }
     },
     format = function(item, picker)
-      local ret = {}
-      ret[#ret + 1] = { item.icon .. "  ", "Fg" }
-      ret[#ret + 1] = { set_width(item.title, 40) .. " ", "markdownBoldItalic" }
-      ret[#ret + 1] = { set_width(item.author, 20) .. " ", "markdownItalic" }
-      ret[#ret + 1] = { set_width(table.concat(item.tags, " "), 20) .. " ", "ObsidianTag" }
-      ret[#ret + 1] = { item.id, "Grey" }
-      return ret
+      return {
+        { item.icon .. "  ", "Fg" },
+        { set_width(item.title, 40) .. " ", "markdownBoldItalic" },
+        { set_width(item.author, 20) .. " ", "markdownItalic" },
+        { set_width(table.concat(item.tags, " "), 20) .. " ", "ObsidianTag" },
+        { item.id, "Grey" },
+      }
     end,
     confirm = function(picker, item)
       picker:close()
@@ -223,7 +224,7 @@ local function new_note()
   local current_note = util.current_note()
   local viz
   if vim.endswith(vim.fn.mode():lower(), "v") then
-    viz = api.get_visual_selection()
+    viz = vault_util.get_visual_selection()
   end
 
   vim.ui.input({ prompt = "Enter note name: " }, function(input)
@@ -274,7 +275,6 @@ local function new_note()
 
     vim.api.nvim_buf_set_lines(0, -2, -1, false, content)
     vim.cmd.write()
-    -- ui.update(0)
   end)
 end
 
@@ -313,16 +313,12 @@ end
 
 local function prompt_query()
   local data = require("vault.data").get_all_notes()
-
   vim.ui.input({ prompt = "Enter query" }, function(query_string)
     local output = {}
-
     local result = {}
     vim.system({ "qmd", "query", "--json", query_string }, { text = true }, function(o)
-
       local s_out = "[" .. vim.split(o.stdout,"%[\n")[2]
       output = vim.json.decode(s_out)
-
       for _, value in ipairs(output) do
         for _, doc in ipairs(data) do
           if doc.docid == value.docid then

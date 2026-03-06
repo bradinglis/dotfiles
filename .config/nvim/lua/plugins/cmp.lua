@@ -64,6 +64,13 @@ return {
           notes = {
             name = "Notes",
             module = "complete.link_source",
+            override = {
+              get_trigger_characters = function(self)
+                local trigger_characters = self:get_trigger_characters()
+                vim.list_extend(trigger_characters, { "\n", "\t", " " })
+                return trigger_characters
+              end,
+            },
             opts = {},
           },
           jq_keys = {

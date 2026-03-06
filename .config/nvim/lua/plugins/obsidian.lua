@@ -52,7 +52,8 @@ return {
   },
   {
     "bradinglis/obsidian.nvim",
-    ft = "markdown",
+    -- ft = "markdown",
+    lazy = false,
     dependencies = {
       "nvim-lua/plenary.nvim",
       'chenxin-yan/footnote.nvim',
@@ -114,6 +115,7 @@ return {
         -- end,
         post_setup = function()
           -- require("alts.alter")
+
           require('vault.data').refresh_notes()
         end,
         enter_note = function(note)
@@ -204,7 +206,7 @@ return {
     -- lazy = false,
     priority = 49,
     event = "BufEnter *.md",
-    -- version = '*',
+    version = '*',
     opts = {
       preview = {
         debounce = 1,
@@ -400,10 +402,14 @@ return {
     event = "VeryLazy",
     opts = {
       keys = {
-        new_footnote = '<C-f>',
-        organize_footnotes = '<leader>of',
-        next_footnote = ']f',
-        prev_footnote = '[f',
+        i = {
+          new_footnote = '<C-f>',
+        },
+        n = {
+          organize_footnotes = '<leader>of',
+          next_footnote = ']f',
+          prev_footnote = '[f',
+        }
       },
       organize_on_new = true,
     }

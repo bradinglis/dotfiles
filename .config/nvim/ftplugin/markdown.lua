@@ -41,7 +41,7 @@ vim.keymap.set({ "n", "x" }, "k", function()
   end
 end, { buffer = true, expr = true })
 
-vim.api.nvim_create_user_command('PrintTest', vault_util.print_test, {})
+-- vim.api.nvim_create_user_command('PrintTest', vault_util.print_test, {})
 vim.api.nvim_create_user_command('NewSource', vault_create.new_source, {})
 vim.api.nvim_create_user_command('NewNote', vault_create.new_note, {})
 vim.api.nvim_create_user_command('FindBacklinks', require('vault.backlinks').backlink_search, {})
@@ -60,8 +60,8 @@ vim.api.nvim_create_user_command('TagSearch', function(args)
   end
 end, { nargs = '?' })
 
-vim.keymap.set('n', '<CR>', function() return vault_util.enter_command() end,
-  { silent = true, buffer = true, expr = true })
+vim.keymap.set('n', '<CR>', vault_util.enter_command,
+  { silent = true, buffer = true })
 
 vim.keymap.set('n', 'ga', function() return vault_util.goto_ado() end, { silent = true, buffer = true, expr = true })
 -- vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
