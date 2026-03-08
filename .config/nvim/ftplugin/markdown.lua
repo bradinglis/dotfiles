@@ -50,7 +50,7 @@ vim.api.nvim_create_user_command('SourceSearch', require 'vault.source_search', 
 vim.api.nvim_create_user_command('AuthorSearch', require 'vault.author_search', {})
 vim.api.nvim_create_user_command('NoteSearch', require 'vault.note_search', {})
 vim.api.nvim_create_user_command('AllSearch', require('vault.all_search').pick_all, {})
-vim.api.nvim_create_user_command('RefreshNotes', require 'vault.data'.refresh_notes, {})
+-- vim.api.nvim_create_user_command('RefreshNotes', require 'vault.data'.refresh_notes, {})
 
 vim.api.nvim_create_user_command('TagSearch', function(args)
   if #args.fargs == 0 then
@@ -72,8 +72,8 @@ vim.keymap.set('n', '<leader>fg', require('vault.grep_search'), { desc = 'find g
 vim.keymap.set('n', '<leader>fl', vim.cmd.FindBacklinks, { desc = 'find backlinks)', buffer = true })
 vim.keymap.set('n', '<leader>ft', vim.cmd.TagSearch, { desc = 'find tags', buffer = true })
 vim.keymap.set('n', '<leader>fn', require 'vault.note_search', { desc = 'find note', buffer = true })
-vim.keymap.set('n', '<leader>fs', require 'vault.source_search', { desc = 'find source', buffer = true })
-vim.keymap.set('n', '<leader>fa', require 'vault.author_search', { desc = 'find author', buffer = true })
+vim.keymap.set('n', '<leader>fs', require 'vault.all_search'.pick_sources, { desc = 'find source', buffer = true })
+vim.keymap.set('n', '<leader>fa', require 'vault.all_search'.pick_authors, { desc = 'find author', buffer = true })
 vim.keymap.set('n', '<leader>ff', require 'vault.all_search'.pick_all, { desc = 'find all notes', buffer = true })
 vim.keymap.set('n', '<leader>fx', require 'vault.all_search_new', { desc = 'find all notes', buffer = true })
 
@@ -138,7 +138,7 @@ local function get_file_contents(file_path)
 end
 
 
-vim.keymap.set('n', '<leader>fc', require("vault.data").get_children)
+-- vim.keymap.set('n', '<leader>fc', require("vault.data").get_children)
 
 vim.keymap.set('n', '<leader>fm', function()
   local current_buf = vim.api.nvim_get_current_buf()

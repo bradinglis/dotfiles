@@ -11,7 +11,6 @@ return {
         arrayIndex = "Disable",
         semicolon = "Disable"
       }
-
     }
   },
 }

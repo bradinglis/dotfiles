@@ -2,68 +2,29 @@ local snacks_picker = require "snacks.picker"
 local util = require("vault.util")
 local search = require "obsidian.search"
 
-local single_tag = function(tag)
-  local tags = require("vault.data").get_tags()
-
-  local tag_notes = vim.tbl_values(tags[tag])
-
-  local entries = {}
-  for i, entry in ipairs(tag_notes) do
-    table.insert(entries, {
-      text = entry.note.title .. " " .. entry.note.author_string .. " " .. entry.note.id,
-      ordinal = entry.note.title .. " " .. entry.note.author_string .. " " .. entry.note.id,
-      title = entry.note.title,
-      author = entry.note.author_string,
-      tags = entry.note.tags,
-      score_add = #tag_notes - i,
-      icon = entry.note.icon,
-      value = entry.note,
-      file = entry.note.relative_path,
-      id = entry.note.id,
-      link = "[[" .. entry.note.id .. "|" .. entry.note.title .. "]]"
-    })
-  end
-
-  local pick_opts = vim.tbl_deep_extend('force', util.picker_opts or {}, {
-    title = "[" .. tag .. "] Notes",
-    items = entries,
-    format = function(item, _)
-      local ret = {}
-      ret[#ret + 1] = { item.icon .. "  ", "Fg" }
-      ret[#ret + 1] = { util.set_string_width(item.title, 40) .. " ", "markdownBoldItalic" }
-      ret[#ret + 1] = { util.set_string_width(item.author, 20) .. " ", "markdownItalic" }
-      ret[#ret + 1] = { util.set_string_width(table.concat(item.tags, " "), 40) .. " ", "ObsidianTag" }
-      ret[#ret + 1] = { item.id, "Grey" }
-      return ret
-    end,
-  })
-
-  snacks_picker.pick(pick_opts)
+local single_tag = function(data)
+  local notes = NotesDatabase:get_ref_notes(data.note_refs)
+  require("vault.search").pick_from(notes, "[" .. data.tag .. "] Notes")
 end
 
 local all_tags = function()
-  if not vim.wait(5000, function()
-        return not vim.g.notes_refreshing
-      end) then
-    return
-  end
+  local tags = NotesDatabase.tags.data
 
-  local tags = require("vault.data").get_tags()
-  local tag_keys = vim.tbl_keys(tags)
+  local entries = vim.iter(tags):map(function(tag, note_refs)
+    return {
+      text = tag .. #note_refs,
+      number = #note_refs,
+      notes = table.concat(vim.tbl_map(function(n) return n.note_id end, note_refs), " "),
+      score_add = #note_refs,
+      tag = tag,
+      data = { tag = tag, note_refs = note_refs },
+    }
+  end):totable()
 
-  local entries = {}
-  for _, entry in ipairs(tag_keys) do
-    table.insert(entries, {
-      text = entry .. vim.tbl_count(tags[entry]),
-      number = vim.tbl_count(tags[entry]),
-      notes = table.concat(vim.tbl_keys(tags[entry]), " "),
-      score_add = vim.tbl_count(tags[entry]),
-      tag = entry,
-    })
-  end
   table.sort(entries, function(a, b)
-    return a.number < b.number
+    return a.number > b.number
   end)
+
 
   local pick_opts = {
     title = "Tags",
@@ -112,7 +73,7 @@ local all_tags = function()
             obs_note:write()
           end
           picker:close()
-          require("vault.data").refresh_notes()
+          require("vault.data")
       end,
       rename_tag = function(picker)
         local tag = picker:current().tag
@@ -125,13 +86,13 @@ local all_tags = function()
             obs_note:write()
           end
           picker:close()
-          require("vault.data").refresh_notes()
+          require("vault.data")
         end)
       end,
     },
     confirm = function(picker, item)
       picker:close()
-      single_tag(item.tag)
+      single_tag(item.data)
     end,
   }
   snacks_picker.pick(pick_opts)

@@ -1,14 +1,14 @@
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = "*.md",
-  callback = function()
-    -- dd(require("obsidian.api").current_note())
-  end
-})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   pattern = "*.md",
+--   callback = function()
+--     -- dd(require("obsidian.api").current_note())
+--   end
+-- })
 
 vim.api.nvim_create_autocmd("BufWritePost", {
   pattern = "*.md",
   callback = function()
-    require('vault.data').refresh_notes()
+    NotesDatabase:async_refresh()
   end,
 })
 
@@ -24,7 +24,6 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.api.nvim_create_autocmd("User", {
     pattern = "TSUpdate",
     callback = function()
-      dd("huh")
         require("nvim-treesitter.parsers").comment = {
             install_info = {
                 url = "https://github.com/OXY2DEV/tree-sitter-comment",

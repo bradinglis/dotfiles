@@ -62,7 +62,7 @@ return {
     },
     opts = {
       legacy_commands = false,
-      sort_by = "modified",
+      -- sort_by = "modified",
       workspaces = {
         {
           name = "notes",
@@ -115,14 +115,12 @@ return {
         -- end,
         post_setup = function()
           -- require("alts.alter")
-
-          require('vault.data').refresh_notes()
+          require('vault.data')
         end,
         enter_note = function(note)
           local util = require("vault.util")
           require("globals").set_hl()
           -- vim.keymap.del("n", "<CR>", { buffer = note.bufnr })
-          vim.keymap.set('n', '<CR>', function() return util.enter_command() end, { buffer = true, expr = true })
           -- vim.opt.conceallevel = 2
           -- vim.opt.concealcursor = ""
           if note.has_frontmatter then
