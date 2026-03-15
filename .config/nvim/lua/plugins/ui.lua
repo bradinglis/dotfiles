@@ -75,43 +75,22 @@ return {
     config = true
   },
   {
-    "sindrets/diffview.nvim",
-    keys = {
-      {
-        '<leader>gdb',
-        function()
-          require("snacks").picker.git_branches({
-            confirm = function(picker, item, _)
-              picker:close()
-              if item then
-                require("diffview").open(item.branch)
-              end
-            end,
-          })
-        end,
-        mode = 'n',
-        desc = 'diffview open branches'
-      },
-      {
-        '<leader>gdc',
-        function()
-          require("snacks").picker.git_log({
-            confirm = function(picker, item, _)
-              picker:close()
-              if item then
-                require("diffview").open(item.commit)
-              end
-            end,
-          })
-        end,
-        mode = 'n',
-        desc = 'diffview open commits'
-      },
-      { '<leader>gc', function() require("diffview").close() end, mode = 'n', desc = 'diffview close' },
-    },
+    "clabby/difftastic.nvim",
+    lazy = false,
     dependencies = {
-      "snacks.nvim",
-    }
+      "MunifTanjim/nui.nvim",
+      -- optional: only needed for :DifftPick
+      "folke/snacks.nvim",
+    },
+    config = function()
+      require("difftastic-nvim").setup({
+        download = true,     -- Auto-download pre-built binary
+        vcs = "git",
+        snacks_picker = {
+          enabled = true,
+        },
+      })
+    end,
   },
   {
     "folke/noice.nvim",
@@ -146,7 +125,7 @@ return {
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+          -- ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
         },
       },
       routes = {

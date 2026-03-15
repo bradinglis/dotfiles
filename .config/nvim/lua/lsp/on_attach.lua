@@ -15,5 +15,5 @@ return function(_, bufnr)
   vim.keymap.set('n', '<leader>fw', require("snacks").picker.lsp_workspace_symbols, { desc = 'lsp workplace symbols' })
   vim.keymap.set('n', '<leader>fs', require("snacks").picker.lsp_symbols, { desc = 'lsp document symbols' })
   vim.keymap.set('n', '<leader>fr', require("snacks").picker.lsp_references, { desc = 'lsp references' })
-  vim.keymap.set('n', '<leader>fl', require("snacks").picker.lsp_type_definitions, { desc = 'lsp type' })
+  vim.keymap.set('n', '<leader>fl', require("snacks").picker.lsp_type_definitions, { desc = 'lsp type definition' })
 end

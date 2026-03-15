@@ -42,6 +42,7 @@ return {
       { "<leader>su",       function() require("snacks").picker.undo() end,               mode = 'n', desc = "undo history" },
       { "<leader>uC",       function() require("snacks").picker.colorschemes() end,       mode = 'n', desc = "colorschemes" },
       { '<leader>z',        function() require("snacks").zen() end,                       mode = 'n', desc = 'lazygit' },
+      { "<leader>fl",       function() require("snacks").picker.jumps() end,              mode = 'n', desc = "jumplist" },
       { "<leader>t",        require("transforms").transform_buffer_file,                  mode = "n", desc = "transform file" },
       { "<leader>t",        require("transforms").transform_selection,                    mode = "x", desc = "transform selection" },
 
@@ -288,15 +289,15 @@ return {
   {
     'mrcjkb/rustaceanvim',
     version = '^7', -- Recommended
-    lazy = false, -- This plugin is already lazy
+    lazy = false,   -- This plugin is already lazy
     server = {
       on_attach = require("lsp.on_attach")()
     }
   },
   {
-  'mrcjkb/haskell-tools.nvim',
+    'mrcjkb/haskell-tools.nvim',
     version = '^7', -- Recommended
-    lazy = false, -- This plugin is already lazy
+    lazy = false,   -- This plugin is already lazy
     hls = {
       on_attach = require("lsp.on_attach")(),
       capabilities = require("lsp.capabilities")
