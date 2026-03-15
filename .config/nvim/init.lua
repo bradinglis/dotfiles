@@ -30,3 +30,11 @@ require('config.snippets')
 
 vim.lsp.enable({ "nushell", "ltex_plus" })
 
+package.cpath = "/home/brad/markdown_db/target/release" .. "/?.so;"
+
+local x = require("markdown_db")
+local start = os.clock()
+vim.print(x.get_notes())
+dd(os.clock()-start)
+
+

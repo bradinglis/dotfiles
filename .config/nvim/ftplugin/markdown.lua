@@ -137,6 +137,13 @@ local function get_file_contents(file_path)
   end
 end
 
+vim.keymap.set("n", '<leader>tl', function ()
+  local x = require("markdown_db")
+  local c = require("obsidian.util").current_note()
+  local start = os.clock()
+  vim.print(x.get_backlinks(c.id))
+  dd(os.clock()-start)
+end, { desc = 'new author', buffer = true })
 
 -- vim.keymap.set('n', '<leader>fc', require("vault.data").get_children)
 
