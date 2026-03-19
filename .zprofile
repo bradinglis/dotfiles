@@ -24,7 +24,6 @@ export EDITOR=nvim
 export VISUAL=nvim
 export BAT_THEME="everforest2"
 export COLORTERM=truecolor
-export DUCKDB_DOWNLOAD_LIB=1
 
 export TRANSFORMS_REPO="$HOME/transforms"
 export TRANSFORMS_LIB="$HOME/.metamorphosis/lib"

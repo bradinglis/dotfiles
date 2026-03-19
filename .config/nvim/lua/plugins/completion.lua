@@ -49,7 +49,8 @@ return {
       },
 
       sources = {
-        default = { 'lazydev', 'lsp', 'path', 'snippets', 'notes', 'tags', 'refs', 'jq_keys', 'jq_values' },
+        default = { 'lazydev', 'lsp', 'path', 'snippets', 'jq_keys', 'jq_values' },
+        -- default = { 'lazydev', 'lsp', 'path', 'snippets', 'notes', 'tags', 'refs', 'jq_keys', 'jq_values' },
         providers = {
           lazydev = {
             name = "LazyDev",
@@ -61,18 +62,18 @@ return {
               show_autosnippets = false,
             }
           },
-          notes = {
-            name = "Notes",
-            module = "complete.link_source",
-            override = {
-              get_trigger_characters = function(self)
-                local trigger_characters = self:get_trigger_characters()
-                vim.list_extend(trigger_characters, { "\n", "\t", " " })
-                return trigger_characters
-              end,
-            },
-            opts = {},
-          },
+          -- notes = {
+          --   name = "Notes",
+          --   module = "complete.link_source",
+          --   override = {
+          --     get_trigger_characters = function(self)
+          --       local trigger_characters = self:get_trigger_characters()
+          --       vim.list_extend(trigger_characters, { "\n", "\t", " " })
+          --       return trigger_characters
+          --     end,
+          --   },
+          --   opts = {},
+          -- },
           jq_keys = {
             name = "Jq Keys",
             module = "complete.jq_key_source",
@@ -83,16 +84,16 @@ return {
             module = "complete.jq_value_source",
             opts = {},
           },
-          tags = {
-            name = "Tags",
-            module = "complete.tag_source",
-            opts = {},
-          },
-          refs = {
-            name = "References",
-            module = "complete.ref_source",
-            opts = {},
-          },
+          -- tags = {
+          --   name = "Tags",
+          --   module = "complete.tag_source",
+          --   opts = {},
+          -- },
+          -- refs = {
+          --   name = "References",
+          --   module = "complete.ref_source",
+          --   opts = {},
+          -- },
           lsp = {
             should_show_items = function(ctx, items)
               return items[1].client_name ~= "ltex_plus" or ctx.trigger.initial_kind == 'manual'
@@ -100,7 +101,6 @@ return {
           }
         }
       },
-
       fuzzy = { implementation = "prefer_rust_with_warning" }
     },
     opts_extend = { "sources.default" }
