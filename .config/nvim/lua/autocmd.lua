@@ -5,12 +5,6 @@
 --   end
 -- })
 
-vim.api.nvim_create_autocmd("BufWritePost", {
-  pattern = "*.md",
-  callback = function()
-    NotesDatabase:async_refresh()
-  end,
-})
 
 vim.api.nvim_create_autocmd('FileType', {
   callback = function(ev)

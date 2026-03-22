@@ -22,8 +22,8 @@ vim.wo.linebreak = true
 vim.wo.breakindent = true
 vim.opt_local.shiftwidth = 2
 vim.o.breakat = " ^!-+;:,./?"
-local vault_create = require 'vault.create'
-local vault_util = require 'vault.util'
+-- local vault_create = require 'vault.create'
+-- local vault_util = require 'vault.util'
 
 vim.keymap.set({ "n", "x" }, "j", function()
   if vim.v.count > 0 then
@@ -61,7 +61,7 @@ end, { buffer = true, expr = true })
 -- end, { nargs = '?' })
 --
 -- vim.keymap.set('n', '<CR>', vault_util.enter_command,
---   { silent = true, buffer = true })
+  -- { silent = true, buffer = true })
 --
 -- vim.keymap.set('n', 'ga', function() return vault_util.goto_ado() end, { silent = true, buffer = true, expr = true })
 -- -- vim.keymap.set('n', '<leader>t', vim.cmd.ObsidianToggleCheckbox, { buffer = true })
@@ -84,25 +84,25 @@ end, { buffer = true, expr = true })
 -- vim.keymap.set('x', '<leader>np', vault_create.append_to_note, { desc = 'append to note', buffer = true })
 --
 --
--- vim.keymap.set('x', '<leader>h', function() surround_visual('==') end, { buffer = true })
--- vim.keymap.set('x', '<leader>b', function() surround_visual('**') end, { buffer = true })
--- vim.keymap.set('x', '<leader>e', function() surround_visual('*') end, { buffer = true })
--- vim.keymap.set('x', '<leader>c', function() surround_visual('`') end, { buffer = true })
+vim.keymap.set('x', '<leader>h', function() surround_visual('==') end, { buffer = true })
+vim.keymap.set('x', '<leader>b', function() surround_visual('**') end, { buffer = true })
+vim.keymap.set('x', '<leader>e', function() surround_visual('*') end, { buffer = true })
+vim.keymap.set('x', '<leader>c', function() surround_visual('`') end, { buffer = true })
+
+-- wk.add({ { "<leader>d", group = "delete surround", icon = { cat = "filetype", name = "markdown" } } })
+vim.keymap.set('n', '<leader>dh', function() delete_surround('==') end, { buffer = true, desc = 'delete highlight' })
+vim.keymap.set('n', '<leader>db', function() delete_surround('**') end, { buffer = true, desc = 'delete bold' })
+vim.keymap.set('n', '<leader>de', function() delete_surround('*') end, { buffer = true, desc = 'delete italic' })
+vim.keymap.set('n', '<leader>dc', function() delete_surround('`') end, { buffer = true, desc = 'delete code' })
+
+-- vim.keymap.set('n', '<leader>r', function()
+--   vim.cmd.Markview("Toggle")
+--   vim.opt.conceallevel = 2
+--   vim.opt.concealcursor = ""
+-- end, { buffer = true })
 --
--- -- wk.add({ { "<leader>d", group = "delete surround", icon = { cat = "filetype", name = "markdown" } } })
--- vim.keymap.set('n', '<leader>dh', function() delete_surround('==') end, { buffer = true, desc = 'delete highlight' })
--- vim.keymap.set('n', '<leader>db', function() delete_surround('**') end, { buffer = true, desc = 'delete bold' })
--- vim.keymap.set('n', '<leader>de', function() delete_surround('*') end, { buffer = true, desc = 'delete italic' })
--- vim.keymap.set('n', '<leader>dc', function() delete_surround('`') end, { buffer = true, desc = 'delete code' })
-
-vim.keymap.set('n', '<leader>r', function()
-  vim.cmd.Markview("Toggle")
-  vim.opt.conceallevel = 2
-  vim.opt.concealcursor = ""
-end, { buffer = true })
-
-vim.keymap.set('n', '<leader>fq', vault_create.prompt_query )
-
+-- vim.keymap.set('n', '<leader>fq', vault_create.prompt_query )
+--
 vim.keymap.set('i', '--', '—', { buffer = true })
 vim.keymap.set('i', '->', '→', { buffer = true })
 vim.keymap.set('i', '<-', '←', { buffer = true })
@@ -110,7 +110,7 @@ vim.keymap.set('i', '<<', '«', { buffer = true })
 vim.keymap.set('i', '>>', '»', { buffer = true })
 vim.keymap.set('i', '-!', '↓', { buffer = true })
 vim.keymap.set('i', '-^', '↑', { buffer = true })
-
+--
 vim.keymap.set('i', '<CR>', function()
     local enter = vim.api.nvim_eval("v:lua.require'nvim-autopairs'.completion_confirm()")
     if enter == "\r" then
@@ -120,127 +120,127 @@ vim.keymap.set('i', '<CR>', function()
     end
   end,
   { replace_keycodes = false, expr = true, noremap = true, buffer = true })
-
-
-local globs = require("globals").getglobs()
-
-local function get_file_contents(file_path)
-  local file = io.open(file_path, "r") -- Open the file in read mode
-  if file then
-    local contents = file:read("*a")   -- Read the entire file content
-    io.close(file)
-    return contents
-  else
-    -- Handle error (e.g., file not found or unreadable)
-    print("Error: Cannot open file " .. file_path)
-    return nil
-  end
-end
-
-vim.keymap.set("n", '<leader>tl', function ()
-  local x = require("markdown_db")
-  local c = require("obsidian.util").current_note()
-  local start = os.clock()
-  vim.print(x.get_backlinks(c.id))
-  dd(os.clock()-start)
-end, { desc = 'new author', buffer = true })
-
--- vim.keymap.set('n', '<leader>fc', require("vault.data").get_children)
-
-vim.keymap.set('n', '<leader>fm', function()
-  local current_buf = vim.api.nvim_get_current_buf()
-  local current_id = vim.split(vim.fs.basename(vim.api.nvim_buf_get_name(current_buf)), "%.")[1]
-
-  -- finder to boox .txt notes
-  -- selected.txt -> run below and append to current_buf. Delete file.
-  -- if selected.pdf exists -> rename to current_id.pdf and move to annotated.
-
-  require("snacks").picker.files({
-    cwd = globs.notesdir .. "/boox",
-    confirm = function(self, item)
-      local content = get_file_contents(item._path)
-      if not content then
-        self:close()
-        return
-      end
-
-      local chunks = { {} }
-
-      local lines = vim.split(content, "\n")
-      for _, value in ipairs(lines) do
-        value = value:gsub(".*Page No.", "Page No.")
-        if value == "-------------------" then
-          table.insert(chunks, {})
-        elseif value:match("^Page") ~= nil then
-          chunks[#chunks].page = value:gsub("Page No.: ", "")
-        elseif value:match("^【Annotation】") ~= nil then
-          chunks[#chunks].annotation = value:gsub("【Annotation】", "")
-        elseif chunks[#chunks].annotation ~= nil then
-          chunks[#chunks].annotation = (chunks[#chunks].annotation .. " " .. value) or value
-        elseif chunks[#chunks].text ~= nil then
-          chunks[#chunks].text = chunks[#chunks].text .. " " .. value
-        elseif chunks[#chunks].page ~= nil then
-          chunks[#chunks].text = value
-        end
-      end
-      dd(chunks)
-
-      chunks = vim.tbl_map(function(chunk)
-        local res = {}
-
-        if chunk.page ~= "" and chunk.page ~= nil then
-          chunk.text = chunk.text .. " (p." .. chunk.page .. ")"
-        end
-
-        if chunk.text == nil then
-          chunk.text = ""
-        end
-        chunk.text = chunk.text:gsub("\r", "")
-            :gsub("%—", "--")
-            :gsub("[%‘%’]+", "%'")
-            :gsub("  ", " ")
-            :gsub("%-%-", "—")
-
-        if chunk.annotation ~= nil then
-          table.insert(res, chunk.annotation .. ":")
-        end
-        table.insert(res, "> " .. chunk.text)
-        table.insert(res, "")
-        return res
-      end, chunks)
-
-      local name = vim.split(item._path, "-annotation")[1]
-
-      local possible_pdf = name .. ".pdf"
-      if vim.fn.filereadable(possible_pdf) == 1 then
-        if vim.fn.filecopy(possible_pdf, vim.fs.normalize(globs.notesdir .. "/annotated/" .. current_id .. ".pdf")) == 1 then
-          vim.fn.delete(possible_pdf)
-          table.insert(chunks, 1, { "[[" .. current_id .. ".pdf|Annotated PDF]]", "" })
-        else
-          dd("failure to copy")
-          return
-        end
-      else
-        dd("no pdf")
-      end
-
-      local possible_epub = name .. ".epub"
-      if vim.fn.filereadable(possible_epub) == 1 then
-        if vim.fn.filecopy(possible_epub, vim.fs.normalize(globs.notesdir .. "/annotated/" .. current_id .. ".epub")) == 1 then
-          vim.fn.delete(possible_epub)
-          table.insert(chunks, 1, { "[[" .. current_id .. ".epub|Annotated EPUB]]", "" })
-        else
-          dd("failure to copy")
-          return
-        end
-      else
-        dd("no epub")
-      end
-
-      content = vim.iter(chunks):flatten():totable()
-      vim.api.nvim_buf_set_lines(current_buf, -1, -1, false, content)
-      vim.fn.delete(item._path)
-      self:close()
-    end
-  })
-end, { buffer = true })
+--
+--
+-- local globs = require("globals").getglobs()
+--
+-- local function get_file_contents(file_path)
+--   local file = io.open(file_path, "r") -- Open the file in read mode
+--   if file then
+--     local contents = file:read("*a")   -- Read the entire file content
+--     io.close(file)
+--     return contents
+--   else
+--     -- Handle error (e.g., file not found or unreadable)
+--     print("Error: Cannot open file " .. file_path)
+--     return nil
+--   end
+-- end
+--
+-- vim.keymap.set("n", '<leader>tl', function ()
+--   local x = require("markdown_db")
+--   local c = require("obsidian.util").current_note()
+--   local start = os.clock()
+--   vim.print(x.get_backlinks(c.id))
+--   dd(os.clock()-start)
+-- end, { desc = 'new author', buffer = true })
+--
+-- -- vim.keymap.set('n', '<leader>fc', require("vault.data").get_children)
+--
+-- vim.keymap.set('n', '<leader>fm', function()
+--   local current_buf = vim.api.nvim_get_current_buf()
+--   local current_id = vim.split(vim.fs.basename(vim.api.nvim_buf_get_name(current_buf)), "%.")[1]
+--
+--   -- finder to boox .txt notes
+--   -- selected.txt -> run below and append to current_buf. Delete file.
+--   -- if selected.pdf exists -> rename to current_id.pdf and move to annotated.
+--
+--   require("snacks").picker.files({
+--     cwd = globs.notesdir .. "/boox",
+--     confirm = function(self, item)
+--       local content = get_file_contents(item._path)
+--       if not content then
+--         self:close()
+--         return
+--       end
+--
+--       local chunks = { {} }
+--
+--       local lines = vim.split(content, "\n")
+--       for _, value in ipairs(lines) do
+--         value = value:gsub(".*Page No.", "Page No.")
+--         if value == "-------------------" then
+--           table.insert(chunks, {})
+--         elseif value:match("^Page") ~= nil then
+--           chunks[#chunks].page = value:gsub("Page No.: ", "")
+--         elseif value:match("^【Annotation】") ~= nil then
+--           chunks[#chunks].annotation = value:gsub("【Annotation】", "")
+--         elseif chunks[#chunks].annotation ~= nil then
+--           chunks[#chunks].annotation = (chunks[#chunks].annotation .. " " .. value) or value
+--         elseif chunks[#chunks].text ~= nil then
+--           chunks[#chunks].text = chunks[#chunks].text .. " " .. value
+--         elseif chunks[#chunks].page ~= nil then
+--           chunks[#chunks].text = value
+--         end
+--       end
+--       dd(chunks)
+--
+--       chunks = vim.tbl_map(function(chunk)
+--         local res = {}
+--
+--         if chunk.page ~= "" and chunk.page ~= nil then
+--           chunk.text = chunk.text .. " (p." .. chunk.page .. ")"
+--         end
+--
+--         if chunk.text == nil then
+--           chunk.text = ""
+--         end
+--         chunk.text = chunk.text:gsub("\r", "")
+--             :gsub("%—", "--")
+--             :gsub("[%‘%’]+", "%'")
+--             :gsub("  ", " ")
+--             :gsub("%-%-", "—")
+--
+--         if chunk.annotation ~= nil then
+--           table.insert(res, chunk.annotation .. ":")
+--         end
+--         table.insert(res, "> " .. chunk.text)
+--         table.insert(res, "")
+--         return res
+--       end, chunks)
+--
+--       local name = vim.split(item._path, "-annotation")[1]
+--
+--       local possible_pdf = name .. ".pdf"
+--       if vim.fn.filereadable(possible_pdf) == 1 then
+--         if vim.fn.filecopy(possible_pdf, vim.fs.normalize(globs.notesdir .. "/annotated/" .. current_id .. ".pdf")) == 1 then
+--           vim.fn.delete(possible_pdf)
+--           table.insert(chunks, 1, { "[[" .. current_id .. ".pdf|Annotated PDF]]", "" })
+--         else
+--           dd("failure to copy")
+--           return
+--         end
+--       else
+--         dd("no pdf")
+--       end
+--
+--       local possible_epub = name .. ".epub"
+--       if vim.fn.filereadable(possible_epub) == 1 then
+--         if vim.fn.filecopy(possible_epub, vim.fs.normalize(globs.notesdir .. "/annotated/" .. current_id .. ".epub")) == 1 then
+--           vim.fn.delete(possible_epub)
+--           table.insert(chunks, 1, { "[[" .. current_id .. ".epub|Annotated EPUB]]", "" })
+--         else
+--           dd("failure to copy")
+--           return
+--         end
+--       else
+--         dd("no epub")
+--       end
+--
+--       content = vim.iter(chunks):flatten():totable()
+--       vim.api.nvim_buf_set_lines(current_buf, -1, -1, false, content)
+--       vim.fn.delete(item._path)
+--       self:close()
+--     end
+--   })
+-- end, { buffer = true })
