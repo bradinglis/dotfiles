@@ -19,15 +19,15 @@
 
 use std/util "path add"
 
-path add $"($nu.home-path)/bin"
-path add $"($nu.home-path)/.local/bin"
-path add $"($nu.home-path)/.local/share/nvim/mason/bin"
-path add $"($nu.home-path)/.metamorphosis/bin"
-path add $"($nu.home-path)/.fzf/bin"
+path add $"($nu.home-dir)/bin"
+path add $"($nu.home-dir)/.local/bin"
+path add $"($nu.home-dir)/.local/share/nvim/mason/bin"
+path add $"($nu.home-dir)/.metamorphosis/bin"
+path add $"($nu.home-dir)/.fzf/bin"
 path add $"/usr/local/go/bin"
-path add $"($nu.home-path)/.ghcup/bin"
-path add $"($nu.home-path)/.cabal/bin"
-path add $"($nu.home-path)/.elan/bin"
+path add $"($nu.home-dir)/.ghcup/bin"
+path add $"($nu.home-dir)/.cabal/bin"
+path add $"($nu.home-dir)/.elan/bin"
 
 
 
@@ -41,4 +41,4 @@ $env.TRANSFORMS_LIB = "$HOME/.metamorphosis/lib"
 
 
 zoxide init nushell | save -f ~/.zoxide.nu
-source $"($nu.home-path)/.cargo/env.nu"
+source $"($nu.home-dir)/.cargo/env.nu"

@@ -43,6 +43,7 @@ return {
     opts = {
       formatters_by_ft = {
         lua = { lsp_format = "prefer" },
+        nu = { "nufmt" },
         rust = { lsp_format = "prefer" },
         graphql = { "prettierd", "prettier", stop_after_first = true },
         json = { "prettierd", "prettier", stop_after_first = true },

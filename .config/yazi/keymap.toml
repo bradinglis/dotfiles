@@ -22,3 +22,8 @@ desc = "Lazygit"
 on   = [ "g", "t" ]
 run  = 'shell --block -- transform "$0"'
 desc = "transform"
+
+[[mgr.prepend_keymap]]
+on   = [ "o" ]
+run  = 'shell --block "nvim"'
+desc = "open current directory in nvim"

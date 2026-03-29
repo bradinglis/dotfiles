@@ -84,7 +84,7 @@ return {
     },
     config = function()
       require("difftastic-nvim").setup({
-        download = true,     -- Auto-download pre-built binary
+        download = true, -- Auto-download pre-built binary
         vcs = "git",
         snacks_picker = {
           enabled = true,
@@ -141,6 +141,33 @@ return {
           opts = { skip = true }, -- 'skip = true' prevents the message from being displayed by Noice
         },
       }
+    },
+    keys = {
+      {
+        "<c-f>",
+        function()
+          if not require("noice.lsp").scroll(4) then
+            return "<c-f>"
+          end
+        end,
+        mode = { "n", "i", "s" },
+        desc = "scroll doc",
+        silent = true,
+        expr = true
+      },
+      {
+        "<c-b>",
+        function()
+          if not require("noice.lsp").scroll(-4) then
+            return "<c-b>"
+          end
+        end,
+        mode = { "n", "i", "s" },
+        desc = "scroll doc",
+        silent = true,
+        expr = true
+      },
+
     },
     dependencies = {
       "MunifTanjim/nui.nvim",

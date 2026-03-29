@@ -11,3 +11,13 @@ run  = "git"
 id   = "git"
 name = "*/"
 run  = "git"
+
+[open]
+prepend_rules = [
+	{ url = "*.duckdb", use = "duckdb" },
+]
+
+[opener]
+duckdb = [
+  { run = "clear; duckdb %*", block = true, desc = "duckdb" },
+]

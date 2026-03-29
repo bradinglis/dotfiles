@@ -21,6 +21,10 @@ wk.add({ { "<leader>gd", group = "diffview open" } })
 -- Functional
 vim.keymap.set('n', '<leader>o', vim.diagnostic.open_float, { desc = 'diagnostics' })
 
+vim.keymap.set('i', '<c-o>', vim.diagnostic.open_float, { desc = 'diagnostics' })
+vim.keymap.set('c', '<c-b>', '\\(\\)<Left><Left>')
+
+
 -- Buffer Tab Navigation
 vim.keymap.set('n', '<C-q>', vim.cmd.bd, opts)
 

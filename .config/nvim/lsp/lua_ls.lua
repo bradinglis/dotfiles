@@ -4,10 +4,10 @@ return {
   settings = {
     Lua = {
       codeLens = {
-        enable = true
+        enable = false
       },
       hint = {
-        enable = true,
+        enable = false,
         arrayIndex = "Disable",
         semicolon = "Disable"
       }

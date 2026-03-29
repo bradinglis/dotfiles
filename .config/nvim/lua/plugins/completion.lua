@@ -15,18 +15,42 @@ return {
         preset = 'none',
         ['<C-k>'] = { 'select_prev', 'fallback' },
         ['<C-j>'] = { 'select_next', 'fallback' },
-        ['<C-n>'] = { 'select_and_accept', 'show' },
+        ['<C-n>'] = { function(cmp)
+          local i = cmp.get_selected_item()
+          cmp.select_and_accept({
+            callback = function()
+              require("config.snippets").set_default(i and i.label)
+            end
+          })
+        end, 'show' },
 
-        ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
-        -- ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+        ['<C-b>'] = { 'scroll_signature_up', 'scroll_documentation_up', 'fallback' },
+        ['<C-f>'] = { 'scroll_signature_down', 'scroll_documentation_down', 'fallback' },
 
         ['<C-l>'] = { 'snippet_forward', 'fallback' },
         ['<C-h>'] = { 'snippet_backward', 'fallback' },
-
       },
 
       appearance = {
         nerd_font_variant = 'mono'
+      },
+
+      signature = {
+        enabled = false,
+        trigger = {
+          -- Show the signature help automatically
+          enabled = false,
+          -- Show the signature help window after typing any of alphanumerics, `-` or `_`
+          show_on_keyword = false,
+          blocked_trigger_characters = {},
+          blocked_retrigger_characters = {},
+          -- Show the signature help window after typing a trigger character
+          show_on_trigger_character = true,
+          -- Show the signature help window when entering insert mode
+          show_on_insert = true,
+          -- Show the signature help window when the cursor comes after a trigger character when entering insert mode
+          show_on_insert_on_trigger_character = true,
+        },
       },
 
       completion = {
@@ -111,6 +135,16 @@ return {
     opts = {
       map_cr = true,
     },
+    config = function(_, opts)
+      local ap = require("nvim-autopairs")
+      local Rule = require("nvim-autopairs.rule")
+      local cond = require('nvim-autopairs.conds')
+      ap.setup(opts)
+      ap.add_rules({
+        Rule("*", "*", "markdown"):with_move(cond.not_after_text("*")),
+        Rule("==", "==", "markdown"):with_move(cond.not_after_text("*"))
+      })
+    end
   },
   {
     "windwp/nvim-ts-autotag",
