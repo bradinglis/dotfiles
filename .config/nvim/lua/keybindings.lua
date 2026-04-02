@@ -11,7 +11,6 @@ vim.api.nvim_create_user_command('GotoConf', function()
   vim.cmd('cd %:p:h')
 end, {})
 
-vim.keymap.set('n', '<leader>ww', vim.cmd.GotoNotes, {})
 vim.keymap.set('n', '<leader>ei', vim.cmd.GotoConf, {})
 
 wk.add({ { "<leader>f", group = "find" } })

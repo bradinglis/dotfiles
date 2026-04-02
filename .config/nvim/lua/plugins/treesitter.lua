@@ -3,7 +3,6 @@ return {
     'nvim-treesitter/nvim-treesitter',
     branch = 'main',
     lazy = false,
-    opts = {},
     build = function()
       require("nvim-treesitter").install(require("globals").parsers):wait(300000)
     end,
@@ -27,10 +26,18 @@ return {
       -- vim.g.no_rust_maps = true
       -- vim.g.no_go_maps = true
     end,
-    config = {
-      move = {
-        set_jumps = true,
-      }
-    },
+    config = function()
+      require("nvim-treesitter-textobjects").setup {
+      select = {
+        lookahead = true,
+      },
+    }
+    end,
+    -- keys = {
+    --   { "a|", function() require "nvim-treesitter-textobjects.select".select_textobject("@pipe", "textobjects") end,     mode = { "x", "o" },        desc = 'find notes' },
+    --   { "i|", function() require "nvim-treesitter-textobjects.select".select_textobject("@parameter.inner", "textobjects") end,     mode = { "x", "o" },        desc = 'find notes' },
+    --   { "i*", function() require "nvim-treesitter-textobjects.select".select_textobject("@emphasis.inner") end,     mode = { "x", "o" },        desc = 'in emphasis' },
+    --   { "a*", function() require "nvim-treesitter-textobjects.select".select_textobject("@emphasis.outer") end,     mode = { "x", "o" },        desc = 'in emphasis' },
+    -- }
   }
 }

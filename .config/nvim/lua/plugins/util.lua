@@ -186,7 +186,14 @@ return {
     },
   },
   {
-    "echasnovski/mini.surround",
+    "nvim-mini/mini.ai",
+    event = "VeryLazy",
+    version = false,
+    opts = {}
+  },
+  {
+    "nvim-mini/mini.surround",
+    version = false,
     event = "VeryLazy",
     opts = {
       mappings = {
