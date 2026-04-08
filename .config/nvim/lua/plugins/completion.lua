@@ -142,7 +142,8 @@ return {
       ap.setup(opts)
       ap.add_rules({
         Rule("*", "*", "markdown"):with_move(cond.not_after_text("*")),
-        Rule("==", "==", "markdown"):with_move(cond.not_after_text("*"))
+        Rule("==", "==", "markdown"):with_move(cond.not_after_text("*")),
+        Rule("|", "|", "rust"),
       })
     end
   },

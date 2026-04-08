@@ -4,10 +4,10 @@ return {
     ft = "markdown",
     opts = {
       vaults = {
-        default = "work",
+        default = "zettel",
         zettel = {
           name = "zettel",
-          dir = "~/testing/zettel"
+          dir = "~/zettel"
         },
         work = {
           name = "work",
