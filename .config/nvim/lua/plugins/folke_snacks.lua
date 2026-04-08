@@ -58,7 +58,7 @@ return {
             { icon = " ", key = "g", desc = "Find Text", action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
             { icon = " ", key = "c", desc = "Config", action = ':GotoConf' },
-            { icon = " ", key = "w", desc = "Notes", action = function() require("markdown_db-nvim").find.notes() end },
+            { icon = " ", key = "w", desc = "Notes", action = function() require("markdown_db-nvim").find.all() end },
             { icon = " ", key = "s", desc = "Restore Session", section = "session" },
             { icon = "󰒲 ", key = "L", desc = "Lazy", action = ":Lazy", enabled = package.loaded.lazy ~= nil },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
