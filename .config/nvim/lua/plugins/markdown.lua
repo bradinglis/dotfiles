@@ -1,5 +1,3 @@
-local globs = require('globals').getglobs()
-local colours = globs.colours
 local function get_icon(_, item)
   if not item or not item.levels then
     return " "
@@ -395,23 +393,23 @@ return {
       }
     },
   },
-  -- {
-  --   'chenxin-yan/footnote.nvim',
-  --   event = "VeryLazy",
-  --   opts = {
-  --     keys = {
-  --       i = {
-  --         new_footnote = '<C-f>',
-  --       },
-  --       n = {
-  --         organize_footnotes = '<leader>of',
-  --         next_footnote = ']f',
-  --         prev_footnote = '[f',
-  --       }
-  --     },
-  --     organize_on_new = true,
-  --   }
-  -- },
+  {
+    'chenxin-yan/footnote.nvim',
+    event = "VeryLazy",
+    opts = {
+      keys = {
+        i = {
+          new_footnote = '<C-f>',
+        },
+        n = {
+          organize_footnotes = '<leader>of',
+          next_footnote = ']f',
+          prev_footnote = '[f',
+        }
+      },
+      organize_on_new = true,
+    }
+  },
   {
     "iamcco/markdown-preview.nvim",
     cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },

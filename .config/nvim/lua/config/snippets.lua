@@ -1,16 +1,8 @@
 local ls = require "luasnip"
 
--- local title = function(input)
---   return input:lower():gsub("^(%l)", string.upper)
---       :gsub("(%s%l)(%l%l%l)", function (f, s)
---         return string.upper(f) .. s
---       end)
--- end
-
 local loop = {
   string.lower,
   string.upper,
-  -- title
 }
 
 local default = ""
@@ -74,9 +66,6 @@ end
 
 vim.snippet.stop = ls.unlink_current
 
--- ================================================
---      My Configuration
--- ================================================
 ls.config.set_config {
   history = true,
   updateevents = "TextChanged,TextChangedI",
@@ -140,7 +129,6 @@ vim.keymap.set({ "s" }, "<c-u>", function()
       { rep })
   end
 
-  dd(viz)
 end)
 
 return {

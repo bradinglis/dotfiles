@@ -1,14 +1,19 @@
 local function surround_visual(surround)
-  local util = require "obsidian.util"
-  local viz = util.get_visual_selection()
+  local viz = require("markdown_db-nvim.util").get_visual_selection()
   if not viz then
     return
   end
-  local startloc = { col = viz.cscol - 1, row = viz.csrow - 1 }
-  local endloc = { col = viz.cecol, row = viz.cerow - 1 }
+  local ls = require("luasnip")
+  local s = ls.snippet
+  local i = ls.insert_node
+  local fmt = require("luasnip.extras.fmt").fmt
+  vim.api.nvim_feedkeys("d", "nx", false)
 
-  vim.api.nvim_buf_set_text(0, endloc.row, endloc.col, endloc.row, endloc.col, { surround })
-  vim.api.nvim_buf_set_text(0, startloc.row, startloc.col, startloc.row, startloc.col, { surround })
+  ls.snip_expand(
+    s({}, fmt("{}{}{}{}", { surround, i(1, viz.selection), surround, i(0) })
+    )
+  )
+
 end
 
 local function delete_surround(surround)
@@ -52,9 +57,8 @@ vim.keymap.set('n', '<leader>dc', function() delete_surround('`') end, { buffer 
 
 vim.keymap.set('n', '<leader>do', function()
   dd("huh")
-  local x = vim.split(vim.system({"nu", "-c", "source ~/ado_api.nu; get_activity"}):wait().stdout, '\n')
-  vim.api.nvim_buf_set_lines(0, -1,-1,false, x)
-
+  local x = vim.split(vim.system({ "nu", "-c", "source ~/ado_api.nu; get_activity" }):wait().stdout, '\n')
+  vim.api.nvim_buf_set_lines(0, -1, -1, false, x)
 end, { buffer = true, desc = 'delete code' })
 
 vim.keymap.set('i', '<CR>', function()
@@ -66,4 +70,3 @@ vim.keymap.set('i', '<CR>', function()
     end
   end,
   { replace_keycodes = false, expr = true, noremap = true, buffer = true })
-

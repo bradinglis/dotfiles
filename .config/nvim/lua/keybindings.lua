@@ -1,9 +1,9 @@
 local wk = require("which-key")
-local globs = require('globals').getglobs()
+-- local globs = require('globals').getglobs()
 local opts = { silent = true }
 
 vim.api.nvim_create_user_command('GotoNotes', function()
-  vim.api.nvim_set_current_dir(globs.notesdir)
+  vim.api.nvim_set_current_dir(BradGlobs.notesdir)
   vim.cmd('e index.md')
 end, {})
 vim.api.nvim_create_user_command('GotoConf', function()

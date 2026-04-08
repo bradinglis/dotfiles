@@ -4,7 +4,7 @@ return {
     branch = 'main',
     lazy = false,
     build = function()
-      require("nvim-treesitter").install(require("globals").parsers):wait(300000)
+      require("nvim-treesitter").install(BradGlobs.parsers):wait(300000)
     end,
     dependencies = {
       'ThePrimeagen/git-worktree.nvim',

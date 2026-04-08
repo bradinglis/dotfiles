@@ -7,15 +7,6 @@ local i = ls.insert_node
 
 local fmt = require("luasnip.extras.fmt").fmt
 
--- local function auto_snippet(keys, format)
---     vim.keymap.set('i', keys, function ()
---         vim.snippet.expand(keys)
---         ls.expand()
---     end, {silent = true})
---     return s(keys, format)
--- end
-
-
 ls.add_snippets("markdown", {
   s({ trig = ",e", wordTrig = false },    fmt("*{}*{}", { i(1), i(0) })),
   s({ trig = ",b", wordTrig = false },    fmt("**{}**{}", { i(1), i(0) })),

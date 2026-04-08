@@ -20,9 +20,11 @@ else
   vim.print = dd
 end
 
-local g = require('globals')
+_G.BradGlobs = require('globals')
+
 require('config.lazy')
-g.set_hl()
+
+BradGlobs.set_hl()
 
 require('autocmd')
 require('keybindings')
