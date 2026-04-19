@@ -32,6 +32,7 @@ return {
       { '<leader>nn', function() require("markdown_db-nvim").create.note() end,    mode = { 'v', 'n' }, ft = { "markdown" }, desc = 'new note' },
       { '<leader>nb', function() require("markdown_db-nvim").fill_from_boox() end,    mode = { 'v', 'n' }, ft = { "markdown" }, desc = 'boox' },
       { '<leader>fv', function() require("markdown_db-nvim").pick.vault() end,    mode = { 'v', 'n' }, ft = { "markdown" }, desc = 'boox' },
+      { '<leader>aa', function() require("markdown_db-nvim").annotations() end,    mode = { 'v', 'n' }, ft = { "markdown" }, desc = 'boox' },
     },
   }
 }
