@@ -3,6 +3,7 @@ return {
     'nvim-treesitter/nvim-treesitter',
     branch = 'main',
     lazy = false,
+    opts = {},
     build = function()
       require("nvim-treesitter").install(BradGlobs.parsers):wait(300000)
     end,

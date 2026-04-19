@@ -1,3 +1,5 @@
+
+vim.g.polyglot_disabled = { 'graphql' }
 vim.g.c_syntax_for_h = 1
 vim.opt.autoread = true
 vim.opt.showmode = false
